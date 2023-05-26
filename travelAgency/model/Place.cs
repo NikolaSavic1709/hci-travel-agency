@@ -14,12 +14,11 @@ namespace travelAgency.model
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public virtual List<JourneyPlace> JourneyPlaces { get; set; }
-        public Place(string name, string description)
-        {
-            Name = name;
-            Description = description;
-            JourneyPlaces= new List<JourneyPlace>();
-        }
+        public string Location { get; set; }
+        public double lat { get; set; }
+        public double lng { get; set; }
+       
+        public virtual List<Image> images { get; set; }
+
     }
 }

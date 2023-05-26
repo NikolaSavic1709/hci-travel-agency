@@ -31,18 +31,18 @@ namespace travelAgency
             InitializeComponent();
             using (var db=new TravelAgencyContext())
             {
-                /*db.Database.EnsureCreated();
-                db.SaveChanges();*/
-                int journeyId = 1; // Specify the journey ID
-                Journey journey = db.Journeys.Include(j => j.JourneyPlaces)
-                    .ThenInclude(jp=>jp.Place)
-                   .FirstOrDefault(j => j.Id == journeyId);
+                db.Database.EnsureCreated();
+                db.SaveChanges();
+                //int journeyId = 1; // Specify the journey ID
+                //Journey journey = db.Journeys.Include(j => j.JourneyPlaces)
+                //    .ThenInclude(jp=>jp.Place)
+                //   .FirstOrDefault(j => j.Id == journeyId);
 
-                if (journey != null)
-                {
-                    List<Place> places = journey.JourneyPlaces.Select(jp => jp.Place).ToList();
+                //if (journey != null)
+                //{
+                //    List<Place> places = journey.JourneyPlaces.Select(jp => jp.Place).ToList();
 
-                }
+                //}
             }
         }
     }

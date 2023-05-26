@@ -9,18 +9,15 @@ using System.Windows.Controls;
 
 namespace travelAgency.model
 {
-    public class Journey
+    public class Trip
     {
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public virtual List<JourneyPlace> JourneyPlaces { get; set; }
-        public Journey(string Name, string Description)
-        {
-            this.Name = Name;
-            this.Description = Description;
-            JourneyPlaces = new List<JourneyPlace>();
-        }
+        public double Price { get; set; }
+        public virtual List<TripSchedule> Schedules { get; set; }
+
+
     }
 }
