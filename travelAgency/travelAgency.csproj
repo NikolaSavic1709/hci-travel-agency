@@ -8,6 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="view\travel_logo.png" />
+    <None Remove="view\uvac.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
       <PrivateAssets>all</PrivateAssets>
@@ -23,7 +29,14 @@
   <ItemGroup>
     <Folder Include="database\" />
     <Folder Include="Migrations\" />
+    <Folder Include="repository\" />
+    <Folder Include="service\" />
     <Folder Include="utils\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="view\travel_logo.png" />
+    <Resource Include="view\uvac.jpg" />
   </ItemGroup>
 
   <ItemGroup>
