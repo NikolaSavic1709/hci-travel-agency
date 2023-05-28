@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Icons\travel_logo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MaterialDesignColors" Version="2.1.4" />
     <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
@@ -26,6 +30,10 @@
     <Folder Include="database\" />
     <Folder Include="Migrations\" />
     <Folder Include="utils\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Icons\travel_logo.png" />
   </ItemGroup>
 
   <ItemGroup>

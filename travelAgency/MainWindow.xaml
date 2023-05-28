@@ -8,9 +8,9 @@
         xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
         xmlns:local="clr-namespace:travelAgency"
         xmlns:uimodels="clr-namespace:travelAgency.UImodels"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="675" Width="900">
     <Window.Resources>
         <Style x:Key="TransparentCircleButton" TargetType="Button">
             <Setter Property="Background" Value="LightGray"/>
@@ -54,103 +54,219 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        
+        <Style x:Key="NavbarButton" TargetType="Button">
+            <Setter Property="Background" Value="#009882"/>
+            <Setter Property="Foreground" Value="#f5f5f5"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Width" Value="80"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="DemiBold"/>
+             <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Rectangle Fill="{TemplateBinding Background}" Opacity="1"/>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <SolidColorBrush Color="#40FFFFFF"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+            
+        </Style>
+        <Style x:Key="LeftNavbarButton" TargetType="Button" BasedOn="{StaticResource NavbarButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border Background="{TemplateBinding Background}" Opacity="1" CornerRadius="4,0,0,4">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="RightNavbarButton" TargetType="Button" BasedOn="{StaticResource NavbarButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border Background="{TemplateBinding Background}" Opacity="1" CornerRadius="0,4,4,0">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="SinglyNavbarButton" TargetType="Button" BasedOn="{StaticResource NavbarButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border Background="{TemplateBinding Background}" Opacity="1" CornerRadius="4,4,4,4">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Window.Resources>
-    <StackPanel Orientation="Horizontal">
-        
-        <Canvas Width="300" Height="300">
-            <Grid>
-                <Button HorizontalAlignment="Left" Canvas.ZIndex="2" Click="SlideLeft" Style="{StaticResource TransparentCircleButton}">
-                    <materialDesign:PackIcon Kind="ChevronLeft" Height="50" Width="50" Foreground="#f5f5f5" />
-                </Button>
-
-                <materialDesign:Flipper Name="ImageFlipper" Width="300" Height="300" Canvas.ZIndex="1">
-                    <materialDesign:Flipper.FrontContent>
-                        <Image Source="{Binding FrontImageSource}" Stretch="UniformToFill">
-
-                        </Image>
-                    </materialDesign:Flipper.FrontContent>
-                    <materialDesign:Flipper.BackContent>
-                        <Image Source="{Binding BackImageSource}" Stretch="UniformToFill">
-
-                        </Image>
-                    </materialDesign:Flipper.BackContent>
-                </materialDesign:Flipper>
-                <Button HorizontalAlignment="Right" Canvas.ZIndex="2" Click="SlideRight" Style="{StaticResource TransparentCircleButton}">
-                    <materialDesign:PackIcon Kind="ChevronRight" Height="50" Width="50" Foreground="#f5f5f5" />
-                </Button>
-            </Grid>
-        </Canvas>
-        
-        <StackPanel>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="150"/>
-                    <ColumnDefinition Width="*"/>
+    <DockPanel>
+        <Grid Name="Navbar" Background="#009882" Height="50" DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
-
-                <Button Grid.Column="0" Click="DecreaseButton_Click" Style="{StaticResource IncDecButton}">
-                    <materialDesign:PackIcon Kind="Minus" Height="20" Width="20" Foreground="Black" />
+                <Image Grid.Column="0" Height="50" Width="60" Source="pack://application:,,,/Resources/Icons/travel_logo.png"></Image>
+                <StackPanel HorizontalAlignment="Center" Grid.Column="1" Orientation="Horizontal">
+                    <Button Style="{StaticResource LeftNavbarButton}" Content="HOME">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="4,0,0,4"></Setter>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    <Button Style="{StaticResource NavbarButton}" Content="PLACES"></Button>
+                    <Button Style="{StaticResource NavbarButton}" Content="STAY&amp;EAT"></Button>
+                    <Button Style="{StaticResource NavbarButton}" Content="REPORT"></Button>
+                    <Button Style="{StaticResource RightNavbarButton}" Content="HISTORY" Foreground="#009882" Background="#f5f5f5">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="0,4,4,0"></Setter>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" Grid.Column="2" Orientation="Horizontal">
+                <Button Style="{StaticResource SinglyNavbarButton}" Width="40"  Foreground="#009882" Background="#f5f5f5" Margin="0,0,10,0">
+                    <materialDesign:PackIcon Kind="QuestionMark" Height="30" Width="30" />
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="4,4,4,4"></Setter>
+                        </Style>
+                    </Button.Resources>
                 </Button>
-                <TextBox BorderThickness="0" Name="YearTb" Grid.Column="1" Text="2023" Width="150" Height="50" VerticalContentAlignment="Center" FontSize="15" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" PreviewTextInput="NumericTextBox_PreviewTextInput" />
-                <Button Grid.Column="2" Click="IncreaseButton_Click" Style="{StaticResource IncDecButton}">
-                    <materialDesign:PackIcon Kind="Plus" Height="20" Width="20" Foreground="Black" />
+                <Button Style="{StaticResource SinglyNavbarButton}" Content="LOG OUT"  Foreground="#009882" Background="#f5f5f5">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="4,4,4,4"></Setter>
+                        </Style>
+                    </Button.Resources>
                 </Button>
-            </Grid>
-            <Grid Name="Calendar">
+            </StackPanel>
 
-                <Grid.Resources>
-                    <Style TargetType="uimodels:CalendarLabel">
-                        <Setter Property="HorizontalAlignment" Value="Center" />
-                        <Setter Property="VerticalAlignment" Value="Center" />
-                        <Setter Property="Height" Value="40" />
-                        <Setter Property="VerticalContentAlignment" Value="Center" />
-                        <Setter Property="Padding" Value="5"/>
+        </Grid>
+        <StackPanel Orientation="Horizontal">
 
-                        <Style.Triggers>
-                            <Trigger Property="uimodels:CalendarLabel.IsClicked" Value="True">
-                                <Setter Property="Background" Value="LightBlue" />
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="LightBlue" />
-                            </Trigger>
-                            
-                            
-                        </Style.Triggers>
-                    </Style>
-                </Grid.Resources>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <uimodels:CalendarLabel Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="JAN" MouseDown="SelectMonth_Click" />
-                <uimodels:CalendarLabel Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="FEB" MouseDown="SelectMonth_Click"/>
-                <uimodels:CalendarLabel Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="MAR" MouseDown="SelectMonth_Click"/>
-                <uimodels:CalendarLabel Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="APR" MouseDown="SelectMonth_Click"/>
-                <uimodels:CalendarLabel Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="MAY" MouseDown="SelectMonth_Click"/>
-                <uimodels:CalendarLabel Grid.Row="1" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="JUN" MouseDown="SelectMonth_Click"/>
-                <uimodels:CalendarLabel Grid.Row="2" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="JUL" MouseDown="SelectMonth_Click"/>
-                <uimodels:CalendarLabel Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="AUG" MouseDown="SelectMonth_Click"/>
-                <uimodels:CalendarLabel Grid.Row="2" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="SEP" MouseDown="SelectMonth_Click"/>
-                <uimodels:CalendarLabel Grid.Row="3" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="OCT" MouseDown="SelectMonth_Click"/>
-                <uimodels:CalendarLabel Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="NOV" MouseDown="SelectMonth_Click"/>
-                <uimodels:CalendarLabel Grid.Row="3" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="DEC" MouseDown="SelectMonth_Click"/>
+            <Canvas Width="300" Height="300" Margin="0,0,20,0">
+                <Grid>
+                    <Button HorizontalAlignment="Left" Canvas.ZIndex="2" Click="SlideLeft" Style="{StaticResource TransparentCircleButton}">
+                        <materialDesign:PackIcon Kind="ChevronLeft" Height="50" Width="50" Foreground="#f5f5f5" />
+                    </Button>
 
-            </Grid>
-            <TextBox Name="tb1" TextWrapping="Wrap" Text="TextBox" Margin="0,50,0,0" Width="120"/>
+                    <materialDesign:Flipper Name="ImageFlipper" Width="300" Height="300" Canvas.ZIndex="1">
+                        <materialDesign:Flipper.FrontContent>
+                            <Image Source="{Binding FrontImageSource}" Stretch="UniformToFill">
+
+                            </Image>
+                        </materialDesign:Flipper.FrontContent>
+                        <materialDesign:Flipper.BackContent>
+                            <Image Source="{Binding BackImageSource}" Stretch="UniformToFill">
+
+                            </Image>
+                        </materialDesign:Flipper.BackContent>
+                    </materialDesign:Flipper>
+                    <Button HorizontalAlignment="Right" Canvas.ZIndex="2" Click="SlideRight" Style="{StaticResource TransparentCircleButton}">
+                        <materialDesign:PackIcon Kind="ChevronRight" Height="50" Width="50" Foreground="#f5f5f5" />
+                    </Button>
+                </Grid>
+            </Canvas>
+
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Click="DecreaseButton_Click" Style="{StaticResource IncDecButton}">
+                        <materialDesign:PackIcon Kind="Minus" Height="20" Width="20" Foreground="Black" />
+                    </Button>
+                    <TextBox BorderThickness="0" Name="YearTb" Grid.Column="1" Text="2023" Width="150" Height="50" VerticalContentAlignment="Center" FontSize="15" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" PreviewTextInput="NumericTextBox_PreviewTextInput" />
+                    <Button Grid.Column="2" Click="IncreaseButton_Click" Style="{StaticResource IncDecButton}">
+                        <materialDesign:PackIcon Kind="Plus" Height="20" Width="20" Foreground="Black" />
+                    </Button>
+                </Grid>
+                <Grid Name="Calendar">
+
+                    <Grid.Resources>
+                        <Style TargetType="uimodels:CalendarLabel">
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="Height" Value="40" />
+                            <Setter Property="VerticalContentAlignment" Value="Center" />
+                            <Setter Property="Padding" Value="5"/>
+
+                            <Style.Triggers>
+                                <Trigger Property="uimodels:CalendarLabel.IsClicked" Value="True">
+                                    <Setter Property="Background" Value="LightBlue" />
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="LightBlue" />
+                                </Trigger>
+
+
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <uimodels:CalendarLabel Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="JAN" MouseDown="SelectMonth_Click" />
+                    <uimodels:CalendarLabel Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="FEB" MouseDown="SelectMonth_Click"/>
+                    <uimodels:CalendarLabel Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="MAR" MouseDown="SelectMonth_Click"/>
+                    <uimodels:CalendarLabel Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="APR" MouseDown="SelectMonth_Click"/>
+                    <uimodels:CalendarLabel Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="MAY" MouseDown="SelectMonth_Click"/>
+                    <uimodels:CalendarLabel Grid.Row="1" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="JUN" MouseDown="SelectMonth_Click"/>
+                    <uimodels:CalendarLabel Grid.Row="2" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="JUL" MouseDown="SelectMonth_Click"/>
+                    <uimodels:CalendarLabel Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="AUG" MouseDown="SelectMonth_Click"/>
+                    <uimodels:CalendarLabel Grid.Row="2" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="SEP" MouseDown="SelectMonth_Click"/>
+                    <uimodels:CalendarLabel Grid.Row="3" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="OCT" MouseDown="SelectMonth_Click"/>
+                    <uimodels:CalendarLabel Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="NOV" MouseDown="SelectMonth_Click"/>
+                    <uimodels:CalendarLabel Grid.Row="3" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="DEC" MouseDown="SelectMonth_Click"/>
+
+                </Grid>
+                <TextBox Name="tb1" TextWrapping="Wrap" Text="TextBox" Margin="0,50,0,0" Width="120"/>
+            </StackPanel>
+
+
+
         </StackPanel>
-        
-
-
-    </StackPanel>
+    </DockPanel>
+   
 
 
 </Window>

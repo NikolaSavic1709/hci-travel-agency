@@ -32,12 +32,6 @@ namespace travelAgency
                 viewModel.FrontImageSource = ImageNames[CurrentImageIndex];
                 viewModel.BackImageSource = ImageNames[CurrentImageIndex];
             }
-            /*DateTime newDateValue = new DateTime(MonthlyCalendar.SelectedDate.Value.Year, MonthlyCalendar.SelectedDate.Value.Month, 1);
-            MonthlyCalendar.Value = newDateValue;
-            MonthlyCalendar.Format = DateTimePickerFormat.Custom;
-            MonthlyCalendar.CustomFormat = "MMM-yyyy";
-            MonthlyCalendar.ShowUpDown = true;
-            */
         }
         private void SlideLeft(object sender, RoutedEventArgs e)
         {
@@ -141,6 +135,5 @@ namespace travelAgency
             }
         }
 
-    
     }
 }
