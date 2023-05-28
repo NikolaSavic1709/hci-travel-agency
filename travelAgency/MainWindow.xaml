@@ -1,13 +1,19 @@
-﻿<Window x:Class="travelAgency.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:travelAgency"
+        xmlns:dxm="http://schemas.devexpress.com/winfx/2008/xaml/map" x:Class="travelAgency.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TextBox HorizontalAlignment="Left" Margin="320,217,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Name="tb1" Width="120"/>
+        <TextBox HorizontalAlignment="Left" Margin="320,217,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" x:Name="tb1" Width="120"/>
+        <dxm:MapControl HorizontalAlignment="Center" VerticalAlignment="Center" Width="800">
+            <dxm:ImageLayer Margin="10,0,0,0">
+                <dxm:BingMapDataProvider Kind="RoadLight" BingKey=""/>
+            </dxm:ImageLayer>
+        </dxm:MapControl>
 
     </Grid>
 </Window>
