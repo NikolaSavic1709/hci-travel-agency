@@ -3,7 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:travelAgency.view"
+        xmlns:materialDesignSnackbar="http://materialdesigninxaml.net/winfx/xaml/themes/snackbar"
+        xmlns:local="clr-namespace:travelAgency.view"   
+        xmlns:validators="clr-namespace:travelAgency.validators"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Background="{DynamicResource MaterialDesignPaper}"
@@ -67,7 +69,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="15*" />
             <RowDefinition Height="80*" />
-            <RowDefinition Height="5*" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="35*" />
             <RowDefinition Height="20*" />
             <RowDefinition Height="35*" />
@@ -83,55 +85,141 @@
             <RowDefinition Height="35*" />
             <RowDefinition Height="30*" />
             <RowDefinition Height="40*" />
+            <RowDefinition Height="10*" />
             <RowDefinition Height="20*" />
             <RowDefinition Height="20*" />
-            <RowDefinition Height="30*" />
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="25*" />
         </Grid.RowDefinitions>
-        <Image Grid.Column="0" Grid.ColumnSpan="1" Grid.RowSpan="21" Source="/view/uvac.jpg" Stretch="Fill"/>
+        <Image Grid.Column="0" Grid.ColumnSpan="1" Grid.RowSpan="23" Source="/view/uvac.jpg" Stretch="Fill"/>
         <Image Grid.Column="1" Grid.Row="1" Source="/view/travel_logo.png"/>
 
         <TextBlock Grid.Column="1" Grid.Row="3" Text="Join us!" Padding="0" FontSize="32"
                    Height="Auto" Width="Auto" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
 
-        <TextBox Grid.Column="1" Grid.Row="5" Background="#BBBBBB" FontSize="16"
+        
+        <TextBox Grid.Column="1" Grid.Row="5" Background="#BBBBBB" FontSize="16" Name="NameTxtBox"
                   Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Name"
-                 materialDesign:HintAssist.Background="#BBBBBB" materialDesign:HintAssist.FloatingOffset="0,-17"
-                 Padding="7,0,5,0" VerticalContentAlignment="Center" Name="NameTxtBox"
-                  Margin="60,0,60,0" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                 materialDesign:HintAssist.Background="#BBBBBB" materialDesign:HintAssist.FloatingOffset="0,-17"   
+                 Padding="7,0,5,0" VerticalContentAlignment="Center" 
+                  Margin="60,0,60,0" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                 materialDesign:ValidationAssist.Background="#BBBBBB" 
+                 materialDesign:ValidationAssist.OnlyShowOnFocus="True"
+                 materialDesign:ValidationAssist.HasError="{Binding IsFirstNameInvalid}">
 
-        <TextBox Grid.Column="1" Grid.Row="7" Background="#BBBBBB" FontSize="16"
+            <TextBox.Text>
+                <Binding Path="FirstName" UpdateSourceTrigger="LostFocus">
+                    <Binding.ValidationRules>
+                        <validators:NotEmptyValidationRule/>
+                        <validators:CorrectNameValidationRule Field="Name" />
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+
+        </TextBox>
+
+
+        <TextBox Grid.Column="1" Grid.Row="7" Background="#BBBBBB" FontSize="16" Name="SurnameTxtBox"
                  Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Surname"
                  materialDesign:HintAssist.Background="#BBBBBB" materialDesign:HintAssist.FloatingOffset="0,-17"
                  Padding="7,0,5,0" VerticalContentAlignment="Center"
-                  Margin="60,0,60,0" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                  Margin="60,0,60,0" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                  materialDesign:ValidationAssist.Background="#BBBBBB" 
+                 materialDesign:ValidationAssist.OnlyShowOnFocus="True"
+                 materialDesign:ValidationAssist.HasError="{Binding IsSurnameInvalid}">
 
-        <TextBox Grid.Column="1" Grid.Row="9" Background="#BBBBBB" FontSize="16"
+            <TextBox.Text>
+                <Binding Path="Surname" UpdateSourceTrigger="LostFocus">
+                    <Binding.ValidationRules>
+                        <validators:NotEmptyValidationRule/>
+                        <validators:CorrectNameValidationRule Field="Surname" />
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+
+        <TextBox Grid.Column="1" Grid.Row="9" Background="#BBBBBB" FontSize="16" Name="EmailTxtBox"
                  Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Email"
                  materialDesign:HintAssist.Background="#BBBBBB" materialDesign:HintAssist.FloatingOffset="0,-17"
                  Padding="7,0,5,0" VerticalContentAlignment="Center"
-                  Margin="60,0,60,0" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                  Margin="60,0,60,0" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                 materialDesign:ValidationAssist.Background="#BBBBBB" 
+                 materialDesign:ValidationAssist.OnlyShowOnFocus="True"
+                 materialDesign:ValidationAssist.HasError="{Binding IsEmailInvalid}">
+            <TextBox.Text>
+                <Binding Path="Email" UpdateSourceTrigger="LostFocus">
+                    <Binding.ValidationRules>
+                        <validators:NotEmptyValidationRule/>
+                        <validators:EmailValidationRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
 
-        <TextBox Grid.Column="1" Grid.Row="11" Background="#BBBBBB" FontSize="16"
+        <TextBox Grid.Column="1" Grid.Row="11" Background="#BBBBBB" FontSize="16" Name="PhoneNumberTxtBox"
                  Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Phone number"
                  materialDesign:HintAssist.Background="#BBBBBB" materialDesign:HintAssist.FloatingOffset="0,-17"
                  Padding="7,0,5,0" VerticalContentAlignment="Center"
-                  Margin="60,0,60,0" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                  Margin="60,0,60,0" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                materialDesign:ValidationAssist.Background="#BBBBBB" 
+                 materialDesign:ValidationAssist.OnlyShowOnFocus="True"
+                 materialDesign:ValidationAssist.HasError="{Binding IsPhoneNumberInvalid}">
+            <TextBox.Text>
+                <Binding Path="PhoneNumber" UpdateSourceTrigger="LostFocus">
+                    <Binding.ValidationRules>
+                        <validators:NotEmptyValidationRule/>
+                        <validators:PhoneNumberValidationRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
 
-        <PasswordBox Grid.Column="1" Grid.Row="13"  Background="#BBBBBB" FontSize="16" 
+        <PasswordBox Grid.Column="1" Grid.Row="13"  Background="#BBBBBB" FontSize="16" x:Name="PasswordTxtBox"
                      Padding="7,0,5,0" VerticalContentAlignment="Center"
                   Margin="60,0,60,0" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                        materialDesign:HintAssist.Hint="Password"
                      materialDesign:HintAssist.Background="#BBBBBB" materialDesign:HintAssist.FloatingOffset="0,-17"
-                       Style="{StaticResource MaterialDesignOutlinedRevealPasswordBox}" />
+                       Style="{StaticResource MaterialDesignOutlinedRevealPasswordBox}" 
+                     materialDesign:ValidationAssist.Background="#BBBBBB" 
+                 materialDesign:ValidationAssist.OnlyShowOnFocus="True"
+                 materialDesign:ValidationAssist.HasError="{Binding IsPasswordInvalid}"
+                     materialDesign:PasswordBoxAssist.Password="{Binding Path=Password1Validated, Mode=TwoWay, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}">
+            <!--<materialDesign:PasswordBoxAssist.Password>
+                <Binding Path="Password" UpdateSourceTrigger="LostFocus" Mode="OneWay">
+                    <Binding.ValidationRules>
+                        <validators:NotEmptyValidationRule/>
+                        <validators:PasswordValidationRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </materialDesign:PasswordBoxAssist.Password>-->
+        </PasswordBox>
 
-        <PasswordBox Grid.Column="1" Grid.Row="15"  Background="#BBBBBB" FontSize="16" 
+        <PasswordBox Grid.Column="1" Grid.Row="15"  Background="#BBBBBB" FontSize="16" Name="ConfirmPasswordTxtBox"
                      Padding="7,0,5,0" VerticalContentAlignment="Center"
                   Margin="60,0,60,0" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                        materialDesign:HintAssist.Hint="Confirm password"
                      materialDesign:HintAssist.Background="#BBBBBB" materialDesign:HintAssist.FloatingOffset="0,-17"
-                       Style="{StaticResource MaterialDesignOutlinedRevealPasswordBox}" />
+                       Style="{StaticResource MaterialDesignOutlinedRevealPasswordBox}"
+                     materialDesign:ValidationAssist.Background="#BBBBBB" 
+                 materialDesign:ValidationAssist.OnlyShowOnFocus="True"
+                 materialDesign:ValidationAssist.HasError="{Binding IsConfirmPasswordInvalid}"
+                      materialDesign:PasswordBoxAssist.Password="{Binding Path=Password2Validated, Mode=TwoWay, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}">
+            <!--<materialDesign:PasswordBoxAssist.Password>
+                <Binding Path="ConfirmPassword" UpdateSourceTrigger="LostFocus" Mode="OneWay">
+                    <Binding.ValidationRules>
+                        <validators:NotEmptyValidationRule/>
+                        <validators:PasswordValidationRule/>
+                        <validators:ConfirmPasswordValidationRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </materialDesign:PasswordBoxAssist.Password>-->
+        </PasswordBox>
 
-        <Grid Grid.Column="1" Grid.Row="19" Margin="20,0,20,0"  Height="Auto" Width="Auto" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+
+        <TextBlock Grid.Column="1" Grid.Row="19"  Text="{Binding Error}" Padding="0" FontSize="14" Foreground="Red"
+                   Height="Auto" Width="Auto" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        <Grid Grid.Column="1" Grid.Row="21" Margin="20,0,20,0"  Height="Auto" Width="Auto" HorizontalAlignment="Center" VerticalAlignment="Stretch">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*" />
@@ -150,12 +238,15 @@
         </Grid>
 
         <Button Padding="0" Grid.Row="17" Grid.Column="1" Margin="80,0,80,0" Background="#009882" Style="{StaticResource RoundedButtonStyle}"
-                Click="Register_Click" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                Click="Register_Click" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Cursor="Hand" >
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="REGISTER" Padding="0" Foreground="White" FontSize="16"/>
             </StackPanel>
         </Button>
-        
-        
+
+        <materialDesign:Snackbar HorizontalAlignment="Center" Grid.Row="20" Grid.RowSpan="3"  Grid.Column="1" Width="Auto" Height="Auto"
+                                          VerticalAlignment="Stretch" Margin="0,3,0,3"
+                                          x:Name="SnackbarOk" MessageQueue="{materialDesign:MessageQueue}"/>
+        <!-- Snackbar content goes here -->
     </Grid>
 </Window>

@@ -29,7 +29,6 @@
   <ItemGroup>
     <Folder Include="database\" />
     <Folder Include="Migrations\" />
-    <Folder Include="repository\" />
     <Folder Include="service\" />
     <Folder Include="utils\" />
   </ItemGroup>
