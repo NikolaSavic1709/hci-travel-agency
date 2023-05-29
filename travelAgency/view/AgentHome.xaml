@@ -1,0 +1,139 @@
+﻿<Window x:Class="travelAgency.view.AgentHome"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:travelAgency.view"
+        xmlns:components="clr-namespace:travelAgency.components"
+        xmlns:controls="clr-namespace:travelAgency.controls"
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Title="AgentHome" Height="600" Width="800" Icon="{StaticResource AppIcon}">
+
+    <Window.Resources>
+
+        <Style x:Key="RoundedButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="PlaceholderTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Grid>
+                            <ScrollViewer x:Name="PART_ContentHost"
+                                          VerticalAlignment="Center" />
+                            <TextBlock x:Name="PlaceholderText"
+                                       Text="Function Disabled"
+                                       Foreground="Gray"
+                                       Margin="5,0,0,0"
+                                       Visibility="Collapsed" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Text" Value="">
+                                <Setter TargetName="PlaceholderText"
+                                        Property="Visibility" Value="Visible" />
+                            </Trigger>
+                            <Trigger Property="Tag" Value="Enabled">
+                                <Setter TargetName="PlaceholderText"
+                                        Property="Text" Value="Function Enabled" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+
+
+    <Grid Background="#c7c7c7">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30*" />
+            <ColumnDefinition Width="300*" />
+            <ColumnDefinition Width="12*" />
+            <ColumnDefinition Width="35*" />
+            <ColumnDefinition Width="12*" />
+            <ColumnDefinition Width="35*" />
+            <ColumnDefinition Width="25*" />
+            <ColumnDefinition Width="300*" />
+            <ColumnDefinition Width="30*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="17*" />
+            <RowDefinition Height="30*" />
+            <RowDefinition Height="17*" />
+            <RowDefinition Height="410*" />
+            <RowDefinition Height="40*" />
+            
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="1" Grid.Column="1"
+                MaxHeight="30"
+                Background="#F6F6F6"
+                CornerRadius="3"
+                ToolTip="Enter to search, ignore case">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="SearchButton"
+                    Width="24"
+                    Height="24"
+                    Command="{Binding SearchCommand}"
+                    CommandParameter="{Binding ElementName=SearchBox, Path=Text}"
+                    Style="{StaticResource MaterialDesignToolButton}">
+                    <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
+                </Button>
+
+                <TextBox x:Name="SearchBox"
+                     Grid.Column="1"
+                     MinWidth="200"
+                     Margin="5,0,0,0"
+                     VerticalAlignment="Center"
+                     materialDesign:HintAssist.Hint="Search"
+                     materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
+                     BorderThickness="0"
+                     KeyDown="Search_OnKeyDown" />
+            </Grid>
+        </Border>
+
+        <Button Content="{materialDesign:PackIcon Filter}" Background="#009882" Padding="0"
+                    Grid.Column="3" Grid.Row="1"
+                    ToolTip="Filter" />
+
+        <Button Content="{materialDesign:PackIcon Plus}" Background="#009882" Padding="0"
+                    Grid.Column="5" Grid.Row="1"
+                    ToolTip="Filter" />
+        
+        <Rectangle Grid.Column="7"  Grid.Row="3" Stroke="Black" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+
+        <controls:FlexWrapPanel HorizontalAlignment="Stretch" RequestedItemWidth="205" Width="Auto" Margin="-10"
+                                Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="3" x:Name="cards">
+            <!--<components:TripCard Margin="10" TripName="Tura zapadna Srbija" Route="Šabac - Bajina Bašta" 
+                                 Description="Tura je veoma zaniljiva i duga jer Savic i drugari imaju sta da ponude i njihovom kraju"/>
+            <components:TripCard Margin="10" TripName="Planinski maratoni" Route="Raška - Pančićev vrh"
+                                 Description="Tura je veoma zaniljiva i duga jer Savic i drugari imaju sta da ponude i njihovom kraju"/>
+            <components:TripCard Margin="10" TripName="Tura južna Srbija" Route="Vranje - Đavolja Varoš  "
+                                 Description="Ubedljiva najbolja tura u nasoj ponudi"/>-->
+        </controls:FlexWrapPanel>
+        
+    </Grid>
+</Window>
