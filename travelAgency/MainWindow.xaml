@@ -10,9 +10,10 @@
         xmlns:uimodels="clr-namespace:travelAgency.UImodels"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="675" Width="900">
+        Title="MainWindow" Height="675" Width="1100" Background="#C7C7C7">
     <Window.Resources>
         <Style x:Key="TransparentCircleButton" TargetType="Button">
+            <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Background" Value="LightGray"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Height" Value="50"/>
@@ -34,6 +35,7 @@
             </Style.Triggers>
         </Style>
         <Style x:Key="IncDecButton" TargetType="Button">
+            <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Background" Value="LightGray"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Height" Value="30"/>
@@ -54,7 +56,30 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        <Style x:Key="NavbarButton" TargetType="Button">
+        <Style x:Key="AddButton" TargetType="Button">
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Background" Value="#C7C7C7"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Width" Value="30"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Ellipse x:Name="Ellipse" Width="30" Height="30" Fill="#439800" Stroke="White" StrokeThickness="2"/>
+                            <TextBlock Text="+" Height="30" Foreground="White" FontSize="19" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Ellipse" Property="Fill" Value="#7AC141" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="NavbarButton" TargetType="uimodels:NavbarButton">
+            <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Background" Value="#009882"/>
             <Setter Property="Foreground" Value="#f5f5f5"/>
             <Setter Property="BorderThickness" Value="0"/>
@@ -62,9 +87,9 @@
             <Setter Property="Width" Value="80"/>
             <Setter Property="FontSize" Value="13"/>
             <Setter Property="FontWeight" Value="DemiBold"/>
-             <Setter Property="Template">
+            <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="Button">
+                    <ControlTemplate TargetType="uimodels:NavbarButton">
                         <Grid>
                             <Rectangle Fill="{TemplateBinding Background}" Opacity="1"/>
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -73,20 +98,36 @@
                 </Setter.Value>
             </Setter>
             <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
+                <Trigger Property="uimodels:NavbarButton.IsClicked" Value="True">
                     <Setter Property="Background">
                         <Setter.Value>
-                            <SolidColorBrush Color="#40FFFFFF"/>
+                            <SolidColorBrush Color="#f5f5f5"/>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Foreground">
+                        <Setter.Value>
+                            <SolidColorBrush Color="#009882"/>
                         </Setter.Value>
                     </Setter>
                 </Trigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsMouseOver" Value="True" />
+                        <Condition Property="uimodels:NavbarButton.IsClicked" Value="False" />
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <SolidColorBrush Color="#40f5f5f5"/>
+                        </Setter.Value>
+                    </Setter>
+                </MultiTrigger>
             </Style.Triggers>
-            
+
         </Style>
-        <Style x:Key="LeftNavbarButton" TargetType="Button" BasedOn="{StaticResource NavbarButton}">
+        <Style x:Key="LeftNavbarButton" TargetType="uimodels:NavbarButton" BasedOn="{StaticResource NavbarButton}">
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="Button">
+                    <ControlTemplate TargetType="uimodels:NavbarButton">
                         <Grid>
                             <Border Background="{TemplateBinding Background}" Opacity="1" CornerRadius="4,0,0,4">
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -95,11 +136,12 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+           
         </Style>
-        <Style x:Key="RightNavbarButton" TargetType="Button" BasedOn="{StaticResource NavbarButton}">
+        <Style x:Key="RightNavbarButton" TargetType="uimodels:NavbarButton" BasedOn="{StaticResource NavbarButton}">
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="Button">
+                    <ControlTemplate TargetType="uimodels:NavbarButton">
                         <Grid>
                             <Border Background="{TemplateBinding Background}" Opacity="1" CornerRadius="0,4,4,0">
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -109,10 +151,12 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="SinglyNavbarButton" TargetType="Button" BasedOn="{StaticResource NavbarButton}">
+        <Style x:Key="SingleNavbarButton" TargetType="uimodels:NavbarButton" BasedOn="{StaticResource NavbarButton}">
+            <Setter Property="Foreground" Value="#009882"/>
+            <Setter Property="Background" Value="#f5f5f5"/>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="Button">
+                    <ControlTemplate TargetType="uimodels:NavbarButton">
                         <Grid>
                             <Border Background="{TemplateBinding Background}" Opacity="1" CornerRadius="4,4,4,4">
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -121,6 +165,19 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+            <Style.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsMouseOver" Value="True" />
+                        <Condition Property="uimodels:NavbarButton.IsClicked" Value="False" />
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <SolidColorBrush Color="#eef5f5f5"/>
+                        </Setter.Value>
+                    </Setter>
+                </MultiTrigger>
+            </Style.Triggers>
         </Style>
 
     </Window.Resources>
@@ -132,41 +189,20 @@
                     <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
                 <Image Grid.Column="0" Height="50" Width="60" Source="pack://application:,,,/Resources/Icons/travel_logo.png"></Image>
-                <StackPanel HorizontalAlignment="Center" Grid.Column="1" Orientation="Horizontal">
-                    <Button Style="{StaticResource LeftNavbarButton}" Content="HOME">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="4,0,0,4"></Setter>
-                            </Style>
-                        </Button.Resources>
-                    </Button>
-                    <Button Style="{StaticResource NavbarButton}" Content="PLACES"></Button>
-                    <Button Style="{StaticResource NavbarButton}" Content="STAY&amp;EAT"></Button>
-                    <Button Style="{StaticResource NavbarButton}" Content="REPORT"></Button>
-                    <Button Style="{StaticResource RightNavbarButton}" Content="HISTORY" Foreground="#009882" Background="#f5f5f5">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="0,4,4,0"></Setter>
-                            </Style>
-                        </Button.Resources>
-                    </Button>
-            </StackPanel>
+                <StackPanel Name="NavbarButtons" HorizontalAlignment="Center" Grid.Column="1" Orientation="Horizontal">
+                    <uimodels:NavbarButton x:Name="HomeButton" Style="{StaticResource LeftNavbarButton}" Content="HOME" Click="NavbarButton_Click"/>
+                    <uimodels:NavbarButton Style="{StaticResource NavbarButton}" Content="PLACES" Click="NavbarButton_Click"/>
+                    <uimodels:NavbarButton Style="{StaticResource NavbarButton}" Content="STAY&amp;EAT" Click="NavbarButton_Click"/>
+                    <uimodels:NavbarButton Style="{StaticResource NavbarButton}" Content="REPORT" Click="NavbarButton_Click"/>
+                    <uimodels:NavbarButton Style="{StaticResource RightNavbarButton}" Content="HISTORY" Click="NavbarButton_Click"/>
+
+                </StackPanel>
             <StackPanel HorizontalAlignment="Center" Grid.Column="2" Orientation="Horizontal">
-                <Button Style="{StaticResource SinglyNavbarButton}" Width="40"  Foreground="#009882" Background="#f5f5f5" Margin="0,0,10,0">
+                <uimodels:NavbarButton Style="{StaticResource SingleNavbarButton}" Width="40" Margin="0,0,10,0">
                     <materialDesign:PackIcon Kind="QuestionMark" Height="30" Width="30" />
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="4,4,4,4"></Setter>
-                        </Style>
-                    </Button.Resources>
-                </Button>
-                <Button Style="{StaticResource SinglyNavbarButton}" Content="LOG OUT"  Foreground="#009882" Background="#f5f5f5">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="4,4,4,4"></Setter>
-                        </Style>
-                    </Button.Resources>
-                </Button>
+                </uimodels:NavbarButton>
+                <uimodels:NavbarButton Style="{StaticResource SingleNavbarButton}" Content="LOG OUT">
+                </uimodels:NavbarButton>
             </StackPanel>
 
         </Grid>
@@ -196,7 +232,7 @@
                 </Grid>
             </Canvas>
 
-            <StackPanel>
+            <StackPanel  Background="#f5f5f5">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -223,7 +259,7 @@
                             <Setter Property="Padding" Value="5"/>
 
                             <Style.Triggers>
-                                <Trigger Property="uimodels:CalendarLabel.IsClicked" Value="True">
+                                <Trigger Property="uimodels:CalendarLabel.IsSelected" Value="True">
                                     <Setter Property="Background" Value="LightBlue" />
                                 </Trigger>
                                 <Trigger Property="IsMouseOver" Value="True">
@@ -259,10 +295,51 @@
                     <uimodels:CalendarLabel Grid.Row="3" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="DEC" MouseDown="SelectMonth_Click"/>
 
                 </Grid>
-                <TextBox Name="tb1" TextWrapping="Wrap" Text="TextBox" Margin="0,50,0,0" Width="120"/>
+                <TextBox Name="tb1" TextWrapping="Wrap" Text="TextBox" Margin="0,50,0,50" Width="120"/>
             </StackPanel>
+            <ItemsControl ItemsSource="{Binding Trip.Schedules}" Margin="0,30,0,0">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+
+                        <StackPanel Width="400">
+                            <Border BorderBrush="#aa000000" BorderThickness="0.4" Height="100" Width="350">
+                                <Grid Background="White">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <materialDesign:PackIcon Kind="Location" Height="20" Width="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    <Label Grid.Column="1" FontSize="18" VerticalAlignment="Center" Content="{Binding Place.Name}"></Label>
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <StackPanel Margin="0,70,0,0">
+                <ItemsControl ItemsSource="{Binding Trip.Schedules}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <Ellipse Width="20" Height="20" Fill="#009882" Stroke="White" StrokeThickness="2" />
+                                <Border Width="1" Height="100" Background="#aa000000" />
+                            </StackPanel>
+
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <Button Grid.Column="2" Click="Button_Click" Style="{StaticResource AddButton}"/>
 
 
+
+            </StackPanel>
+            
 
         </StackPanel>
     </DockPanel>

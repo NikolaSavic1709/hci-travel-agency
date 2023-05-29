@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using travelAgency.model;
 
 namespace travelAgency.ViewModel
 {
@@ -27,6 +28,16 @@ namespace travelAgency.ViewModel
             {
                 _backImageSource = value;
                 OnPropertyChanged(nameof(BackImageSource));
+            }
+        }
+        private Trip _trip;
+        public Trip Trip
+        {
+            get { return _trip; }
+            set
+            {
+                _trip = value;
+                OnPropertyChanged(nameof(Trip));
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;

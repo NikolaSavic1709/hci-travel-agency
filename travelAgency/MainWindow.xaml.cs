@@ -7,6 +7,8 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using System.Collections.Generic;
 using travelAgency.UImodels;
+using travelAgency.Dialogs;
+using travelAgency.model;
 
 namespace travelAgency
 {
@@ -31,7 +33,20 @@ namespace travelAgency
             {
                 viewModel.FrontImageSource = ImageNames[CurrentImageIndex];
                 viewModel.BackImageSource = ImageNames[CurrentImageIndex];
+                Trip trip = new Trip();
+                Place place1 = new Place();
+                place1.Name = "Sabac";
+                Place place2 = new Place();
+                place2.Name = "Novi Sad";
+
+                TripSchedule ts1 = new TripSchedule();
+                ts1.Place = place1;
+                TripSchedule ts2 = new TripSchedule();
+                ts2.Place = place2;
+                trip.Schedules=new List<TripSchedule> { ts1, ts2};
+                viewModel.Trip=trip;
             }
+            HomeButton.IsClicked = "True";
         }
         private void SlideLeft(object sender, RoutedEventArgs e)
         {
@@ -102,10 +117,10 @@ namespace travelAgency
         private void SelectMonth_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             CalendarLabel label = (CalendarLabel)sender;
-            GetMonthLabels(label);
+            SelectMonthLabels(label);
             tb1.Text = label.Content+" " + YearTb.Text;
         }
-        private void GetMonthLabels(CalendarLabel selectedLabel)
+        private void SelectMonthLabels(CalendarLabel selectedLabel)
         {
             CalendarLabel label;
             if (Calendar != null)
@@ -114,9 +129,9 @@ namespace travelAgency
                 {
                     label = (CalendarLabel)child;
                     if (label == selectedLabel)
-                        label.IsClicked = "True";
+                        label.IsSelected = "True";
                     else
-                        label.IsClicked = "False";
+                        label.IsSelected = "False";
                 }
             }
         }
@@ -135,5 +150,31 @@ namespace travelAgency
             }
         }
 
+        private void NavbarButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavbarButton button = (NavbarButton)sender;
+            ClickNavbarButton(button);
+        }
+        private void ClickNavbarButton(NavbarButton clickedButton)
+        {
+            NavbarButton button;
+            if (NavbarButtons != null)
+            {
+                foreach (var child in GetChildren(NavbarButtons))
+                {
+                    button = (NavbarButton)child;
+                    if (button == clickedButton)
+                        button.IsClicked = "True";
+                    else
+                        button.IsClicked = "False";
+                }
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            CreateTripDialog window = new CreateTripDialog();
+            window.Show();
+        }
     }
 }
