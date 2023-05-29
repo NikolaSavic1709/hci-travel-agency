@@ -8,6 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="view\travel_logo.png" />
+    <None Remove="view\uvac.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
+    <None Remove="pin.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="devexpress.wpf.map" Version="22.2.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
       <PrivateAssets>all</PrivateAssets>
@@ -23,12 +34,27 @@
   <ItemGroup>
     <Folder Include="database\" />
     <Folder Include="Migrations\" />
+    <Folder Include="service\" />
     <Folder Include="utils\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="view\travel_logo.png" />
+    <Resource Include="view\uvac.jpg" />
+    <Resource Include="pin.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
     <None Update="database\database.sqlite">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Images\2013-10-19 11.49.11.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Images\Zeljko-Obradovic-Mathias-Lessort.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

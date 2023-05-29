@@ -19,4 +19,27 @@ public class User
     public UserType Auth { get; set; }
     public virtual List<Arrangement> Arrangements { get; set; }
 
+
+    public User(string name, string email, string password, string surname, string phoneNumber)
+    {
+        Name = name;
+        Email = email;
+        Password = password;
+        Surname = surname;
+        PhoneNumber = phoneNumber;
+        Auth = UserType.Client;
+        Arrangements = new List<Arrangement>();
+    }
+
+    public User(int id, string name, string email, string password, string surname, string phoneNumber, UserType auth, List<Arrangement> arrangements)
+    {
+        Id = id;
+        Name = name;
+        Email = email;
+        Password = password;
+        Surname = surname;
+        PhoneNumber = phoneNumber;
+        Auth = auth;
+        Arrangements = arrangements;
+    }
 }

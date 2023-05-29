@@ -19,23 +19,6 @@ namespace travelAgency
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-
-            /*string sqlFilePath = "../../../database/data.sql";
-            string connectionString = @"Data Source=../../../database/database.sqlite;Mode=Memory;Cache=Shared;";
-
-            string sqlScript = File.ReadAllText(sqlFilePath);
-
-            using (var connection = new SqliteConnection(connectionString))
-            {
-                connection.Open();
-
-                using (var command = new SqliteCommand(sqlScript, connection))
-                {
-                    command.ExecuteNonQuery();
-                }
-
-                connection.Close();
-            }*/
         }
     }
 }
