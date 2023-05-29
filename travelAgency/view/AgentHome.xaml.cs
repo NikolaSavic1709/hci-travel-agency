@@ -30,6 +30,8 @@ namespace travelAgency.view
 
             InitializeComponent();
 
+            HomeButton.IsClicked = "True";
+
             dbContext = new TravelAgencyContext();
             tripRepository = new TripRepository(dbContext);
 
@@ -81,5 +83,41 @@ namespace travelAgency.view
             if (e.Key == Key.Enter)
                 SearchButton.Command.Execute(textBox.Text);
         }
+
+        private IEnumerable<DependencyObject> GetChildren(DependencyObject parent)
+        {
+            if (parent == null)
+                yield break;
+
+            int childCount = VisualTreeHelper.GetChildrenCount(parent);
+            for (int i = 0; i < childCount; i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+                yield return child;
+
+            }
+        }
+
+        private void NavbarButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavbarButton button = (NavbarButton)sender;
+            ClickNavbarButton(button);
+        }
+        private void ClickNavbarButton(NavbarButton clickedButton)
+        {
+            NavbarButton button;
+            if (NavbarButtons != null)
+            {
+                foreach (var child in GetChildren(NavbarButtons))
+                {
+                    button = (NavbarButton)child;
+                    if (button == clickedButton)
+                        button.IsClicked = "True";
+                    else
+                        button.IsClicked = "False";
+                }
+            }
+        }
+
     }
 }

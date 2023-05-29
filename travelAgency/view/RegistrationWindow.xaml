@@ -94,7 +94,7 @@
         <Image Grid.Column="0" Grid.ColumnSpan="1" Grid.RowSpan="23" Source="/view/uvac.jpg" Stretch="Fill"/>
         <Image Grid.Column="1" Grid.Row="1" Source="/view/travel_logo.png"/>
 
-        <TextBlock Grid.Column="1" Grid.Row="3" Text="Join us!" Padding="0" FontSize="32"
+        <TextBlock Grid.Column="1" Grid.Row="3" Text="Join us!" Padding="0" FontSize="32" Margin="-2"
                    Height="Auto" Width="Auto" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
 
         
@@ -216,7 +216,7 @@
         </PasswordBox>
 
 
-        <TextBlock Grid.Column="1" Grid.Row="19"  Text="{Binding Error}" Padding="0" FontSize="14" Foreground="Red"
+        <TextBlock Grid.Column="1" Grid.Row="19"  Text="{Binding Error, Mode=TwoWay}" Padding="0" FontSize="14" Foreground="Red" Name="err"
                    Height="Auto" Width="Auto" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
         <Grid Grid.Column="1" Grid.Row="21" Margin="20,0,20,0"  Height="Auto" Width="Auto" HorizontalAlignment="Center" VerticalAlignment="Stretch">

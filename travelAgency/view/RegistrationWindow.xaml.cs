@@ -129,18 +129,22 @@ namespace travelAgency.view
                 string.IsNullOrWhiteSpace((_password1Validated ?? "").ToString()) || string.IsNullOrWhiteSpace((_password2Validated ?? "").ToString()))
             {
                 Error = "All fields are required";
+                err.Text = "All fields are required";
                 return;
             }
 
             if (IsFirstNameInvalid)
             {
                 Error = "Invalid Name, only letters allowed";
+                err.Text = "Invalid Name, only letters allowed";
                 return;
             }
 
             if (IsSurnameInvalid)
             {
                 Error = "Invalid Surname, only letters allowed";
+                err.Text = "Invalid Surname, only letters allowed";
+
                 return;
             }
 
@@ -153,18 +157,23 @@ namespace travelAgency.view
             if (IsPhoneNumberInvalid)
             {
                 Error = "Please enter a valid phone number for Serbia";
+                err.Text = "Please enter a valid phone number for Serbia";
+                
                 return;
             }
 
             if (IsPasswordInvalid)
             {
                 Error = PasswordInvalidError;
+                err.Text = PasswordInvalidError;
+
                 return;
             }
 
             if (IsConfirmPasswordInvalid)
             {
                 Error = ConfirmPasswordInvalidError;
+                err.Text = ConfirmPasswordInvalidError;
                 return;
             }
 
