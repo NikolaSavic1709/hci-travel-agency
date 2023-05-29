@@ -6,8 +6,9 @@
         xmlns:local="clr-namespace:travelAgency.view"
         xmlns:components="clr-namespace:travelAgency.components"
         xmlns:controls="clr-namespace:travelAgency.controls"
+        xmlns:dxm="http://schemas.devexpress.com/winfx/2008/xaml/map"
         mc:Ignorable="d"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:clr="clr-namespace:System;assembly=mscorlib"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Title="AgentHome" Height="600" Width="800" Icon="{StaticResource AppIcon}">
@@ -131,6 +132,14 @@
                 </MultiTrigger>
             </Style.Triggers>
         </Style>
+
+        <DataTemplate x:Key="pushpin">
+            <StackPanel ToolTipService.ToolTip="{Binding Path=MapItem.Information}" Height="NaN" Orientation="Horizontal"  >
+                <Image  Source="pack://application:,,,/pin.png" Width="20" Height="20"  />
+
+            </StackPanel>
+        </DataTemplate>
+        <clr:String x:Key="Bing Key">""</clr:String>
     </Window.Resources>
 
     <DockPanel>
@@ -222,9 +231,35 @@
                     Grid.Column="5" Grid.Row="1"
                     ToolTip="Filter" />
         
-        <Rectangle Grid.Column="7"  Grid.Row="3" Stroke="Black" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+            
+        
 
-        <controls:FlexWrapPanel HorizontalAlignment="Stretch" RequestedItemWidth="205" Width="Auto" Margin="-10"
+            <Grid Grid.Column="7"  Grid.Row="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <dxm:MapControl Name="map" HorizontalAlignment="Stretch"  VerticalAlignment="Center" Width="Auto"
+                                MouseLeftButtonDown="map_MouseLeftButtonDown" MouseLeftButtonUp="map_MouseLeftButtonUp" MouseMove="map_MouseMove"  >
+                    <dxm:ImageLayer>
+                        <dxm:BingMapDataProvider Kind="RoadLight" BingKey=""/>
+                    </dxm:ImageLayer>
+                    <dxm:VectorLayer>
+                        <dxm:MapItemStorage x:Name="mapItems" >
+                            <!--<dxm:MapPushpin  Location="41.88,-87.63" 
+                                     Information="Test Chicago Information"
+                                     MarkerTemplate="{StaticResource pushpin}" />-->
+                        </dxm:MapItemStorage>
+                    </dxm:VectorLayer>
+                    <dxm:InformationLayer>
+                        <dxm:BingSearchDataProvider BingKey=""/>
+                    </dxm:InformationLayer>
+                    <dxm:InformationLayer>
+                        <dxm:BingGeocodeDataProvider x:Name="geocode"  LocationInformationReceived="geocodeProvider_LocationInformationReceived" BingKey=""/>
+                    </dxm:InformationLayer>
+
+                </dxm:MapControl>
+                <TextBlock x:Name="tbResults" TextWrapping="Wrap" Text="TextBlock" Margin="0,0,512,0"/>
+
+            </Grid>
+
+            <controls:FlexWrapPanel HorizontalAlignment="Stretch" RequestedItemWidth="205" Width="Auto" Margin="-10"
                                 Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="3" x:Name="cards">
             <!--<components:TripCard Margin="10" TripName="Tura zapadna Srbija" Route="Šabac - Bajina Bašta" 
                                  Description="Tura je veoma zaniljiva i duga jer Savic i drugari imaju sta da ponude i njihovom kraju"/>
