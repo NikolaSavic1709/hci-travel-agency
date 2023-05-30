@@ -1,9 +1,11 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -37,7 +39,7 @@ namespace travelAgency.view
             FirstName = "";
             Surname = "";
             Email = "";
-            PhoneNumber = "";
+            //PhoneNumber = "";
             Error = "";
         }
         public string Error { get; set; }
@@ -51,14 +53,12 @@ namespace travelAgency.view
         public string Email { get; set; }
         public bool IsEmailInvalid { get; set; }
 
-        public string PhoneNumber { get; set; }
-        public bool IsPhoneNumberInvalid { get; set; }
+        //public string PhoneNumber { get; set; }
+        //public bool IsPhoneNumberInvalid { get; set; }
 
-    //    public SecureString Password { get; set; }
         public bool IsPasswordInvalid { get; set; }
         public string PasswordInvalidError { get; set; }
 
-        //   public SecureString ConfirmPassword { get; set; }
         public bool IsConfirmPasswordInvalid { get; set; }
         public string ConfirmPasswordInvalidError { get; set; }
 
@@ -81,8 +81,8 @@ namespace travelAgency.view
 
                 if (value.Length < 6 || !value.Any(char.IsDigit) || !Regex.IsMatch(value, specialCharPattern) || !value.Any(char.IsUpper))
                 {
-                    PasswordInvalidError = "Password must have a min of 6 characters, at least 1 number, 1 special character and 1 uppercase letter";
-                    throw new ArgumentException("Password must have a min of 6 characters, at least 1 number, 1 special character and 1 uppercase letter");
+                    PasswordInvalidError = "Password requirements: 6+ characters, 1 number, 1 special character, 1 uppercase";
+                    throw new ArgumentException("Password requirements: 6+ characters, 1 number, 1 special character, 1 uppercase");
                 }
 
 
@@ -105,8 +105,8 @@ namespace travelAgency.view
 
                 if (value.Length < 6 || !value.Any(char.IsDigit) || !Regex.IsMatch(value, specialCharPattern) || !value.Any(char.IsUpper))
                 {
-                    ConfirmPasswordInvalidError = "Password must have a min of 6 characters, at least 1 number, 1 special character and 1 uppercase letter";
-                    throw new ArgumentException("Password must have a min of 6 characters, at least 1 number, 1 special character and 1 uppercase letter");
+                    ConfirmPasswordInvalidError = "Password requirements: 6+ characters, 1 number, 1 special character, 1 uppercase";
+                    throw new ArgumentException("Password requirements: 6+ characters, 1 number, 1 special character, 1 uppercase");
                 }
 
                 if (!string.Equals(_password1Validated, value))
@@ -122,11 +122,14 @@ namespace travelAgency.view
 
         private void Register_Click(object sender, RoutedEventArgs e)
         {
+            ActivateProgress();
+
             Error = "";
+            err.Text = "";
 
             if (string.IsNullOrWhiteSpace((FirstName ?? "").ToString()) || string.IsNullOrWhiteSpace((Surname ?? "").ToString()) ||
-                string.IsNullOrWhiteSpace((Email ?? "").ToString()) || string.IsNullOrWhiteSpace((PhoneNumber ?? "").ToString()) ||
-                string.IsNullOrWhiteSpace((_password1Validated ?? "").ToString()) || string.IsNullOrWhiteSpace((_password2Validated ?? "").ToString()))
+                string.IsNullOrWhiteSpace((Email ?? "").ToString()) || string.IsNullOrWhiteSpace((_password1Validated ?? "").ToString()) ||
+                string.IsNullOrWhiteSpace((_password2Validated ?? "").ToString()))
             {
                 Error = "All fields are required";
                 err.Text = "All fields are required";
@@ -154,13 +157,13 @@ namespace travelAgency.view
                 return;
             }
 
-            if (IsPhoneNumberInvalid)
-            {
-                Error = "Please enter a valid phone number for Serbia";
-                err.Text = "Please enter a valid phone number for Serbia";
+            //if (IsPhoneNumberInvalid)
+            //{
+            //    Error = "Please enter a valid phone number for Serbia";
+            //    err.Text = "Please enter a valid phone number for Serbia";
                 
-                return;
-            }
+            //    return;
+            //}
 
             if (IsPasswordInvalid)
             {
@@ -177,9 +180,8 @@ namespace travelAgency.view
                 return;
             }
 
-
-            var newUser = new User(Name,Email,_password1Validated,Surname,PhoneNumber);
-            userRepository.Add(newUser);
+            var newuser = new User(Name, Email, _password1Validated, Surname);
+            userRepository.Add(newuser);
 
             SnackbarOk.MessageQueue?.Enqueue("You have successfully registered!",
                  "OK",
@@ -194,11 +196,31 @@ namespace travelAgency.view
 
             NameTxtBox.Text = "";
             SurnameTxtBox.Text = "";
-            PhoneNumberTxtBox.Text = "";
+            //PhoneNumberTxtBox.Text = "";
             EmailTxtBox.Text = "";
             PasswordTxtBox.Password = "";
             ConfirmPasswordTxtBox.Password = "";
             Error = "";
+
+            DeactivateProgress();
+        }
+
+        private void DeactivateProgress()
+        {
+            RegisterBtn.IsEnabled = false;
+            RegisterBtn.Margin = new Thickness(80, 0, 80, 0);
+            RegisterBtn.Background = new BrushConverter().ConvertFromString("#009882") as Brush;
+            RegisterBtn.Cursor = Cursors.Hand;
+            ProgresBar.Visibility = Visibility.Collapsed;
+        }
+
+        private void ActivateProgress()
+        {
+            RegisterBtn.IsEnabled = false;
+            RegisterBtn.Margin = new Thickness(80, 0, 10, 0);
+            RegisterBtn.Background = new BrushConverter().ConvertFromString("#609882") as Brush;
+            RegisterBtn.Cursor = Cursors.Arrow;
+            ProgresBar.Visibility = Visibility.Visible;
         }
 
         private void To_Login(object sender, MouseButtonEventArgs e)
@@ -208,9 +230,25 @@ namespace travelAgency.view
             //Close();
         }
 
-        
+
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            BindingExpression bindingExpr = textBox.GetBindingExpression(TextBox.TextProperty);
+
+            // Manually trigger the validation
+            bindingExpr.UpdateSource();
+        }
 
 
+        private void PasswordBox_Changed(object sender, RoutedEventArgs e)
+        {
+            PasswordBox passwordBox = (PasswordBox)sender;
+            BindingExpression bindingExpr = passwordBox.GetBindingExpression(PasswordBoxAssist.PasswordProperty);
+
+            // Manually trigger the validation
+            bindingExpr.UpdateSource();
+        }
     }
 
 }
