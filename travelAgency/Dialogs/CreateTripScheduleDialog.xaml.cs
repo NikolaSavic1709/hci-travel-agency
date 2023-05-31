@@ -23,10 +23,11 @@ namespace travelAgency.Dialogs
     {
         List<Place> allPlaces;
         int currentIndexListBox = -1;
-        public CreateTripScheduleDialog()
+        Trip Trip { get; set; }
+        public CreateTripScheduleDialog(Trip trip)
         {
             InitializeComponent();
-
+            Trip = trip;
             Place place1 = new Place();
             place1.Name = "Sabac - Srbija";
             Place place2 = new Place();
@@ -114,6 +115,27 @@ namespace travelAgency.Dialogs
                 {
                     AutocompleteListBox.SelectedIndex = currentIndexListBox;
                 }
+            }
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            Place? selectedPlace = allPlaces.Find(p => p.Name == PlaceTextBox.Text);
+
+            if (selectedPlace != null)
+            {
+                TripSchedule tripSchedule = new TripSchedule();
+                tripSchedule.Place = selectedPlace;
+                DateTime? date = DatePicker.SelectedDate.Value;
+                DateTime? time = TimePicker.SelectedTime.Value;
+
+                tripSchedule.DateTime = new DateTime(date.Value.Year, date.Value.Month, date.Value.Day, time.Value.Hour, time.Value.Minute, 0);
+                Trip.Schedules.Add(tripSchedule);
+                Close();
+            }
+            else
+            {
+                //handle
             }
         }
     }

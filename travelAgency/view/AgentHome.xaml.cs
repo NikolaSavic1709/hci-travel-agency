@@ -33,8 +33,12 @@ namespace travelAgency.view
             InitializeComponent();
 
             HomeButton.IsClicked = "True";
-            Main.Content = new HomePage();
-            
+            //Main.Content = new HomePage();
+            Trip trip1 = new Trip();
+            trip1.Name = "tura tura";
+            trip1.Price = 10;
+            trip1.Description = "najbolja tura";
+            Main.Content = new TripDetailsPage(trip1);
         }
 
         

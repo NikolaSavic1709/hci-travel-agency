@@ -98,6 +98,7 @@ namespace travelAgency.Dialogs
                 
                 tripSchedule.DateTime=new DateTime(date.Value.Year,date.Value.Month,date.Value.Day,time.Value.Hour,time.Value.Minute,0);
                 ViewModel.Trip.Schedules.Add(tripSchedule);
+                
             }
             else
             {

@@ -6,7 +6,7 @@
         xmlns:controls="clr-namespace:travelAgency.controls"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="675" Width="1100" Background="#C7C7C7">
+        Title="MainWindow" Height="800" Width="1000" Background="#C7C7C7">
     <Window.Resources>
         <Style x:Key="TransparentCircleButton" TargetType="Button">
             <Setter Property="Cursor" Value="Hand"/>
