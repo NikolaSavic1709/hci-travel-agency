@@ -199,6 +199,9 @@ namespace travelAgency.view
             PasswordTxtBox.Password = "";
             ConfirmPasswordTxtBox.Password = "";
             Error = "";
+            AgentHome agentHome = new AgentHome();
+            agentHome.Show();
+            Close();
         }
 
         private void To_Login(object sender, MouseButtonEventArgs e)
@@ -207,9 +210,6 @@ namespace travelAgency.view
             //loginWindow.Show();
             //Close();
         }
-
-        
-
 
     }
 

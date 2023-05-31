@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using travelAgency.model;
+using travelAgency.ViewModel;
 
 namespace travelAgency.Dialogs
 {
@@ -19,14 +21,83 @@ namespace travelAgency.Dialogs
     /// </summary>
     public partial class CreateTripDialog : Window
     {
+        List<Place> allPlaces;
+        CreateTripViewModel ViewModel { get; set; }
+
         public CreateTripDialog()
         {
             InitializeComponent();
+            DataContext = new CreateTripViewModel();
+            var viewModel = DataContext as CreateTripViewModel;
+            if (viewModel != null)
+            {
+                ViewModel = viewModel;
+                Trip trip = new Trip();
+                viewModel.Trip=trip;
+            }
+            Place place1 = new Place();
+            place1.Name = "Sabac - Srbija";
+            Place place2 = new Place();
+            place2.Name = "Novi Sad - Srbija";
+            Place place3 = new Place();
+            place3.Name = "Beograd";
+            allPlaces=new List<Place> { place1, place2, place3 };
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string text = PlaceTextBox.Text;
+            if (text.Length > 2)
+            {
+                AutocompleteListBox.Visibility = Visibility.Visible;
+                AutocompleteListBox.ItemsSource = allPlaces.Where(p => p.Name.ToLower().Contains(text.ToLower()));
+                AutocompleteListBox.SelectedIndex = -1;
+            }
+            else
+                AutocompleteListBox.Visibility = Visibility.Hidden;
+
+        }
+        private void TextBox_OnFocusLost(object sender, RoutedEventArgs e)
+        {
+            AutocompleteListBox.Visibility = Visibility.Hidden;
+
+        }
+
+        private void AutocompleteListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Place? place = AutocompleteListBox.SelectedItem as Place;
+            if (place != null)
+            {
+                PlaceTextBox.Text = place.Name;
+                AutocompleteListBox.Visibility = Visibility.Hidden;
+            }
+        }
+        private void window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Keyboard.ClearFocus();
+            AutocompleteListBox.Visibility = Visibility.Hidden;
+            // ILI OVO
+        }
+
+        private void AddPlace_Click(object sender, RoutedEventArgs e)
+        {
+            Place? selectedPlace = allPlaces.Find(p => p.Name == PlaceTextBox.Text);
+            
+            if (selectedPlace != null)
+            {
+                TripSchedule tripSchedule = new TripSchedule();
+                tripSchedule.Place = selectedPlace;
+                DateTime? date=DatePicker.SelectedDate.Value;
+                DateTime? time = TimePicker.SelectedTime.Value;
+                
+                tripSchedule.DateTime=new DateTime(date.Value.Year,date.Value.Month,date.Value.Day,time.Value.Hour,time.Value.Minute,0);
+                ViewModel.Trip.Schedules.Add(tripSchedule);
+            }
+            int x = 5;
         }
     }
 }

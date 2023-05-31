@@ -20,7 +20,7 @@
 
             </StackPanel>
         </DataTemplate>
-        <clr:String x:Key="Bing Key">""</clr:String>
+        <clr:String x:Key=" ">""</clr:String>
     </Page.Resources>
     <Grid>
         <Grid Background="#c7c7c7">
@@ -92,7 +92,7 @@
                 <dxm:MapControl Name="map" HorizontalAlignment="Stretch"  VerticalAlignment="Center" Width="Auto"
                                 MouseLeftButtonDown="map_MouseLeftButtonDown" MouseLeftButtonUp="map_MouseLeftButtonUp" MouseMove="map_MouseMove"  >
                     <dxm:ImageLayer>
-                        <dxm:BingMapDataProvider Kind="RoadLight" BingKey=""/>
+                        <dxm:BingMapDataProvider Kind="RoadLight" BingKey=" "/>
                     </dxm:ImageLayer>
                     <dxm:VectorLayer>
                         <dxm:MapItemStorage x:Name="mapItems" >
@@ -102,10 +102,10 @@
                         </dxm:MapItemStorage>
                     </dxm:VectorLayer>
                     <dxm:InformationLayer>
-                        <dxm:BingSearchDataProvider BingKey=""/>
+                        <dxm:BingSearchDataProvider BingKey=" "/>
                     </dxm:InformationLayer>
                     <dxm:InformationLayer>
-                        <dxm:BingGeocodeDataProvider x:Name="geocode"  LocationInformationReceived="geocodeProvider_LocationInformationReceived" BingKey=""/>
+                        <dxm:BingGeocodeDataProvider x:Name="geocode"  LocationInformationReceived="geocodeProvider_LocationInformationReceived" BingKey=" "/>
                     </dxm:InformationLayer>
 
                 </dxm:MapControl>
@@ -113,7 +113,7 @@
 
             </Grid>
 
-            <controls:FlexWrapPanel HorizontalAlignment="Stretch" RequestedItemWidth="205" Width="Auto" Margin="-10"
+            <controls:FlexWrapPanel HorizontalAlignment="Stretch" RequestedItemWidth="245" Width="Auto" Margin="-10"
                                 Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="3" x:Name="cards">
                 <!--<components:TripCard Margin="10" TripName="Tura zapadna Srbija" Route="Šabac - Bajina Bašta" 
                                  Description="Tura je veoma zaniljiva i duga jer Savic i drugari imaju sta da ponude i njihovom kraju"/>

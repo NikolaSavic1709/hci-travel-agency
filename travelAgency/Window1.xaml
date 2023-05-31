@@ -324,7 +324,7 @@
                         <DataTemplate>
                             <StackPanel>
                                 <Ellipse Width="20" Height="20" Fill="#009882" Stroke="White" StrokeThickness="2" />
-                                <Border Width="1" Height="100" Background="#aa000000" />
+                                <Border Width="1" Height="80" Background="#aa000000" />
                             </StackPanel>
 
                         </DataTemplate>

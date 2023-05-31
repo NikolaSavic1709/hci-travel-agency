@@ -11,7 +11,8 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:clr="clr-namespace:System;assembly=mscorlib"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-        Title="AgentHome" Height="750" Width="1000" Icon="{StaticResource AppIcon}">
+        Title="AgentHome" Height="750" Width="1000" Icon="{StaticResource AppIcon}"
+        WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
 
