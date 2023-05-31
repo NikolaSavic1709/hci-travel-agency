@@ -119,9 +119,10 @@ namespace travelAgency.view
             }
         }
 
-        private void Register_Click(object sender, RoutedEventArgs e)
+        private async void Register_Click(object sender, RoutedEventArgs e)
         {
             ActivateProgress();
+            await Task.Delay(500);
 
             Error = "";
             err.Text = "";
@@ -132,6 +133,7 @@ namespace travelAgency.view
             {
                 Error = "All fields are required";
                 err.Text = "All fields are required";
+                DeactivateProgress();
                 return;
             }
 
@@ -139,6 +141,7 @@ namespace travelAgency.view
             {
                 Error = "Invalid Name, only letters allowed";
                 err.Text = "Invalid Name, only letters allowed";
+                DeactivateProgress();
                 return;
             }
 
@@ -146,13 +149,15 @@ namespace travelAgency.view
             {
                 Error = "Invalid Surname, only letters allowed";
                 err.Text = "Invalid Surname, only letters allowed";
-
+                DeactivateProgress();
                 return;
             }
 
             if (IsEmailInvalid)
             {
                 Error = "Please enter a valid email address";
+                err.Text = "Please enter a valid email address";
+                DeactivateProgress();
                 return;
             }
 
@@ -168,7 +173,7 @@ namespace travelAgency.view
             {
                 Error = PasswordInvalidError;
                 err.Text = PasswordInvalidError;
-
+                DeactivateProgress();
                 return;
             }
 
@@ -176,37 +181,59 @@ namespace travelAgency.view
             {
                 Error = ConfirmPasswordInvalidError;
                 err.Text = ConfirmPasswordInvalidError;
+                DeactivateProgress();
                 return;
             }
 
-            var newuser = new User(Name, Email, _password1Validated, Surname);
-            userRepository.Add(newuser);
+            var existUser = userRepository.GetByEmail(Email);
+            if (existUser == null )
+            {
+                var newuser = new User(Name, Email, _password1Validated, Surname);
+                userRepository.Add(newuser);
 
-            SnackbarOk.MessageQueue?.Enqueue("You have successfully registered!",
-                 "OK",
-                (arg) =>
-                {
-                    // Action button clicked
-                },
-                null,
-                false,
-                true,
-                TimeSpan.FromSeconds(3));
+                SnackbarOk.MessageQueue?.Enqueue("You have successfully registered!",
+                     "OK",
+                    (arg) =>
+                    {
+                        // Action button clicked
+                    },
+                    null,
+                    false,
+                    true,
+                    TimeSpan.FromSeconds(3));
 
-            NameTxtBox.Text = "";
-            SurnameTxtBox.Text = "";
-            //PhoneNumberTxtBox.Text = "";
-            EmailTxtBox.Text = "";
-            PasswordTxtBox.Password = "";
-            ConfirmPasswordTxtBox.Password = "";
-            Error = "";
+                NameTxtBox.Text = "";
+                SurnameTxtBox.Text = "";
+                //PhoneNumberTxtBox.Text = "";
+                EmailTxtBox.Text = "";
+                PasswordTxtBox.Password = "";
+                ConfirmPasswordTxtBox.Password = "";
+                Error = "";
+            }
+            else
+            {
+                Error = "This email already exists!";
+                err.Text = "This email already exists!";
 
+                SnackbarOk.MessageQueue?.Enqueue("This email already exists!",
+                     "OK",
+                    (arg) =>
+                    {
+                        // Action button clicked
+                    },
+                    null,
+                    false,
+                    true,
+                    TimeSpan.FromSeconds(3));
+            }
+
+            await Task.Delay(500);
             DeactivateProgress();
         }
 
         private void DeactivateProgress()
         {
-            RegisterBtn.IsEnabled = false;
+            RegisterBtn.IsEnabled = true;
             RegisterBtn.Margin = new Thickness(80, 0, 80, 0);
             RegisterBtn.Background = new BrushConverter().ConvertFromString("#009882") as Brush;
             RegisterBtn.Cursor = Cursors.Hand;

@@ -36,20 +36,24 @@ namespace travelAgency.view
             registrationPage = new RegistrationPage();
             registrationPage.ToLoginClicked += To_LoginNavigation;
 
-            loginPage = new LoginPage();
+            loginPage = new LoginPage(this);
             loginPage.ToSignUpClicked += To_SignUpNavigation;
 
-            FormContent.Navigate(registrationPage);
+            FormContent.Navigate(loginPage);
         }
 
         private void To_LoginNavigation(object sender, EventArgs e)
         {
+            loginPage = new LoginPage(this);
+            loginPage.ToSignUpClicked += To_SignUpNavigation;
             FormContent.Navigate(loginPage);
 
         }
 
         private void To_SignUpNavigation(object sender, EventArgs e)
         {
+            registrationPage = new RegistrationPage();
+            registrationPage.ToLoginClicked += To_LoginNavigation;
             FormContent.Navigate(registrationPage);
 
         }
