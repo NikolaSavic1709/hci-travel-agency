@@ -7,8 +7,8 @@
         xmlns:validators="clr-namespace:travelAgency.validators"
         xmlns:local="clr-namespace:travelAgency.Dialogs"
         mc:Ignorable="d"
-        Title="CreateTrip"  ResizeMode="NoResize" Height="1000" Width="600"
-        MouseDown="window_MouseDown">
+        Title="Create new trip"  ResizeMode="NoResize" Height="800" Width="600"
+        MouseDown="window_MouseDown" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style x:Key="BottomButton" TargetType="Button">
             <Setter Property="Cursor" Value="Hand"/>
@@ -66,6 +66,26 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="RemovePlaceButton" TargetType="Button">
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Background" Value="#980012"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Rectangle Fill="{TemplateBinding Background}" Opacity="1" RadiusX="4" RadiusY="4"/>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Red"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     <DockPanel>
 
@@ -99,16 +119,16 @@
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="1.5*"/>
-                    <RowDefinition Height="1.5*"/>
-                    <RowDefinition Height="1.5*"/>
-                    <RowDefinition Height="0.5*"/>
-                    <RowDefinition Height="0.7*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="5*"/>
+                    <RowDefinition Height="1.5*" MinHeight="100"/>
+                    <RowDefinition Height="1.5*" MinHeight="100"/>
+                    <RowDefinition Height="1*" MinHeight="70"/>
+                    <RowDefinition Height="0.5*" MinHeight="20"/>
+                    <RowDefinition Height="0.7*" MinHeight="50"/>
+                    <RowDefinition Height="1*" MinHeight="70"/>
+                    <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
-                <TextBox Grid.Row="0" Grid.ColumnSpan="5" Background="#15000000" FontSize="16" Name="NameTxtBox"
+                <TextBox Grid.Row="0" Grid.ColumnSpan="5" Background="#ececec" FontSize="16" Name="NameTxtBox"
                   Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Title"
                  materialDesign:HintAssist.Background="#00000000" materialDesign:HintAssist.FloatingOffset="0,-25"   
                  Padding="7,0,5,0" VerticalContentAlignment="Center" 
@@ -127,33 +147,44 @@
                 </TextBox.Text>
 -->
                 </TextBox>
+                
                 <TextBox Height="80" Width="Auto" Grid.Row="1" Grid.ColumnSpan="5" AcceptsReturn="True" TextWrapping="Wrap"
-                       Background="#15000000" FontSize="16"  materialDesign:HintAssist.Hint="Location" Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                       Background="#ececec" FontSize="16"  materialDesign:HintAssist.Hint="Description" Style="{StaticResource MaterialDesignOutlinedTextBox}"
                  materialDesign:HintAssist.Background="#00000000" Padding="7,0,5,0" VerticalContentAlignment="Center" 
                   Margin="60,0,60,0"  BorderBrush="#55000000" BorderThickness="1"/>
-                <TextBox Height="80" Width="Auto" Grid.Row="2" Grid.ColumnSpan="5" AcceptsReturn="True" TextWrapping="Wrap"
-                       Background="#15000000" FontSize="16"  materialDesign:HintAssist.Hint="Description" Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                 materialDesign:HintAssist.Background="#00000000" Padding="7,0,5,0" VerticalContentAlignment="Center" 
-                  Margin="60,0,60,0"  BorderBrush="#55000000" BorderThickness="1"/>
+
+                <TextBox Grid.Row="2" Grid.ColumnSpan="5" Background="#ececec" FontSize="16" Name="PriceTxtBox"
+                  Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Price"
+                 materialDesign:HintAssist.Background="#00000000" materialDesign:HintAssist.FloatingOffset="0,-25"   
+                 Padding="7,0,5,0" VerticalContentAlignment="Center" 
+                  Margin="60,0,60,0" Height="40" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                     BorderBrush="#55000000" BorderThickness="1"/>
+
                 <Separator Grid.Row="3" Height="1" Grid.ColumnSpan="5" HorizontalAlignment="Stretch" Margin="30,10" BorderBrush="#55000000" BorderThickness="1"/>
 
 
-                <TextBox Grid.Row="4" Background="#15000000" FontSize="16" Name="PlaceTextBox"
-                Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Place"
-                materialDesign:HintAssist.Background="#00000000" materialDesign:HintAssist.FloatingOffset="0,-25"   
-                Padding="7,0,5,0" VerticalContentAlignment="Center" VerticalAlignment="Bottom"
-                Margin="60,0,-20,0" Height="40" Width="Auto" HorizontalAlignment="Stretch"
-                BorderBrush="#55000000" BorderThickness="1"
-                TextChanged="TextBox_TextChanged" LostFocus="TextBox_OnFocusLost"  />
+                <TextBox Grid.Row="4" Background="#ececec" FontSize="16" Name="PlaceTextBox"
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Place"
+                    materialDesign:HintAssist.Background="#00000000" materialDesign:HintAssist.FloatingOffset="0,-25"   
+                    Padding="7,0,5,0" VerticalContentAlignment="Center" VerticalAlignment="Bottom"
+                    Margin="60,0,-20,0" Height="40" Width="Auto" HorizontalAlignment="Stretch"
+                    BorderBrush="#55000000" BorderThickness="1"
+                    TextChanged="TextBox_TextChanged" LostFocus="TextBox_OnFocusLost" KeyUp="TextBox_KeyDown"  />
 
 
-                <ListBox Grid.Row="5" Grid.Column="0" Grid.RowSpan="1" Margin="60,0,-20,0"
-                     Name="AutocompleteListBox"  HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                      MaxHeight="200" Visibility="Visible" SelectionChanged="AutocompleteListBox_SelectionChanged" Panel.ZIndex="6" Background="#15000000"
-                     />
+                <ListBox Grid.Row="5" Grid.Column="0" Grid.RowSpan="2" Margin="60,0,-20,0"
+                     Name="AutocompleteListBox" FontSize="16"  HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                      MaxHeight="200" Visibility="Visible" SelectionChanged="AutocompleteListBox_SelectionChanged" Panel.ZIndex="6" Background="#ececec"
+                     >
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Height" Value="40"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
 
                 <DatePicker Name="DatePicker"  Grid.Row="4" Grid.Column="2" Height="40" Margin="-60,0,50,0" FontSize="16" Padding="7,0,5,0" Width="Auto" 
-             Background="#15000000" materialDesign:HintAssist.Hint="Date" VerticalAlignment="Bottom"
+             Background="#ececec" materialDesign:HintAssist.Hint="Date" VerticalAlignment="Bottom"
              BorderBrush="#55000000" BorderThickness="1" SelectedDateFormat="Short">
                     <DatePicker.Resources>
                         <SolidColorBrush x:Key="SecondaryColorBrush" Color="#009882" />
@@ -171,7 +202,7 @@
                             <Setter Property="materialDesign:CalendarAssist.SelectionForegroundColor" Value="Black" />
                         </Style>
                         <Style x:Key="CustomCalendar" TargetType="{x:Type Calendar}" BasedOn="{StaticResource MaterialDesignDatePickerCalendarPortrait}">
-                            <Setter Property="Background" Value="#15000000" />
+                            <Setter Property="Background" Value="#ececec" />
                             <Setter Property="CalendarButtonStyle" Value="{StaticResource CustomCalendarButton}" />
                             <Setter Property="CalendarDayButtonStyle" Value="{StaticResource CustomCalendarDayButton}" />
                             <Setter Property="Foreground" Value="Black" />
@@ -185,7 +216,7 @@
                     </DatePicker.Resources>
                 </DatePicker>
 
-                <Border Background="#15000000" VerticalAlignment="Bottom" Height="40" Grid.Row="4" Grid.Column="3" Margin="-30,0,20,0">
+                <Border Background="#ececec" VerticalAlignment="Bottom" Height="40" Grid.Row="4" Grid.Column="3" Margin="-30,0,20,0">
                     <materialDesign:TimePicker Name="TimePicker"  Height="40" FontSize="16" Padding="7,0,5,0" Width="Auto"
                         materialDesign:HintAssist.Hint="Time" 
                         BorderBrush="#55000000" BorderThickness="1"
@@ -203,26 +234,37 @@
                 <Button Grid.Row="4" Grid.Column="4" Style="{StaticResource AddPlaceButton}" Height="40" Margin="0,0,60,0" VerticalAlignment="Bottom" Click="AddPlace_Click">
                     <materialDesign:PackIcon Kind="Plus" Height="25" Width="25" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" />
                 </Button>
-
+               
                 <ItemsControl ItemsSource="{Binding Trip.Schedules}" Grid.Row="6" Grid.ColumnSpan="4" Margin="60,0,60,0">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
 
                             <StackPanel>
                                 <Border BorderBrush="#aa000000" BorderThickness="0.4" Height="100" Width="350">
-                                    <Grid Background="#15000000">
+                                    <Grid Background="#ececec">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="1*"/>
                                             <RowDefinition Height="1*"/>
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="1*"/>
-                                            <ColumnDefinition Width="3*"/>
-                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="0.7*"/>
+                                            <ColumnDefinition Width="0.65*"/>
+                                            <ColumnDefinition Width="0.65*"/>
+                                            <ColumnDefinition Width="0.7*"/>
+                                            <ColumnDefinition Width="0.65*"/>
+                                            <ColumnDefinition Width="0.65*"/>
                                             <ColumnDefinition Width="1*"/>
                                         </Grid.ColumnDefinitions>
-                                        <materialDesign:PackIcon Kind="Location" Height="20" Width="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                        <Label Grid.Column="1" FontSize="18" VerticalAlignment="Center" Content="{Binding Place.Name}"></Label>
+                                        <materialDesign:PackIcon Kind="Location" Grid.Row="0" Height="20" Width="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        <Label Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="0" FontSize="18" VerticalAlignment="Center" Margin="0,0,0,0" HorizontalAlignment="Left" Content="{Binding Place.Name}"></Label>
+                                        <materialDesign:PackIcon Grid.Row="1" Grid.Column="1" Kind="Calendar" Height="20" Width="20" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                                        <TextBlock Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" FontSize="14" VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding DateTime, StringFormat={}{0:dd.MM.yyyy}}"></TextBlock>
+                                        <materialDesign:PackIcon Grid.Row="1" Grid.Column="4" Kind="Clock" Height="20" Width="20" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                                        <TextBlock Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="1" FontSize="14" VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding DateTime, StringFormat={}{0:hh:mm}}"></TextBlock>
+                                        <Button Grid.Row="0" Grid.Column="7" Style="{StaticResource RemovePlaceButton}" Height="30" Width="30" VerticalAlignment="Center" Click="RemovePlace_Click">
+                                            <materialDesign:PackIcon Kind="Bin" Height="20" Width="20" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                        </Button>
                                     </Grid>
                                 </Border>
                             </StackPanel>
