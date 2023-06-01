@@ -58,7 +58,7 @@
         <Button
   Content="Cancel"
   Style="{StaticResource MaterialDesignRaisedSecondaryButton}"
-  ToolTip="Resource name: MaterialDesignRaisedSecondaryButton" BorderThickness="0" Background="#FFE0E0E0" Foreground="#FF980012" Grid.Row="4" Margin="2" Grid.Column="2" Grid.ColumnSpan="2" />
+  ToolTip="Resource name: MaterialDesignRaisedSecondaryButton" BorderThickness="0" Background="#FF980012" Foreground="#FFFFFFFF" Grid.Row="4" Margin="2" Grid.Column="2" Grid.ColumnSpan="2" />
     </Grid>
 
 </Window>
