@@ -20,20 +20,22 @@ namespace travelAgency.Dialogs
     /// </summary>
     public partial class AmenitiesDialog : Window
     {
+        private AmenitiesDialogViewModel amenitiesDialogViewModel;
         public AmenitiesDialog()
         {
             InitializeComponent();
-            DataContext = new AmenitiesDialogViewModel();
+            amenitiesDialogViewModel = new AmenitiesDialogViewModel();
+            DataContext = amenitiesDialogViewModel;
         }
 
         private void RemoveAllBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            amenitiesDialogViewModel.RemoveAll();
         }
 
         private void AddAllBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            amenitiesDialogViewModel.AddAll();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:travelAgency.Dialogs"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:models="clr-namespace:travelAgency.model"
+        xmlns:components="clr-namespace:travelAgency.components"
         xmlns:virtualCollection="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
         mc:Ignorable="d"
         Title="STAY&amp;EAT Amenities" ResizeMode="NoResize" Height="400" Width="600" WindowStartupLocation="CenterScreen">
@@ -116,35 +117,17 @@
                     </Button>
 
 
-                    <ListBox Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center"
+                    <components:IconItemListingView
+                        Grid.Row="1" Grid.ColumnSpan="2" MinHeight="60" VerticalAlignment="Center" HorizontalAlignment="Center"
                              Margin="0,8,0,0"
-                             ItemsSource="{Binding ActiveKinds}"
-                             SelectedItem="{Binding ActiveGroup}"
-                             VirtualizingPanel.IsVirtualizing="True"
-                             VirtualizingPanel.ScrollUnit="Pixel"
-                             VirtualizingPanel.VirtualizationMode="Recycling">  
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <virtualCollection:VirtualizingWrapPanel />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-
-                        <ListBox.ItemTemplate>
-                            <DataTemplate DataType="models:PackIconKindGroup">
-                                <DockPanel Width="36"
-                                         Height="36"
-                                         Background="Transparent"
-                                         ToolTip="{Binding Aliases, Mode=OneTime}">
-
-                                    <materialDesign:PackIcon Width="32"
-                                                     Height="32"
-                                                     HorizontalAlignment="Center"
-                                                     VerticalAlignment="Center"
-                                                     Kind="{Binding Kind,Mode=OneTime}" />  
-                                </DockPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                        DataContext="{Binding ActiveIconItemListingViewModel}"
+                        IncomingTodoItem="{Binding IncomingTodoItemViewModel}"
+                        InsertedTodoItem="{Binding InsertedTodoItemViewModel}"
+                        RemovedTodoItem="{Binding RemovedTodoItemViewModel}"
+                        TargetTodoItem="{Binding TargetTodoItemViewModel}"
+                        TodoItemDropCommand="{Binding TodoItemReceivedCommand}"
+                        TodoItemInsertedCommand="{Binding TodoItemInsertedCommand}"
+                        TodoItemRemovedCommand="{Binding TodoItemRemovedCommand}" />    
                 </Grid>
             </Border>
 
@@ -179,35 +162,17 @@
                     </Button>
 
 
-                    <ListBox Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center"
-                             Margin="0,8,0,0"
-                             ItemsSource="{Binding RemainingKinds}"
-                             SelectedItem="{Binding RemainingGroup}"
-                             VirtualizingPanel.IsVirtualizing="True"
-                             VirtualizingPanel.ScrollUnit="Pixel"
-                             VirtualizingPanel.VirtualizationMode="Recycling">
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <virtualCollection:VirtualizingWrapPanel />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-
-                        <ListBox.ItemTemplate>
-                            <DataTemplate DataType="models:PackIconKindGroup">
-                                <DockPanel Width="36"
-                                         Height="36"
-                                         Background="Transparent"
-                                         ToolTip="{Binding Aliases, Mode=OneTime}">
-
-                                    <materialDesign:PackIcon Width="32"
-                                                     Height="32"
-                                                     HorizontalAlignment="Center"
-                                                     VerticalAlignment="Center"
-                                                     Kind="{Binding Kind,Mode=OneTime}" />
-                                </DockPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                    <components:IconItemListingView 
+                        Grid.Row="1" Grid.ColumnSpan="2" MinHeight="60" VerticalAlignment="Center" HorizontalAlignment="Center"
+                        Margin="0,8,0,0"
+                        DataContext="{Binding RemainingIconItemListingViewModel}"
+                        IncomingTodoItem="{Binding IncomingTodoItemViewModel}"
+                        InsertedTodoItem="{Binding InsertedTodoItemViewModel}"
+                        RemovedTodoItem="{Binding RemovedTodoItemViewModel}"
+                        TargetTodoItem="{Binding TargetTodoItemViewModel}"
+                        TodoItemDropCommand="{Binding TodoItemReceivedCommand}"
+                        TodoItemInsertedCommand="{Binding TodoItemInsertedCommand}"
+                        TodoItemRemovedCommand="{Binding TodoItemRemovedCommand}" />
                 </Grid>
             </Border>
         </Grid>
