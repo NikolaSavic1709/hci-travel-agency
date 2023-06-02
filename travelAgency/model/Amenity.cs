@@ -13,6 +13,11 @@ public enum AmenityEnum
 
 }
 
+public enum AmenityIconKind
+{
+    Swim, Wifi, Dumbbell, SilverwareForkKnife, Paw, BabyCarriage, Snowflake, Basketball, GlassCocktail, WashingMachine
+}
+
 public class Amenity
 {
     [Key]
