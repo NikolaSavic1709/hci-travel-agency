@@ -21,6 +21,11 @@ namespace travelAgency.repository
             return dbContext.Users.FirstOrDefault(u => u.Id == id);
         }
 
+        public User GetByEmail(string email)
+        {
+            return dbContext.Users.FirstOrDefault(u => u.Email == email);
+        }
+
         public List<User> GetAll()
         {
             return dbContext.Users.ToList();

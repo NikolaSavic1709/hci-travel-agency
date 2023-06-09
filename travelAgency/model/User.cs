@@ -15,10 +15,19 @@ public class User
     public string Email { get; set; }
     public string Password { get; set; }
     public string Surname { get; set; }
-    public string PhoneNumber { get; set; }
+    public string? PhoneNumber { get; set; }
     public UserType Auth { get; set; }
     public virtual List<Arrangement> Arrangements { get; set; }
 
+    public User(string name, string email, string password, string surname)
+    {
+        Name = name;
+        Email = email;
+        Password = password;
+        Surname = surname;
+        Auth = UserType.Client;
+        Arrangements = new List<Arrangement>();
+    }
 
     public User(string name, string email, string password, string surname, string phoneNumber)
     {

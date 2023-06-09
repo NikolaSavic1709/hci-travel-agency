@@ -11,7 +11,7 @@ using travelAgency;
 namespace travelAgency.Migrations
 {
     [DbContext(typeof(TravelAgencyContext))]
-    [Migration("20230526190324_InitialCreate")]
+    [Migration("20230609165515_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -191,7 +191,6 @@ namespace travelAgency.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Surname")
