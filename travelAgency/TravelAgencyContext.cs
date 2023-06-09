@@ -19,8 +19,8 @@ namespace travelAgency
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseSqlite("Data Source=..\\..\\..\\database\\database.sqlite"); //za pokretanje
-            optionsBuilder.UseSqlite("Data Source=database\\database.sqlite"); //za migracije
+            optionsBuilder.UseSqlite("Data Source=..\\..\\..\\database\\database.sqlite"); //za pokretanje
+           // optionsBuilder.UseSqlite("Data Source=database\\database.sqlite"); //za migracije
         }
 
        

@@ -158,7 +158,7 @@
                 <controls:NavbarButton Style="{StaticResource SingleNavbarButton}" Width="40" Margin="0,0,10,0">
                     <materialDesign:PackIcon Kind="QuestionMark" Height="30" Width="30" />
                 </controls:NavbarButton>
-                <controls:NavbarButton Style="{StaticResource SingleNavbarButton}" Content="LOG OUT">
+                <controls:NavbarButton Style="{StaticResource SingleNavbarButton}" Click="LogoutButton_Click" Content="LOG OUT">
                 </controls:NavbarButton>
             </StackPanel>
 

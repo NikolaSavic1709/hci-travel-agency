@@ -208,6 +208,9 @@ namespace travelAgency.view
                 EmailTxtBox.Text = "";
                 PasswordTxtBox.Password = "";
                 ConfirmPasswordTxtBox.Password = "";
+                IsFirstNameInvalid = false;
+                IsSurnameInvalid = false;
+                IsEmailInvalid = false;
                 Error = "";
             }
             else

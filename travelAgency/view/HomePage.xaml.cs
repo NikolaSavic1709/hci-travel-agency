@@ -1,4 +1,5 @@
-﻿using DevExpress.Xpf.Map;
+﻿using DevExpress.Xpf.Grid;
+using DevExpress.Xpf.Map;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using travelAgency.components;
+using travelAgency.Dialogs;
 using travelAgency.model;
 using travelAgency.repository;
 
@@ -41,40 +43,63 @@ namespace travelAgency.view
                 TripCard tripCard = new TripCard
                 {
                     Margin = new Thickness(10),
-                    TripName = t.Name,
-                    Route = t.Price.ToString(),
-                    Description = t.Description
+                    Trip = t
+                   
                 };
+                tripCard.ToTripClicked += TripCard_ToTrip;
                 cards.Children.Add(tripCard);
             }
+
+            Trip trip = new Trip();
+            trip.Name = "Tura zapadna Srbija";
+            trip.Description = "Tura je veoma zaniljiva i duga jer Savic i drugari imaju sta da ponude i njihovom kraju";
+            Place place = new Place();
+            place.Name = "Vranje";
+            Place place2 = new Place();
+            place2.Name = "Smederevo";
+            TripSchedule tripSchedule = new TripSchedule();
+            tripSchedule.Place = place;
+            TripSchedule tripSchedule2 = new TripSchedule();
+            tripSchedule2.Place = place2;
+
+            trip.Schedules.Add(tripSchedule);
+            trip.Schedules.Add(tripSchedule2);
 
             TripCard tripCard1 = new TripCard
             {
                 Margin = new Thickness(10),
-                TripName = "Tura zapadna Srbija",
-                Route = "Šabac - Bajina Bašta",
-                Description = "Tura je veoma zaniljiva i duga jer Savic i drugari imaju sta da ponude i njihovom kraju"
+               Trip = trip
             };
+            tripCard1.ToTripClicked += TripCard_ToTrip;
 
-            TripCard tripCard2 = new TripCard
-            {
-                Margin = new Thickness(10),
-                TripName = "Planinski maratoni",
-                Route = "Raška - Pančićev vrh",
-                Description = "Tura je veoma zaniljiva i duga jer Savic i drugari imaju sta da ponude i njihovom kraju"
-            };
+            //TripCard tripCard2 = new TripCard
+            //{
+            //    Margin = new Thickness(10),
+            //    TripName = "Planinski maratoni",
+            //    Route = "Raška - Pančićev vrh",
+            //    Description = "Tura je veoma zaniljiva i duga jer Savic i drugari imaju sta da ponude i njihovom kraju"
+            //};
+            //tripCard2.ToTripClicked += TripCard_ToTrip;
 
-            TripCard tripCard3 = new TripCard
-            {
-                Margin = new Thickness(10),
-                TripName = "Tura južna Srbija",
-                Route = "Vranje - Đavolja Varoš",
-                Description = "Ubedljiva najbolja tura u nasoj ponudi"
-            };
+            //TripCard tripCard3 = new TripCard
+            //{
+            //    Margin = new Thickness(10),
+            //    TripName = "Tura južna Srbija",
+            //    Route = "Vranje - Đavolja Varoš",
+            //    Description = "Ubedljiva najbolja tura u nasoj ponudi"
+            //};
+            //tripCard3.ToTripClicked += TripCard_ToTrip;
 
             cards.Children.Add(tripCard1);
-            cards.Children.Add(tripCard2);
-            cards.Children.Add(tripCard3);
+            //cards.Children.Add(tripCard2);
+            //cards.Children.Add(tripCard3);
+        }
+
+        private void TripCard_ToTrip(object sender, ToTripEventArgs e)
+        {
+            Trip trip = e.Trip;
+           
+            NavigationService?.Navigate(new TripDetailsPage(trip));
         }
         private void Search_OnKeyDown(object sender, KeyEventArgs e)
         {
@@ -149,5 +174,10 @@ namespace travelAgency.view
             }
         }
 
+        private void CreateTrip_Click(object sender, RoutedEventArgs e)
+        {
+            CreateTripDialog window = new CreateTripDialog();
+            window.ShowDialog();
+        }
     }
 }

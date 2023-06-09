@@ -188,7 +188,6 @@ namespace travelAgency.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Surname")

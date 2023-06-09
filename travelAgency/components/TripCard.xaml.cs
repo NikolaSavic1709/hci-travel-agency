@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using travelAgency.Dialogs;
+using travelAgency.model;
 
 namespace travelAgency.components
 {
@@ -21,33 +23,19 @@ namespace travelAgency.components
     public partial class TripCard : UserControl
     {
 
-        public static readonly DependencyProperty TripNameProperty =
-            DependencyProperty.Register("TripName", typeof(string), typeof(TripCard), new PropertyMetadata(string.Empty));
+        public static readonly DependencyProperty TripProperty =
+    DependencyProperty.Register("Trip", typeof(Trip), typeof(TripCard), new PropertyMetadata(null));
 
-        public static readonly DependencyProperty RouteProperty =
-            DependencyProperty.Register("Route", typeof(string), typeof(TripCard), new PropertyMetadata(string.Empty));
-
-        public static readonly DependencyProperty DescriptionProperty =
-            DependencyProperty.Register("Description", typeof(string), typeof(TripCard), new PropertyMetadata(string.Empty));
-
-
-        public string TripName
+        public Trip Trip
         {
-            get { return (string)GetValue(TripNameProperty); }
-            set { SetValue(TripNameProperty, value); }
+            get { return (Trip)GetValue(TripProperty); }
+            set { 
+                SetValue(TripProperty, value);
+                Route = ((Trip)value).Schedules[0].Place.Name.ToString() +" - "+ ((Trip)value).Schedules.Last().Place.Name.ToString();
+            }
         }
-
-        public string Route
-        {
-            get { return (string)GetValue(RouteProperty); }
-            set { SetValue(RouteProperty, value); }
-        }
-
-        public string Description
-        {
-            get { return (string)GetValue(DescriptionProperty); }
-            set { SetValue(DescriptionProperty, value); }
-        }
+        public string Route { get; set; }
+        
 
         public TripCard()
         {
@@ -55,7 +43,13 @@ namespace travelAgency.components
             DataContext = this;
         }
 
+        public event EventHandler<ToTripEventArgs> ToTripClicked;
         private void OpenButton_click(object sender, RoutedEventArgs e)
+        {
+            ToTripClicked?.Invoke(this, new ToTripEventArgs(Trip));
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
 
         }

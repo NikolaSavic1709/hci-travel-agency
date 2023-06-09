@@ -83,7 +83,7 @@
 
             <Button Content="{materialDesign:PackIcon Plus}" Background="#009882" Padding="0"
                     Grid.Column="5" Grid.Row="1"
-                    ToolTip="Filter" />
+                    ToolTip="Create trip" Click="CreateTrip_Click" />
 
 
 

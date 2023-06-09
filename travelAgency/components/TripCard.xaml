@@ -20,12 +20,12 @@
                  Stretch="UniformToFill" />-->
             
             <StackPanel Grid.Row="0" Margin="8,7,8,0">
-                <TextBlock FontWeight="Bold" FontSize="16" Margin="0,0,0,5" Text="{Binding TripName}"/>
+                <TextBlock FontWeight="Bold" FontSize="16" Margin="0,0,0,5" Text="{Binding Trip.Name}"/>
                 <TextBlock VerticalAlignment="Center" Foreground="#009882" FontWeight="Bold"
                        Text="{Binding Route}"
                        TextWrapping="Wrap" />
                 <TextBlock VerticalAlignment="Center" FontSize="11"
-                       Text="{Binding Description}"
+                       Text="{Binding Trip.Description}"
                        TextWrapping="Wrap" />
             </StackPanel>
             <StackPanel Grid.Row="1" x:Name="buttonStackPanel"
@@ -42,6 +42,7 @@
                 <Button Width="30" x:Name="deleteButton"
                     Padding="2,0,2,0" Visibility="Hidden"
                     materialDesign:RippleAssist.IsCentered="True" ToolTip="Delete this trip"
+                    Click="DeleteButton_Click"
                     Style="{StaticResource MaterialDesignToolButton}">
                     <materialDesign:PackIcon Kind="TrashCan" />
                 </Button>

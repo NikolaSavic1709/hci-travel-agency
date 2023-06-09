@@ -1,4 +1,5 @@
-﻿using DevExpress.Xpf.Map;
+﻿using DevExpress.Xpf.Core;
+using DevExpress.Xpf.Map;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using travelAgency.components;
 using travelAgency.controls;
+using travelAgency.Dialogs;
 using travelAgency.model;
 using travelAgency.repository;
 
@@ -33,12 +35,8 @@ namespace travelAgency.view
             InitializeComponent();
 
             HomeButton.IsClicked = "True";
-            //Main.Content = new HomePage();
-            Trip trip1 = new Trip();
-            trip1.Name = "tura tura";
-            trip1.Price = 10;
-            trip1.Description = "najbolja tura";
-            Main.Content = new TripDetailsPage(trip1);
+            Main.Content = new HomePage();
+
         }
 
         
@@ -94,5 +92,25 @@ namespace travelAgency.view
             }
         }
 
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            var logoutDialog = new LogoutDialog();
+
+            logoutDialog.DialogResultEvent += DialogWindow_DialogResultEvent;
+
+            logoutDialog.ShowDialog();
+        }
+
+        private void DialogWindow_DialogResultEvent(object sender, DialogResultEventArgs e)
+        {
+            bool result = e.Result;
+            if (result)
+            {
+                Window loginwindow = new RegistrationWindow();
+                loginwindow.Show();
+                this.Close();
+            }
+           
+        }
     }
 }
