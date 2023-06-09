@@ -54,5 +54,10 @@ namespace travelAgency.components
             InitializeComponent();
             DataContext = this;
         }
+
+        private void OpenButton_click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -33,7 +33,7 @@ namespace travelAgency
 
             InitializeComponent();
             DataContext = new ImageSliderViewModel();
-            ImageDirectory = "C:\\semestar6\\HCI\\vezbe\\projekat\\hci-travel-agency\\travelAgency\\Resources\\Images";
+            ImageDirectory = "C:\\Nikola\\programiranje\\6_semestar\\covek_racunar\\hci-travel-agency\\travelAgency\\Resources\\Images";
             ImageNames = Directory.GetFiles(ImageDirectory);
             CurrentImageIndex = 0;
             var viewModel = DataContext as ImageSliderViewModel;
@@ -51,7 +51,7 @@ namespace travelAgency
                 ts1.Place = place1;
                 TripSchedule ts2 = new TripSchedule();
                 ts2.Place = place2;
-                trip.Schedules = new List<TripSchedule> { ts1, ts2 };
+                //trip.Schedules = new List<TripSchedule> { ts1, ts2 };
                 viewModel.Trip = trip;
             }
             HomeButton.IsClicked = "True";
