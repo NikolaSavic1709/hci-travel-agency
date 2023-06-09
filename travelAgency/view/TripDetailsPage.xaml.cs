@@ -50,5 +50,10 @@ namespace travelAgency.view
             if(ViewModel!=null)
                 ViewModel.Trip.Schedules.Remove(tripSchedule);
         }
+
+        private void EditPlace_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
