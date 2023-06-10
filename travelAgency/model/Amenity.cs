@@ -23,4 +23,8 @@ public class Amenity
     [Key]
     public int Id { get; set; }
     public AmenityEnum  amenity { get; set; }
+
+    public int StayId { get; set; }
+
+    public Stay Stay { get; set; } 
 }

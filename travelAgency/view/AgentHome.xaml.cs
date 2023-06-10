@@ -1,5 +1,6 @@
 ﻿using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Map;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using travelAgency.components;
@@ -35,8 +38,34 @@ namespace travelAgency.view
             InitializeComponent();
 
             HomeButton.IsClicked = "True";
-            Main.Content = new HomePage();
+           // Main.Content = new HomePage();
 
+
+            Stay stay = new Stay();
+            List<Amenity> amenities = new List<Amenity>();
+            Amenity amenity = new Amenity();
+            amenity.amenity = AmenityEnum.AirCondition;
+
+            Amenity amenity2 = new Amenity();
+            amenity2.amenity = AmenityEnum.Bar;
+
+            amenities.Add(amenity);
+            amenities.Add(amenity2);
+            stay.StayAmenities = amenities;
+
+            stay.Name = "Blend Elphistone resort";
+            stay.Description = "The hotel consists of the main building and 9 annex buildings, offering 271 accommodation units. Bars, restaurants and sports facilities are available to guests.For children there is a swimming pool, animations, mini club, playground.";
+            stay.Location = "The hotel is located about 15 km from the center of Zlatibor and about 25 km from the top of Tornik.";
+
+            StayRepository stayRepository = new StayRepository(new TravelAgencyContext());
+            stayRepository.Add(stay);
+
+            //Restaurant place = new Restaurant();
+            //place.Name = "Blend Elphistone resort";
+            //place.Description = "The hotel consists of the main building and 9 annex buildings, offering 271 accommodation units. Bars, restaurants and sports facilities are available to guests.For children there is a swimming pool, animations, mini club, playground.";
+            //place.Location = "The hotel is located about 15 km from the center of Zlatibor and about 25 km from the top of Tornik.";
+
+            Main.Content = new AdminStayEatDetailPage(stay,true);
         }
 
         

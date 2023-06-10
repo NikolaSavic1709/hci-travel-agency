@@ -73,8 +73,8 @@
 
         <Grid DockPanel.Dock="Bottom" Height="50">
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                <Button Content="QUIT" Width="80" Style="{StaticResource QuitButton}" Click="Button_Click"/>
-                <Button Content="SAVE CHANGES" Width="130" Style="{StaticResource SaveButton}" />
+                <Button Content="QUIT" Width="80" Style="{StaticResource QuitButton}" Click="Cancel_Click"/>
+                <Button Content="SAVE CHANGES" Width="130" Style="{StaticResource SaveButton}" Click="SaveChanges_Click" />
 
             </StackPanel>
         </Grid>
