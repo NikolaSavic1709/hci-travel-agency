@@ -1,5 +1,6 @@
 ﻿using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Map;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,16 +27,20 @@ namespace travelAgency.view
     /// </summary>
     public partial class AgentHome : Window
     {
-        
 
-        
+        public TravelAgencyContext dbContext;
+        public TripRepository tripRepository;
+        public PlaceRepository placeRepository;
         public AgentHome()
         {
             
             InitializeComponent();
-
             HomeButton.IsClicked = "True";
-            Main.Content = new HomePage();
+
+            dbContext = new TravelAgencyContext();
+            tripRepository = new TripRepository(dbContext);
+            placeRepository = new PlaceRepository(dbContext);
+            Main.Content = new HomePage(tripRepository, placeRepository);
 
         }
 
@@ -63,19 +68,19 @@ namespace travelAgency.view
             switch(button.Name)
             {
                 case "HomeButton":
-                    Main.Content = new HomePage();
+                    Main.Content = new HomePage(tripRepository, placeRepository);
                     break;
                 case "PlacesButton":
-                    Main.Content = new PlacesPage();
+                    Main.Content = new PlacesPage(placeRepository);
                     break;
                 case "StayEatButton":
-                    Main.Content = new StayEatPage();
+                    Main.Content = new StayEatPage(tripRepository);
                     break;
                 case "ReportButton":
-                    Main.Content = new ReportPage();
+                    Main.Content = new ReportPage(tripRepository);
                     break;
                 case "HistoryButton":
-                    Main.Content = new HistoryPage();
+                    Main.Content = new HistoryPage(tripRepository);
                     break;
                 default:
                     break;

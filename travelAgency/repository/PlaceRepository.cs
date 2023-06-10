@@ -8,46 +8,47 @@ using travelAgency.model;
 
 namespace travelAgency.repository
 {
-    public class TripRepository
+    public class PlaceRepository
     {
         private readonly TravelAgencyContext dbContext;
 
-        public TripRepository(TravelAgencyContext dbContext)
+        public PlaceRepository(TravelAgencyContext dbContext)
         {
             this.dbContext = dbContext;
         }
 
-        public Trip GetById(int id)
+        public Place GetById(int id)
         {
-            return dbContext.Trips.FirstOrDefault(u => u.Id == id);
+            return dbContext.Places.FirstOrDefault(u => u.Id == id);
         }
 
-        public List<Trip> GetAll()
+        public List<Place> GetAll()
         {
-            return dbContext.Trips.Include(t => t.Schedules).ThenInclude(s=>s.Place).ToList();
+            return dbContext.Places.ToList();
         }
 
-        public void Add(Trip trip)
+        public void Add(Place place)
         {
-            dbContext.Trips.Add(trip);
+            dbContext.Places.Add(place);
             dbContext.SaveChanges();
         }
 
-        public void Update(Trip trip)
+        public void Update(Place place)
         {
-            dbContext.Trips.Update(trip);
+            dbContext.Places.Update(place);
             dbContext.SaveChanges();
         }
 
-        public void Delete(Trip trip)
+        public void Delete(Place place)
         {
-            dbContext.Trips.Remove(trip);
+            dbContext.Places.Remove(place);
             dbContext.SaveChanges();
         }
         public void Save()
         {
             dbContext.SaveChanges();
         }
-        
+
+
     }
 }

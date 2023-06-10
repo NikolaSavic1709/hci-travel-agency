@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using travelAgency.model;
+using travelAgency.repository;
 using travelAgency.ViewModel;
 
 namespace travelAgency.Dialogs
@@ -21,20 +22,19 @@ namespace travelAgency.Dialogs
     /// </summary>
     public partial class CreateTripScheduleDialog : Window
     {
-        List<Place> allPlaces;
+        List<Place> places;
         int currentIndexListBox = -1;
         Trip Trip { get; set; }
-        public CreateTripScheduleDialog(Trip trip)
+        TripRepository tripRepository;
+        private PlaceRepository placeRepository;
+
+        public CreateTripScheduleDialog(Trip trip, TripRepository tripRepository, PlaceRepository placeRepository)
         {
             InitializeComponent();
             Trip = trip;
-            Place place1 = new Place();
-            place1.Name = "Sabac - Srbija";
-            Place place2 = new Place();
-            place2.Name = "Novi Sad - Srbija";
-            Place place3 = new Place();
-            place3.Name = "Beograd";
-            allPlaces = new List<Place> { place1, place2, place3 };
+            this.tripRepository = tripRepository;
+            this.placeRepository = placeRepository;
+            places = placeRepository.GetAll();
         }
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -42,7 +42,7 @@ namespace travelAgency.Dialogs
             if (text.Length > 2)
             {
                 AutocompleteListBox.Visibility = Visibility.Visible;
-                AutocompleteListBox.ItemsSource = allPlaces.Where(p => p.Name.ToLower().Contains(text.ToLower()));
+                AutocompleteListBox.ItemsSource = places.Where(p => p.Name.ToLower().Contains(text.ToLower()));
                 AutocompleteListBox.SelectedIndex = -1;
             }
             else
@@ -120,7 +120,7 @@ namespace travelAgency.Dialogs
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            Place? selectedPlace = allPlaces.Find(p => p.Name == PlaceTextBox.Text);
+            Place? selectedPlace = places.Find(p => p.Name == PlaceTextBox.Text);
 
             if (selectedPlace != null)
             {
@@ -131,6 +131,7 @@ namespace travelAgency.Dialogs
 
                 tripSchedule.DateTime = new DateTime(date.Value.Year, date.Value.Month, date.Value.Day, time.Value.Hour, time.Value.Minute, 0);
                 Trip.Schedules.Add(tripSchedule);
+                tripRepository.Save();
                 Close();
             }
             else

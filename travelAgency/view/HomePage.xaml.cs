@@ -27,79 +27,55 @@ namespace travelAgency.view
     /// </summary>
     public partial class HomePage : Page
     {
-        public TravelAgencyContext dbContext;
+        
         public TripRepository tripRepository;
+        public PlaceRepository placeRepository;
         public string BingKey { get; set; }
-        public HomePage()
+        public HomePage(TripRepository tripRepository, PlaceRepository placeRepository)
         {
             BingKey = "";
             InitializeComponent();
-            dbContext = new TravelAgencyContext();
-            tripRepository = new TripRepository(dbContext);
+            this.tripRepository = tripRepository;
+            this.placeRepository = placeRepository;
 
             List<Trip> trips = tripRepository.GetAll();
+
+
             foreach (Trip t in trips)
             {
-                TripCard tripCard = new TripCard
-                {
-                    Margin = new Thickness(10),
-                    Trip = t
-                   
-                };
-                tripCard.ToTripClicked += TripCard_ToTrip;
-                cards.Children.Add(tripCard);
+                CreateCard(t);
             }
-
-            Trip trip = new Trip();
-            trip.Name = "Tura zapadna Srbija";
-            trip.Description = "Tura je veoma zaniljiva i duga jer Savic i drugari imaju sta da ponude i njihovom kraju";
-            Place place = new Place();
-            place.Name = "Vranje";
-            Place place2 = new Place();
-            place2.Name = "Smederevo";
-            TripSchedule tripSchedule = new TripSchedule();
-            tripSchedule.Place = place;
-            TripSchedule tripSchedule2 = new TripSchedule();
-            tripSchedule2.Place = place2;
-
-            trip.Schedules.Add(tripSchedule);
-            trip.Schedules.Add(tripSchedule2);
-
-            TripCard tripCard1 = new TripCard
+        }
+        private void CreateCard(Trip trip)
+        {
+            TripCard tripCard = new TripCard
             {
                 Margin = new Thickness(10),
-               Trip = trip
+                Trip = trip
+
             };
-            tripCard1.ToTripClicked += TripCard_ToTrip;
+            tripCard.ToTripClicked += TripCard_ToTrip;
+            tripCard.TripDelete += TripCard_Remove;
 
-            //TripCard tripCard2 = new TripCard
-            //{
-            //    Margin = new Thickness(10),
-            //    TripName = "Planinski maratoni",
-            //    Route = "Raška - Pančićev vrh",
-            //    Description = "Tura je veoma zaniljiva i duga jer Savic i drugari imaju sta da ponude i njihovom kraju"
-            //};
-            //tripCard2.ToTripClicked += TripCard_ToTrip;
-
-            //TripCard tripCard3 = new TripCard
-            //{
-            //    Margin = new Thickness(10),
-            //    TripName = "Tura južna Srbija",
-            //    Route = "Vranje - Đavolja Varoš",
-            //    Description = "Ubedljiva najbolja tura u nasoj ponudi"
-            //};
-            //tripCard3.ToTripClicked += TripCard_ToTrip;
-
-            cards.Children.Add(tripCard1);
-            //cards.Children.Add(tripCard2);
-            //cards.Children.Add(tripCard3);
+            cards.Children.Add(tripCard);
         }
-
         private void TripCard_ToTrip(object sender, ToTripEventArgs e)
         {
             Trip trip = e.Trip;
            
-            NavigationService?.Navigate(new TripDetailsPage(trip));
+            NavigationService?.Navigate(new TripDetailsPage(trip, tripRepository, placeRepository));
+        }
+        private void TripCard_NewTrip(object sender, ToTripEventArgs e)
+        {
+            CreateCard(e.Trip);
+        }
+        private void TripCard_Remove(object sender, ToTripEventArgs e)
+        {
+            Trip trip = e.Trip;
+            TripCard card=(TripCard)sender;
+            cards.Children.Remove(card);
+            tripRepository.Delete(trip);
+            
         }
         private void Search_OnKeyDown(object sender, KeyEventArgs e)
         {
@@ -176,7 +152,8 @@ namespace travelAgency.view
 
         private void CreateTrip_Click(object sender, RoutedEventArgs e)
         {
-            CreateTripDialog window = new CreateTripDialog();
+            CreateTripDialog window = new CreateTripDialog(tripRepository ,placeRepository);
+            window.NewTrip += TripCard_NewTrip;
             window.ShowDialog();
         }
     }

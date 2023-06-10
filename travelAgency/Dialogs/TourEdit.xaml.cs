@@ -12,20 +12,20 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using travelAgency.model;
+using travelAgency.repository;
 
 namespace travelAgency.view;
 
 /// <summary>
-/// Interaction logic for PlaceEdit.xaml
+/// Interaction logic for Window1.xaml
 /// </summary>
-public partial class PlaceEdit : Window
+public partial class TourEdit : Window
 {
-    public PlaceEdit()
-    {
-        InitializeComponent();
-    }
 
     private static readonly Regex _regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
+    TripRepository tripRepository;
+    private Trip trip;
     private static bool IsTextAllowed(string text)
     {
         return !_regex.IsMatch(text);
@@ -46,9 +46,36 @@ public partial class PlaceEdit : Window
         }
     }
 
+    public TourEdit(Trip? trip, TripRepository tripRepository)
+    {
+        InitializeComponent();
+        this.tripRepository = tripRepository;
+        
+        if(trip!=null)
+        {
+            this.trip = trip;
+            NameTxtBox.Text=trip.Name;
+            DescriptionTxtBox.Text = trip.Description;
+            PriceTxtBox.Text = trip.Price + " IZM";
+        }
+    }
+
     private void Price_PreviewTextInput(object sender, TextCompositionEventArgs e)
     {
         e.Handled = !IsTextAllowed(e.Text);
     }
 
+    private void Button_Click(object sender, RoutedEventArgs e)
+    {
+        Close();
+    }
+
+    private void Button_Click_1(object sender, RoutedEventArgs e)
+    {
+        this.trip.Name=NameTxtBox.Text;
+        this.trip.Description=DescriptionTxtBox.Text;
+        this.trip.Price=Convert.ToDouble(PriceTxtBox.Text) ;
+        tripRepository.Save();
+        Close();
+    }
 }

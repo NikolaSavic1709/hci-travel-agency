@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.Xpf.Core.DragDrop.Native;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -44,6 +45,7 @@ namespace travelAgency.components
         }
 
         public event EventHandler<ToTripEventArgs> ToTripClicked;
+        public event EventHandler<ToTripEventArgs> TripDelete;
         private void OpenButton_click(object sender, RoutedEventArgs e)
         {
             ToTripClicked?.Invoke(this, new ToTripEventArgs(Trip));
@@ -51,7 +53,7 @@ namespace travelAgency.components
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-
+            TripDelete?.Invoke(this, new ToTripEventArgs(Trip));
         }
     }
 }

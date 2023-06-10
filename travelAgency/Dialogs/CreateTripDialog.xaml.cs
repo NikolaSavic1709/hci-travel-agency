@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using travelAgency.model;
+using travelAgency.repository;
 using travelAgency.ViewModel;
 
 namespace travelAgency.Dialogs
@@ -21,11 +22,13 @@ namespace travelAgency.Dialogs
     /// </summary>
     public partial class CreateTripDialog : Window
     {
-        List<Place> allPlaces;
+        List<Place> places;
+        private TripRepository tripRepository;
+
         CreateTripViewModel ViewModel { get; set; }
         int currentIndexListBox=-1;
 
-        public CreateTripDialog()
+        public CreateTripDialog(TripRepository tripRepository, PlaceRepository placeRepository)
         {
             InitializeComponent();
             DataContext = new CreateTripViewModel();
@@ -36,13 +39,8 @@ namespace travelAgency.Dialogs
                 Trip trip = new Trip();
                 viewModel.Trip=trip;
             }
-            Place place1 = new Place();
-            place1.Name = "Sabac - Srbija";
-            Place place2 = new Place();
-            place2.Name = "Novi Sad - Srbija";
-            Place place3 = new Place();
-            place3.Name = "Beograd";
-            allPlaces=new List<Place> { place1, place2, place3 };
+            places = placeRepository.GetAll();
+            this.tripRepository = tripRepository;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -55,7 +53,7 @@ namespace travelAgency.Dialogs
             if (text.Length > 2)
             {
                 AutocompleteListBox.Visibility = Visibility.Visible;
-                AutocompleteListBox.ItemsSource = allPlaces.Where(p => p.Name.ToLower().Contains(text.ToLower()));
+                AutocompleteListBox.ItemsSource = places.Where(p => p.Name.ToLower().Contains(text.ToLower()));
                 AutocompleteListBox.SelectedIndex = -1;
             }
             else
@@ -87,7 +85,7 @@ namespace travelAgency.Dialogs
 
         private void AddPlace_Click(object sender, RoutedEventArgs e)
         {
-            Place? selectedPlace = allPlaces.Find(p => p.Name == PlaceTextBox.Text);
+            Place? selectedPlace = places.Find(p => p.Name == PlaceTextBox.Text);
             
             if (selectedPlace != null)
             {
@@ -154,5 +152,17 @@ namespace travelAgency.Dialogs
                 }
             }
         }
+
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.Trip.Name = NameTxtBox.Text;
+            ViewModel.Trip.Description = DescriptionTxtBox.Text;
+            ViewModel.Trip.Price = Convert.ToDouble(PriceTxtBox.Text);
+            tripRepository.Add(ViewModel.Trip);
+            NewTrip?.Invoke(this, new ToTripEventArgs(ViewModel.Trip));
+            Close();
+        }
+        public event EventHandler<ToTripEventArgs> NewTrip;
+      
     }
 }

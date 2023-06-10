@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using travelAgency.repository;
 
 namespace travelAgency.view
 {
@@ -20,8 +21,10 @@ namespace travelAgency.view
     /// </summary>
     public partial class StayEatPage : Page
     {
-        public StayEatPage()
+        public TripRepository tripRepository;
+        public StayEatPage(TripRepository tripRepository)
         {
+            tripRepository = tripRepository;
             InitializeComponent();
         }
     }

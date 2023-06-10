@@ -181,8 +181,8 @@ namespace travelAgency
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            CreateTripDialog window = new CreateTripDialog();
-            window.Show();
+            //CreateTripDialog window = new CreateTripDialog();
+            //window.Show();
         }
     }
 }

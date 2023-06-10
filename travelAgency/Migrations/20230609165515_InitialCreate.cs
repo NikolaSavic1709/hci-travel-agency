@@ -184,6 +184,32 @@ namespace travelAgency.Migrations
                 name: "IX_TripSchedules_TripId",
                 table: "TripSchedules",
                 column: "TripId");
+
+            migrationBuilder.InsertData(
+                table: "Places",
+                columns: new[] { "Name", "Description", "Location", "lat", "lng", "Discriminator" },
+                values: new object[] { "Sabac", "Najlepsi grad", "Macva", 44.75, 19.60, "Place" });
+            
+            migrationBuilder.InsertData(
+                table: "Places",
+                columns: new[] { "Name", "Description", "Location", "lat", "lng", "Discriminator" },
+                values: new object[] { "Novi Sad", "Srpska Atina", "Vojvodina", 45.75, 19.60, "Place" });
+            
+            migrationBuilder.InsertData(
+                table: "Trips",
+                columns: new[] { "Name", "Description", "Price" },
+                values: new object[] { "Zapadna Srbija", "Tupatu", 2000.0 });
+
+            migrationBuilder.InsertData(
+                table: "TripSchedules",
+                columns: new[] { "DateTime", "TripId", "PlaceId" },
+                values: new object[] { new DateTime(2023, 6, 10, 12, 0, 0), 1, 1 });
+
+            migrationBuilder.InsertData(
+                table: "TripSchedules",
+                columns: new[] { "DateTime", "TripId", "PlaceId" },
+                values: new object[] { new DateTime(2023, 6, 10, 14, 0, 0), 1, 2 });
+
         }
 
         /// <inheritdoc />
