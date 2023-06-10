@@ -69,7 +69,7 @@ namespace travelAgency.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     amenity = table.Column<int>(type: "INTEGER", nullable: false),
-                    StayId = table.Column<int>(type: "INTEGER", nullable: true)
+                    StayId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -78,7 +78,8 @@ namespace travelAgency.Migrations
                         name: "FK_Amenities_Places_StayId",
                         column: x => x.StayId,
                         principalTable: "Places",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -136,7 +137,8 @@ namespace travelAgency.Migrations
                     numberOfPearsons = table.Column<int>(type: "INTEGER", nullable: false),
                     DateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
                     TripId = table.Column<int>(type: "INTEGER", nullable: false),
-                    UserId = table.Column<int>(type: "INTEGER", nullable: false)
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false),
+                    IsReservation = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {

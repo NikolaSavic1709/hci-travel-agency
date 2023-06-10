@@ -51,4 +51,10 @@ public class User
         Auth = auth;
         Arrangements = arrangements;
     }
+
+    public string FullName
+    {
+        get { return Name+" "+Surname; }
+        
+    }
 }

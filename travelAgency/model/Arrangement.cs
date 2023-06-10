@@ -18,5 +18,6 @@ public class Arrangement
     public virtual Trip Trip { get; set; }
     public int UserId { get; set; }
     public virtual User User { get; set; }
+    public bool IsReservation { get; set; }
 
 }

@@ -23,7 +23,7 @@ namespace travelAgency.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("StayId")
+                    b.Property<int>("StayId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("amenity")
@@ -44,6 +44,9 @@ namespace travelAgency.Migrations
 
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsReservation")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("TripId")
                         .HasColumnType("INTEGER");
@@ -222,9 +225,13 @@ namespace travelAgency.Migrations
 
             modelBuilder.Entity("travelAgency.model.Amenity", b =>
                 {
-                    b.HasOne("travelAgency.model.Stay", null)
+                    b.HasOne("travelAgency.model.Stay", "Stay")
                         .WithMany("StayAmenities")
-                        .HasForeignKey("StayId");
+                        .HasForeignKey("StayId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Stay");
                 });
 
             modelBuilder.Entity("travelAgency.model.Arrangement", b =>
