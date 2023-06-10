@@ -1,0 +1,71 @@
+﻿<UserControl x:Class="travelAgency.components.ClientTripCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:travelAgency.components"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="220" d:DesignWidth="290">
+    <materialDesign:Card HorizontalContentAlignment="Stretch">
+        <Grid>
+            <Grid.RowDefinitions>
+                <!--<RowDefinition Height="100" />-->
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <!--<Image Width="196"
+                 Height="100"
+                 Source="/data/img/uvac.jpg"
+                 Stretch="UniformToFill" />-->
+
+            <StackPanel Grid.Row="0" Margin="8,7,8,0">
+                <TextBlock FontWeight="Bold" FontSize="16" Margin="0,0,0,5" Text="{Binding Trip.Name}"/>
+                <TextBlock VerticalAlignment="Center" Foreground="#009882" FontWeight="Bold"
+                       Text="{Binding Route}"
+                       TextWrapping="Wrap" />
+                <TextBlock VerticalAlignment="Center" FontSize="11"
+                       Text="{Binding Trip.Description}"
+                       TextWrapping="Wrap" />
+            </StackPanel>
+            <StackPanel Grid.Row="1" x:Name="buttonStackPanel"
+                      Margin="8"
+                      HorizontalAlignment="Right"
+                      Orientation="Horizontal">
+
+                <Button Width="30" x:Name="seeButton"
+                    Padding="2,0,2,0" Visibility="Hidden"
+                    materialDesign:RippleAssist.IsCentered="True" ToolTip="See this trip"
+                    Style="{StaticResource MaterialDesignToolButton}" Click="OpenButton_click">
+                    <materialDesign:PackIcon Kind="Eye"/>
+                </Button>
+            </StackPanel>
+
+        </Grid>
+
+        <materialDesign:Card.Triggers>
+            <EventTrigger RoutedEvent="MouseEnter">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="seeButton"
+                                                       Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="{x:Static Visibility.Visible}" />
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+            <EventTrigger RoutedEvent="MouseLeave">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="seeButton"
+                                                       Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="{x:Static Visibility.Hidden}" />
+                        </ObjectAnimationUsingKeyFrames>
+   
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </materialDesign:Card.Triggers>
+
+    </materialDesign:Card>
+</UserControl>
