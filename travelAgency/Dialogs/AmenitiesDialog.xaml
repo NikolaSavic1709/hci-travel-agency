@@ -13,7 +13,7 @@
 
     <Window.Resources>
         <virtualCollection:VirtualizingWrapPanel x:Key="VirtualizingWrapPanel" />
-        
+
         <Style x:Key="RoundedButtonStyle" TargetType="Button">
             <Setter Property="Template">
                 <Setter.Value>
@@ -29,21 +29,21 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
         <Style x:Key="BottomButton" TargetType="Button">
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Height" Value="35"/>
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="FontWeight" Value="DemiBold"/>
-            <Setter Property="Foreground" Value="#E0E0E0"/>
-            <Setter Property="Margin" Value="5,0,5,0"/>
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Height" Value="35" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="DemiBold" />
+            <Setter Property="Foreground" Value="#E0E0E0" />
+            <Setter Property="Margin" Value="5,0,5,0" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Grid>
                             <Border Background="{TemplateBinding Background}" Opacity="1" CornerRadius="4,4,4,4">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </Border>
                         </Grid>
                     </ControlTemplate>
@@ -51,7 +51,7 @@
             </Setter>
         </Style>
         <Style x:Key="SaveButton" TargetType="Button" BasedOn="{StaticResource BottomButton}">
-            <Setter Property="Background" Value="#009882"/>
+            <Setter Property="Background" Value="#009882" />
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#00AF82" />
@@ -59,7 +59,7 @@
             </Style.Triggers>
         </Style>
         <Style x:Key="QuitButton" TargetType="Button" BasedOn="{StaticResource BottomButton}">
-            <Setter Property="Background" Value="#980012"/>
+            <Setter Property="Background" Value="#980012" />
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="Red" />
@@ -68,17 +68,16 @@
         </Style>
     </Window.Resources>
 
-
     <DockPanel>
 
         <Grid DockPanel.Dock="Bottom" Height="50">
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                <Button Content="QUIT" Width="80" Style="{StaticResource QuitButton}" Click="Button_Click"/>
-                <Button Content="SAVE CHANGES" Width="130" Style="{StaticResource SaveButton}" />
+                <Button Content="QUIT" Width="80" Style="{StaticResource QuitButton}" Click="Cancel_Click"/>
+                <Button Content="SAVE CHANGES" Width="130" Style="{StaticResource SaveButton}" Click="SaveChanges_Click" />
 
             </StackPanel>
         </Grid>
-        
+
         <Grid>
 
             <Grid.RowDefinitions>
@@ -98,11 +97,11 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="ACTIVE" VerticalAlignment="Center"
-                               HorizontalAlignment="Stretch" FontWeight="Medium" FontSize="14" Margin="10,10,0,0"/>
+                               HorizontalAlignment="Stretch" FontWeight="Medium" FontSize="14" Margin="10,10,0,0" />
 
                     <Button Grid.Column="1" Grid.Row="0" Margin="0,15,330,5" Name="RemoveAllBtn"
                         Padding="0"  Background="#009882" Style="{StaticResource RoundedButtonStyle}"
-                        Click="RemoveAllBtn_Click"  Height="Auto" Width="Auto" MaxWidth="200" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Cursor="Hand" >   
+                        Click="RemoveAllBtn_Click"  Height="Auto" Width="Auto" MaxWidth="200" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Cursor="Hand">
                         <StackPanel Orientation="Horizontal">
 
                             <materialDesign:PackIcon Width="18"
@@ -112,10 +111,9 @@
                                      VerticalAlignment="Center"
                                      Kind="Delete" />
 
-                            <TextBlock Margin="5,0" Text="REMOVE ALL" Padding="0" Foreground="White" FontSize="12"  VerticalAlignment="Center"/>
+                            <TextBlock Margin="5,0" Text="REMOVE ALL" Padding="0" Foreground="White" FontSize="12"  VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
-
 
                     <components:IconItemListingView
                         Grid.Row="1" Grid.ColumnSpan="2" MinHeight="60" VerticalAlignment="Center" HorizontalAlignment="Center"
@@ -127,7 +125,7 @@
                         TargetTodoItem="{Binding TargetTodoItemViewModel}"
                         TodoItemDropCommand="{Binding TodoItemReceivedCommand}"
                         TodoItemInsertedCommand="{Binding TodoItemInsertedCommand}"
-                        TodoItemRemovedCommand="{Binding TodoItemRemovedCommand}" />    
+                        TodoItemRemovedCommand="{Binding TodoItemRemovedCommand}" />
                 </Grid>
             </Border>
 
@@ -143,11 +141,11 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="REMAINING" VerticalAlignment="Center"
-                               HorizontalAlignment="Stretch" FontWeight="Medium" FontSize="14" Margin="10,10,0,0"/>
+                               HorizontalAlignment="Stretch" FontWeight="Medium" FontSize="14" Margin="10,10,0,0" />
 
                     <Button Grid.Column="1" Grid.Row="0" Margin="0,15,330,5" Name="AddAllBtn"
                         Padding="0"  Background="#009882" Style="{StaticResource RoundedButtonStyle}"
-                        Click="AddAllBtn_Click"  Height="Auto" Width="Auto" MaxWidth="200" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Cursor="Hand" >
+                        Click="AddAllBtn_Click"  Height="Auto" Width="Auto" MaxWidth="200" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Cursor="Hand">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="-25,0,0,0">
 
                             <materialDesign:PackIcon Width="18"
@@ -157,12 +155,11 @@
                                      VerticalAlignment="Center"
                                      Kind="Add" />
 
-                            <TextBlock Margin="5,0" Text="ADD ALL" Padding="0" Foreground="White" FontSize="12"  VerticalAlignment="Center"/>
+                            <TextBlock Margin="5,0" Text="ADD ALL" Padding="0" Foreground="White" FontSize="12"  VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
 
-
-                    <components:IconItemListingView 
+                    <components:IconItemListingView
                         Grid.Row="1" Grid.ColumnSpan="2" MinHeight="60" VerticalAlignment="Center" HorizontalAlignment="Center"
                         Margin="0,8,0,0"
                         DataContext="{Binding RemainingIconItemListingViewModel}"
@@ -176,6 +173,5 @@
                 </Grid>
             </Border>
         </Grid>
-        
     </DockPanel>
 </Window>

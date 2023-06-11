@@ -1,48 +1,44 @@
-﻿using MaterialDesignThemes.Wpf;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Windows.Forms.LinkLabel;
-using System.Windows.Media.Imaging;
-using System.Windows.Media;
-using travelAgency.model;
-using DevExpress.XtraRichEdit.API.Native.Implementation;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using travelAgency.model;
 
 namespace travelAgency.ViewModel
 {
-    public class AmenitiesDialogViewModel: ViewModelBase
+    public class AmenitiesDialogViewModel : ViewModelBase
     {
-
         public IconItemListingViewModel ActiveIconItemListingViewModel { get; set; }
         public IconItemListingViewModel RemainingIconItemListingViewModel { get; set; }
 
-        public AmenitiesDialogViewModel()
+        public AmenitiesDialogViewModel(Stay stay)
         {
-            // :TODO add real data from db
 
             IconItemListingViewModel activeIconItemListingViewModel = new IconItemListingViewModel();
-            for (int i = 0; i < 10; i++)
+            List<int> amenitiesIdxs = new List<int>();
+
+            for (int i = 0; i < stay.StayAmenities.Count; i++)
             {
-                activeIconItemListingViewModel.AddTodoItem(new IconItemViewModel(i));
+                int amenityIdx = (int)stay.StayAmenities[i].amenity;
+                amenitiesIdxs.Add(amenityIdx);
+                activeIconItemListingViewModel.AddTodoItem(new IconItemViewModel(amenityIdx));
             }
             ActiveIconItemListingViewModel = activeIconItemListingViewModel;
 
             IconItemListingViewModel remainingIconItemListingViewModel = new IconItemListingViewModel();
             for (int i = 0; i < 10; i++)
             {
-                remainingIconItemListingViewModel.AddTodoItem(new IconItemViewModel(i));
+                if (!amenitiesIdxs.Contains(i))
+                {
+                    remainingIconItemListingViewModel.AddTodoItem(new IconItemViewModel(i));
+                }
+                
             }
             RemainingIconItemListingViewModel = remainingIconItemListingViewModel;
-
         }
 
         public void RemoveAll()
         {
             ObservableCollection<IconItemViewModel> movedIconItemViewModels = ActiveIconItemListingViewModel.RemoveAllTodoItems();
-            foreach(IconItemViewModel item in movedIconItemViewModels)
+            foreach (IconItemViewModel item in movedIconItemViewModels)
             {
                 RemainingIconItemListingViewModel.AddTodoItem(item);
             }
@@ -50,7 +46,6 @@ namespace travelAgency.ViewModel
 
         public void AddAll()
         {
-
             ObservableCollection<IconItemViewModel> movedIconItemViewModels = RemainingIconItemListingViewModel.RemoveAllTodoItems();
             foreach (IconItemViewModel item in movedIconItemViewModels)
             {

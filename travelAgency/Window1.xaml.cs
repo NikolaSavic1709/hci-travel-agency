@@ -1,17 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 using travelAgency.controls;
 using travelAgency.Dialogs;
@@ -25,12 +17,12 @@ namespace travelAgency
     /// </summary>
     public partial class Window1 : Window
     {
-        string ImageDirectory { get; set; }
-        string[] ImageNames { get; set; }
-        int CurrentImageIndex { get; set; }
+        private string ImageDirectory { get; set; }
+        private string[] ImageNames { get; set; }
+        private int CurrentImageIndex { get; set; }
+
         public Window1()
         {
-
             InitializeComponent();
             DataContext = new ImageSliderViewModel();
             ImageDirectory = "C:\\Nikola\\programiranje\\6_semestar\\covek_racunar\\hci-travel-agency\\travelAgency\\Resources\\Images";
@@ -56,6 +48,7 @@ namespace travelAgency
             }
             HomeButton.IsClicked = "True";
         }
+
         private void SlideLeft(object sender, RoutedEventArgs e)
         {
             var viewModel = DataContext as ImageSliderViewModel;
@@ -106,7 +99,6 @@ namespace travelAgency
 
         private void NumericTextBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
-
             foreach (var c in e.Text)
             {
                 if (!char.IsDigit(c))
@@ -128,6 +120,7 @@ namespace travelAgency
             SelectMonthLabels(label);
             tb1.Text = label.Content + " " + YearTb.Text;
         }
+
         private void SelectMonthLabels(CalendarLabel selectedLabel)
         {
             CalendarLabel label;
@@ -154,7 +147,6 @@ namespace travelAgency
             {
                 var child = VisualTreeHelper.GetChild(parent, i);
                 yield return child;
-
             }
         }
 
@@ -163,6 +155,7 @@ namespace travelAgency
             NavbarButton button = (NavbarButton)sender;
             ClickNavbarButton(button);
         }
+
         private void ClickNavbarButton(NavbarButton clickedButton)
         {
             NavbarButton button;
@@ -181,8 +174,8 @@ namespace travelAgency
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            CreateTripDialog window = new CreateTripDialog();
-            window.Show();
+            //CreateTripDialog window = new CreateTripDialog();
+            //window.Show();
         }
     }
 }

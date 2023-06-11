@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 
 namespace travelAgency.model
 {
@@ -19,8 +12,6 @@ namespace travelAgency.model
         public string Description { get; set; }
         public double Price { get; set; }
         public virtual List<TripSchedule> Schedules { get; set; }
-
-
     }*/
 
     public class Trip : INotifyPropertyChanged
@@ -32,6 +23,7 @@ namespace travelAgency.model
         private ObservableCollection<TripSchedule> schedules;
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         [Key]
         public int Id
         {
@@ -93,6 +85,4 @@ namespace travelAgency.model
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-
-
 }

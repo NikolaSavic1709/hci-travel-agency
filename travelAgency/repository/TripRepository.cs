@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using travelAgency.model;
 
 namespace travelAgency.repository
@@ -23,7 +22,7 @@ namespace travelAgency.repository
 
         public List<Trip> GetAll()
         {
-            return dbContext.Trips.ToList();
+            return dbContext.Trips.Include(t => t.Schedules).ThenInclude(s=>s.Place).ToList();
         }
 
         public void Add(Trip trip)
@@ -41,6 +40,10 @@ namespace travelAgency.repository
         public void Delete(Trip trip)
         {
             dbContext.Trips.Remove(trip);
+            dbContext.SaveChanges();
+        }
+        public void Save()
+        {
             dbContext.SaveChanges();
         }
         

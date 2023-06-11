@@ -1,20 +1,11 @@
-﻿using DevExpress.Xpf.Grid;
-using DevExpress.Xpf.Map;
-using Microsoft.EntityFrameworkCore;
+﻿using DevExpress.Xpf.Map;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using travelAgency.components;
 using travelAgency.Dialogs;
 using travelAgency.model;
@@ -27,79 +18,65 @@ namespace travelAgency.view
     /// </summary>
     public partial class HomePage : Page
     {
-        public TravelAgencyContext dbContext;
+
         public TripRepository tripRepository;
+        public PlaceRepository placeRepository;
         public string BingKey { get; set; }
-        public HomePage()
+        public HomePage(TripRepository tripRepository, PlaceRepository placeRepository)
         {
             BingKey = "";
             InitializeComponent();
-            dbContext = new TravelAgencyContext();
-            tripRepository = new TripRepository(dbContext);
+            this.tripRepository = tripRepository;
+            this.placeRepository = placeRepository;
 
             List<Trip> trips = tripRepository.GetAll();
+
+
             foreach (Trip t in trips)
             {
-                TripCard tripCard = new TripCard
-                {
-                    Margin = new Thickness(10),
-                    Trip = t
-                   
-                };
-                tripCard.ToTripClicked += TripCard_ToTrip;
-                cards.Children.Add(tripCard);
+                CreateCard(t);
             }
-
-            Trip trip = new Trip();
-            trip.Name = "Tura zapadna Srbija";
-            trip.Description = "Tura je veoma zaniljiva i duga jer Savic i drugari imaju sta da ponude i njihovom kraju";
-            Place place = new Place();
-            place.Name = "Vranje";
-            Place place2 = new Place();
-            place2.Name = "Smederevo";
-            TripSchedule tripSchedule = new TripSchedule();
-            tripSchedule.Place = place;
-            TripSchedule tripSchedule2 = new TripSchedule();
-            tripSchedule2.Place = place2;
-
-            trip.Schedules.Add(tripSchedule);
-            trip.Schedules.Add(tripSchedule2);
-
-            TripCard tripCard1 = new TripCard
+        }
+        private void CreateCard(Trip trip)
+        {
+            TripCard tripCard = new TripCard
             {
                 Margin = new Thickness(10),
-               Trip = trip
+                Trip = trip
+
             };
-            tripCard1.ToTripClicked += TripCard_ToTrip;
-
-            //TripCard tripCard2 = new TripCard
-            //{
-            //    Margin = new Thickness(10),
-            //    TripName = "Planinski maratoni",
-            //    Route = "Raška - Pančićev vrh",
-            //    Description = "Tura je veoma zaniljiva i duga jer Savic i drugari imaju sta da ponude i njihovom kraju"
-            //};
-            //tripCard2.ToTripClicked += TripCard_ToTrip;
-
-            //TripCard tripCard3 = new TripCard
-            //{
-            //    Margin = new Thickness(10),
-            //    TripName = "Tura južna Srbija",
-            //    Route = "Vranje - Đavolja Varoš",
-            //    Description = "Ubedljiva najbolja tura u nasoj ponudi"
-            //};
-            //tripCard3.ToTripClicked += TripCard_ToTrip;
-
-            cards.Children.Add(tripCard1);
-            //cards.Children.Add(tripCard2);
-            //cards.Children.Add(tripCard3);
+            tripCard.ToTripClicked += TripCard_ToTrip;
+            tripCard.TripDelete += TripCard_Remove;
+            tripCard.MouseDown += TripCard_MouseDown;
+            cards.Children.Add(tripCard);
         }
-
         private void TripCard_ToTrip(object sender, ToTripEventArgs e)
         {
             Trip trip = e.Trip;
-           
-            NavigationService?.Navigate(new TripDetailsPage(trip));
+
+            NavigationService?.Navigate(new TripDetailsPage(trip, tripRepository, placeRepository));
+        }
+        private void TripCard_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Trip trip = (sender as TripCard).Trip;
+            List<RouteWaypoint> waypoints = new List<RouteWaypoint>();
+            foreach (var schedule in trip.Schedules)
+            {
+                waypoints.Add(new RouteWaypoint(schedule.Place.Name, new GeoPoint(schedule.Place.lat, schedule.Place.lng)));
+            }
+            routeProvider.CalculateRoute(waypoints);
+        }
+        private void TripCard_NewTrip(object sender, ToTripEventArgs e)
+        {
+            CreateCard(e.Trip);
+        }
+        private void TripCard_Remove(object sender, ToTripEventArgs e)
+        {
+            Trip trip = e.Trip;
+            TripCard card = (TripCard)sender;
+            cards.Children.Remove(card);
+            tripRepository.Delete(trip);
+
         }
         private void Search_OnKeyDown(object sender, KeyEventArgs e)
         {
@@ -141,16 +118,12 @@ namespace travelAgency.view
 
         private void map_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
-
             var hitInfo = map.CalcHitInfo(e.GetPosition(map));
             if (hitInfo.InMapPushpin)
             {
                 map.EnableScrolling = false;
                 mapItem = hitInfo.HitObjects[0] as MapPushpin;
-
             }
-
         }
 
         private void map_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -170,14 +143,35 @@ namespace travelAgency.view
             {
                 var point = map.ScreenPointToCoordPoint(e.GetPosition(map));
                 mapItem.Location = point;
-
             }
         }
 
         private void CreateTrip_Click(object sender, RoutedEventArgs e)
         {
-            CreateTripDialog window = new CreateTripDialog();
+            CreateTripDialog window = new CreateTripDialog(tripRepository, placeRepository);
+            window.NewTrip += TripCard_NewTrip;
             window.ShowDialog();
+        }
+
+        private void routeProvider_LayerItemsGenerating(object sender, LayerItemsGeneratingEventArgs args)
+        {
+            char letter = 'A';
+            foreach (MapItem item in args.Items)
+            {
+                MapPushpin pushpin = item as MapPushpin;
+                if (pushpin != null)
+                    pushpin.Text = letter++.ToString();
+                MapPolyline line = item as MapPolyline;
+                if (line != null)
+                {
+                    var converter = new System.Windows.Media.BrushConverter();
+                    var brush = (Brush)converter.ConvertFromString("#009882");
+                    line.Fill = brush;
+                    line.Stroke = brush;
+                }
+            }
+
+            map.ZoomToFit(args.Items);
         }
     }
 }

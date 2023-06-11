@@ -1,20 +1,13 @@
-﻿using DevExpress.XtraRichEdit.Fields.Expression;
-using MaterialDesignThemes.Wpf;
+﻿using MaterialDesignThemes.Wpf;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using travelAgency.model;
 using travelAgency.repository;
 
@@ -51,6 +44,7 @@ namespace travelAgency.view
         public string PasswordInvalidError { get; set; }
 
         private string? _password1Validated = "";
+
         public string? Password1Validated
         {
             get => _password1Validated;
@@ -62,7 +56,6 @@ namespace travelAgency.view
                     throw new ArgumentException("Password cannot be empty");
                 }
 
-
                 string specialCharPattern = @"[!@#$%^&*()_+=\[{\]};:<>|./?,-]";
 
                 if (value.Length < 6 || !value.Any(char.IsDigit) || !Regex.IsMatch(value, specialCharPattern) || !value.Any(char.IsUpper))
@@ -70,7 +63,6 @@ namespace travelAgency.view
                     PasswordInvalidError = "Password requirements: 6+ characters, 1 number, 1 special character, 1 uppercase";
                     throw new ArgumentException("Password requirements: 6+ characters, 1 number, 1 special character, 1 uppercase");
                 }
-
 
                 _password1Validated = value;
             }
@@ -84,7 +76,6 @@ namespace travelAgency.view
             // Manually trigger the validation
             bindingExpr.UpdateSource();
         }
-
 
         private void PasswordBox_Changed(object sender, RoutedEventArgs e)
         {
@@ -134,7 +125,7 @@ namespace travelAgency.view
                 return;
             }
 
-            User loggedUser =userRepository.GetByEmail(Email);
+            User loggedUser = userRepository.GetByEmail(Email);
             if (loggedUser == null || loggedUser.Password != _password1Validated)
             {
                 Error = "Invalid login credentials. Please try again";
@@ -163,7 +154,6 @@ namespace travelAgency.view
             }
             await Task.Delay(500);
             DeactivateProgress();
-           
         }
 
         private void DeactivateProgress()
@@ -183,8 +173,5 @@ namespace travelAgency.view
             LoginBtn.Cursor = Cursors.Arrow;
             ProgresBar.Visibility = Visibility.Visible;
         }
-
     }
-
-
 }

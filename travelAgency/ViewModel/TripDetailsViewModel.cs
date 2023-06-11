@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using travelAgency.model;
 
 namespace travelAgency.ViewModel
@@ -11,6 +6,7 @@ namespace travelAgency.ViewModel
     public class TripDetailsViewModel : INotifyPropertyChanged
     {
         private Trip _trip;
+
         public Trip Trip
         {
             get { return _trip; }
@@ -20,6 +16,7 @@ namespace travelAgency.ViewModel
                 OnPropertyChanged(nameof(Trip));
             }
         }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)

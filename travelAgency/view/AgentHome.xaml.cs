@@ -1,22 +1,21 @@
 ﻿using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Map;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using travelAgency.components;
 using travelAgency.controls;
 using travelAgency.Dialogs;
-using travelAgency.model;
 using travelAgency.repository;
 
 namespace travelAgency.view
@@ -26,20 +25,24 @@ namespace travelAgency.view
     /// </summary>
     public partial class AgentHome : Window
     {
-        
 
-        
+        public TravelAgencyContext dbContext;
+        public TripRepository tripRepository;
+        public PlaceRepository placeRepository;
+        public ArrangementRepository arrangementRepository;
         public AgentHome()
         {
-            
-            InitializeComponent();
 
+            InitializeComponent();
             HomeButton.IsClicked = "True";
-            Main.Content = new HomePage();
+
+            dbContext = new TravelAgencyContext();
+            tripRepository = new TripRepository(dbContext);
+            placeRepository = new PlaceRepository(dbContext);
+            arrangementRepository = new ArrangementRepository(dbContext);
+            Main.Content = new HomePage(tripRepository, placeRepository);
 
         }
-
-        
 
         private IEnumerable<DependencyObject> GetChildren(DependencyObject parent)
         {
@@ -51,7 +54,6 @@ namespace travelAgency.view
             {
                 var child = VisualTreeHelper.GetChild(parent, i);
                 yield return child;
-
             }
         }
 
@@ -60,10 +62,10 @@ namespace travelAgency.view
             NavbarButton button = (NavbarButton)sender;
             DeselectNavbarButtons();
             button.IsClicked = "True";
-            switch(button.Name)
+            switch (button.Name)
             {
                 case "HomeButton":
-                    Main.Content = new HomePage();
+                    Main.Content = new HomePage(tripRepository, placeRepository);
                     break;
                 case "PlacesButton":
                     Main.Content = new PlacesPage();
@@ -72,10 +74,10 @@ namespace travelAgency.view
                     Main.Content = new StayEatPage();
                     break;
                 case "ReportButton":
-                    Main.Content = new ReportPage();
+                    Main.Content = new ReportPage(tripRepository, arrangementRepository);
                     break;
                 case "HistoryButton":
-                    Main.Content = new HistoryPage();
+                    Main.Content = new HistoryPage(null);
                     break;
                 default:
                     break;
@@ -110,7 +112,6 @@ namespace travelAgency.view
                 loginwindow.Show();
                 this.Close();
             }
-           
         }
     }
 }

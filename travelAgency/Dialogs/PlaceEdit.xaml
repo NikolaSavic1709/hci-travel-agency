@@ -16,34 +16,26 @@
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
         <TextBox Grid.Column="1" Grid.ColumnSpan="2" Margin="10" Background="#E0E0E0" FontSize="16" Name="NameTxtBox"
                   Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Name"
-                 materialDesign:HintAssist.Background="#E0E0E0"  
-                VerticalContentAlignment="Center" 
-                 Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                 materialDesign:HintAssist.Background="#E0E0E0"
+                VerticalContentAlignment="Center"
+                 Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
         <TextBox Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="2" Margin="10"  AcceptsReturn="True" TextWrapping="Wrap"
-                 Background="#E0E0E0" FontSize="16" 
-                  Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Tour text" 
+                 Background="#E0E0E0" FontSize="16" Name="DescriptionTxtBox"
+                  Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Place text" 
                  materialDesign:HintAssist.Background="#E0E0E0"   
                 VerticalContentAlignment="Center" 
                  Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-        <TextBox Grid.Column="1"  Grid.Row="3" Grid.ColumnSpan="2" Margin="10"  AcceptsReturn="True" TextWrapping="Wrap"
-                 Background="#E0E0E0" FontSize="16" 
-                  Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Price" 
-                 materialDesign:HintAssist.Background="#E0E0E0" 
-                VerticalContentAlignment="Center" 
-                 Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" DataObject.Pasting="TextBoxPasting" PreviewTextInput="Price_PreviewTextInput"/>
-
-        <TextBox Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="2" Margin="10"  AcceptsReturn="True" TextWrapping="Wrap"
-                 Background="#E0E0E0" FontSize="16" 
+        <TextBox Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="2" Margin="10"  AcceptsReturn="True" TextWrapping="Wrap"
+                 Background="#E0E0E0" FontSize="16" Name="LocationTxtBox"
                   Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Location text" 
                  materialDesign:HintAssist.Background="#E0E0E0"   
                 VerticalContentAlignment="Center" 
@@ -52,10 +44,10 @@
         <Button
   Content="Edit"
   Style="{StaticResource MaterialDesignRaisedSecondaryButton}"
-  ToolTip="Resource name: MaterialDesignRaisedSecondaryButton" Foreground="#FFFFFFFF" Grid.Row="6" Margin="2" Grid.Column="2"  />
+  ToolTip="Resource name: MaterialDesignRaisedSecondaryButton" Foreground="#FFFFFFFF" Grid.Row="6" Margin="2" Grid.Column="2" Click="Button_Click_1"  />
         <Button
   Content="Cancel"
   Style="{StaticResource MaterialDesignRaisedSecondaryButton}"
-  ToolTip="Resource name: MaterialDesignRaisedSecondaryButton" BorderThickness="0" Background="#FF980012" Foreground="#FFFFFFFF" Grid.Row="6" Margin="2" Grid.Column="1" />
+  ToolTip="Resource name: MaterialDesignRaisedSecondaryButton" BorderThickness="0" Background="#FF980012" Foreground="#FFFFFFFF" Grid.Row="6" Margin="2" Grid.Column="1" Click="Button_Click" />
     </Grid>
 </Window>

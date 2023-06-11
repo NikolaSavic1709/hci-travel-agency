@@ -11,19 +11,19 @@
         MouseDown="window_MouseDown" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style x:Key="BottomButton" TargetType="Button">
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Height" Value="35"/>
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="FontWeight" Value="DemiBold"/>
-            <Setter Property="Foreground" Value="#E0E0E0"/>
-            <Setter Property="Margin" Value="5,0,5,0"/>
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Height" Value="35" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="DemiBold" />
+            <Setter Property="Foreground" Value="#E0E0E0" />
+            <Setter Property="Margin" Value="5,0,5,0" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Grid>
                             <Border Background="{TemplateBinding Background}" Opacity="1" CornerRadius="4,4,4,4">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </Border>
                         </Grid>
                     </ControlTemplate>
@@ -31,7 +31,7 @@
             </Setter>
         </Style>
         <Style x:Key="SaveButton" TargetType="Button" BasedOn="{StaticResource BottomButton}">
-            <Setter Property="Background" Value="#009882"/>
+            <Setter Property="Background" Value="#009882" />
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#00AF82" />
@@ -39,22 +39,20 @@
             </Style.Triggers>
         </Style>
         <Style x:Key="QuitButton" TargetType="Button" BasedOn="{StaticResource BottomButton}">
-            <Setter Property="Background" Value="#980012"/>
+            <Setter Property="Background" Value="#980012" />
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="Red" />
                 </Trigger>
             </Style.Triggers>
         </Style>
-
     </Window.Resources>
     <DockPanel>
 
         <Grid DockPanel.Dock="Bottom" Height="50">
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                <Button Content="QUIT" Width="80" Style="{StaticResource QuitButton}" Click="Button_Click"/>
+                <Button Content="QUIT" Width="80" Style="{StaticResource QuitButton}" Click="Button_Click" />
                 <Button Content="SAVE CHANGES" Width="130" Style="{StaticResource SaveButton}" Click="SaveButton_Click" />
-
             </StackPanel>
         </Grid>
         <Grid>
@@ -64,48 +62,43 @@
                     <Setter Property="VerticalAlignment" Value="Center" />
                     <Setter Property="Height" Value="40" />
                     <Setter Property="VerticalContentAlignment" Value="Center" />
-                    <Setter Property="Padding" Value="5"/>
-                    <Setter Property="Margin" Value="30,0,0,0"/>
-                    <Setter Property="FontSize" Value="16"/>
-
-
+                    <Setter Property="Padding" Value="5" />
+                    <Setter Property="Margin" Value="30,0,0,0" />
+                    <Setter Property="FontSize" Value="16" />
                 </Style>
             </Grid.Resources>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.5*"/>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="0.3*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="0.3*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.5*" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="0.3*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="0.3*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="0.5*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.7*"/>
-                <RowDefinition Height="1*"/>
+                <RowDefinition Height="0.7*" />
+                <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
-
 
             <TextBox Grid.Row="0" Grid.Column="1" Background="#ececec" FontSize="16" Name="PlaceTextBox"
                     Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Place"
-                    materialDesign:HintAssist.Background="#00000000" materialDesign:HintAssist.FloatingOffset="0,-25"   
+                    materialDesign:HintAssist.Background="#00000000" materialDesign:HintAssist.FloatingOffset="0,-25"
                     Padding="7,0,5,0" VerticalContentAlignment="Center" VerticalAlignment="Bottom" Height="40" Width="Auto" HorizontalAlignment="Stretch"
                     BorderBrush="#55000000" BorderThickness="1"
-                    TextChanged="TextBox_TextChanged" LostFocus="TextBox_OnFocusLost" KeyUp="TextBox_KeyDown"  />
-
+                    TextChanged="TextBox_TextChanged" LostFocus="TextBox_OnFocusLost" KeyUp="TextBox_KeyDown" />
 
             <ListBox Grid.Row="1" Grid.Column="1" Margin="0,2,0,0"
                      Name="AutocompleteListBox" FontSize="16"  HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                      MaxHeight="200" Visibility="Hidden" SelectionChanged="AutocompleteListBox_SelectionChanged" Panel.ZIndex="6" Background="#ececec"
-                     >
+                      MaxHeight="200" Visibility="Hidden" SelectionChanged="AutocompleteListBox_SelectionChanged" Panel.ZIndex="6" Background="#ececec">
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
-                        <Setter Property="Height" Value="40"/>
+                        <Setter Property="Height" Value="40" />
                     </Style>
                 </ListBox.ItemContainerStyle>
             </ListBox>
 
-            <DatePicker Name="DatePicker"  Grid.Row="0" Grid.Column="3" Height="40" FontSize="16" Padding="7,0,5,0" Width="Auto" 
+            <DatePicker Name="DatePicker"  Grid.Row="0" Grid.Column="3" Height="40" FontSize="16" Padding="7,0,5,0" Width="Auto"
              Background="#ececec" materialDesign:HintAssist.Hint="Date" VerticalAlignment="Bottom"
              BorderBrush="#55000000" BorderThickness="1" SelectedDateFormat="Short">
                 <DatePicker.Resources>
@@ -138,9 +131,9 @@
                 </DatePicker.Resources>
             </DatePicker>
 
-            <Border Background="#ececec" VerticalAlignment="Bottom" Height="40" Grid.Row="0" Grid.Column="5" >
+            <Border Background="#ececec" VerticalAlignment="Bottom" Height="40" Grid.Row="0" Grid.Column="5">
                 <materialDesign:TimePicker Name="TimePicker"  Height="40" FontSize="16" Padding="7,0,5,0" Width="Auto"
-                        materialDesign:HintAssist.Hint="Time" 
+                        materialDesign:HintAssist.Hint="Time"
                         BorderBrush="#55000000" BorderThickness="1"
                         Is24Hours="True" Style="{StaticResource MaterialDesignOutlinedTimePicker}">
                     <materialDesign:TimePicker.Resources>
@@ -152,12 +145,6 @@
                     </materialDesign:TimePicker.Resources>
                 </materialDesign:TimePicker>
             </Border>
-
-
         </Grid>
-
     </DockPanel>
 </Window>
-
-
-

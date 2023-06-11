@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using travelAgency.Commands;
 
@@ -16,6 +12,7 @@ namespace travelAgency.ViewModel
         public IEnumerable<IconItemViewModel> TodoItemViewModels => _todoItemViewModels;
 
         private IconItemViewModel _incomingTodoItemViewModel;
+
         public IconItemViewModel IncomingTodoItemViewModel
         {
             get
@@ -30,6 +27,7 @@ namespace travelAgency.ViewModel
         }
 
         private IconItemViewModel _removedTodoItemViewModel;
+
         public IconItemViewModel RemovedTodoItemViewModel
         {
             get
@@ -44,6 +42,7 @@ namespace travelAgency.ViewModel
         }
 
         private IconItemViewModel _insertedTodoItemViewModel;
+
         public IconItemViewModel InsertedTodoItemViewModel
         {
             get
@@ -58,6 +57,7 @@ namespace travelAgency.ViewModel
         }
 
         private IconItemViewModel _targetTodoItemViewModel;
+
         public IconItemViewModel TargetTodoItemViewModel
         {
             get

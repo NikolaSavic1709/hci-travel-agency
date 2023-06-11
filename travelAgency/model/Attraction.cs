@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace travelAgency.model;
 
-namespace travelAgency.model;
-
-public class Attraction: Place
+public class Attraction : Place
 {
 }
