@@ -1,20 +1,11 @@
-﻿using DevExpress.Xpf.Grid;
-using DevExpress.Xpf.Map;
-using Microsoft.EntityFrameworkCore;
+﻿using DevExpress.Xpf.Map;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using travelAgency.components;
 using travelAgency.Dialogs;
 using travelAgency.model;
@@ -27,7 +18,7 @@ namespace travelAgency.view
     /// </summary>
     public partial class HomePage : Page
     {
-        
+
         public TripRepository tripRepository;
         public PlaceRepository placeRepository;
         public string BingKey { get; set; }
@@ -56,14 +47,24 @@ namespace travelAgency.view
             };
             tripCard.ToTripClicked += TripCard_ToTrip;
             tripCard.TripDelete += TripCard_Remove;
-
+            tripCard.MouseDown += TripCard_MouseDown;
             cards.Children.Add(tripCard);
         }
         private void TripCard_ToTrip(object sender, ToTripEventArgs e)
         {
             Trip trip = e.Trip;
-           
+
             NavigationService?.Navigate(new TripDetailsPage(trip, tripRepository, placeRepository));
+        }
+        private void TripCard_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Trip trip = (sender as TripCard).Trip;
+            List<RouteWaypoint> waypoints = new List<RouteWaypoint>();
+            foreach (var schedule in trip.Schedules)
+            {
+                waypoints.Add(new RouteWaypoint(schedule.Place.Name, new GeoPoint(schedule.Place.lat, schedule.Place.lng)));
+            }
+            routeProvider.CalculateRoute(waypoints);
         }
         private void TripCard_NewTrip(object sender, ToTripEventArgs e)
         {
@@ -72,10 +73,10 @@ namespace travelAgency.view
         private void TripCard_Remove(object sender, ToTripEventArgs e)
         {
             Trip trip = e.Trip;
-            TripCard card=(TripCard)sender;
+            TripCard card = (TripCard)sender;
             cards.Children.Remove(card);
             tripRepository.Delete(trip);
-            
+
         }
         private void Search_OnKeyDown(object sender, KeyEventArgs e)
         {
@@ -117,16 +118,12 @@ namespace travelAgency.view
 
         private void map_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
-
             var hitInfo = map.CalcHitInfo(e.GetPosition(map));
             if (hitInfo.InMapPushpin)
             {
                 map.EnableScrolling = false;
                 mapItem = hitInfo.HitObjects[0] as MapPushpin;
-
             }
-
         }
 
         private void map_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -146,15 +143,34 @@ namespace travelAgency.view
             {
                 var point = map.ScreenPointToCoordPoint(e.GetPosition(map));
                 mapItem.Location = point;
-
             }
         }
 
         private void CreateTrip_Click(object sender, RoutedEventArgs e)
         {
-            CreateTripDialog window = new CreateTripDialog(tripRepository ,placeRepository);
-            window.NewTrip += TripCard_NewTrip;
+            CreateTripDialog window = new CreateTripDialog(tripRepository, placeRepository);
             window.ShowDialog();
+        }
+
+        private void routeProvider_LayerItemsGenerating(object sender, LayerItemsGeneratingEventArgs args)
+        {
+            char letter = 'A';
+            foreach (MapItem item in args.Items)
+            {
+                MapPushpin pushpin = item as MapPushpin;
+                if (pushpin != null)
+                    pushpin.Text = letter++.ToString();
+                MapPolyline line = item as MapPolyline;
+                if (line != null)
+                {
+                    var converter = new System.Windows.Media.BrushConverter();
+                    var brush = (Brush)converter.ConvertFromString("#009882");
+                    line.Fill = brush;
+                    line.Stroke = brush;
+                }
+            }
+
+            map.ZoomToFit(args.Items);
         }
     }
 }

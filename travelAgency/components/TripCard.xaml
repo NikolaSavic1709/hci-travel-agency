@@ -1,11 +1,11 @@
 ﻿<UserControl x:Class="travelAgency.components.TripCard"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:travelAgency.components"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="220" d:DesignWidth="290">
     <materialDesign:Card HorizontalContentAlignment="Stretch">
         <Grid>
@@ -18,9 +18,9 @@
                  Height="100"
                  Source="/data/img/uvac.jpg"
                  Stretch="UniformToFill" />-->
-            
+
             <StackPanel Grid.Row="0" Margin="8,7,8,0">
-                <TextBlock FontWeight="Bold" FontSize="16" Margin="0,0,0,5" Text="{Binding Trip.Name}"/>
+                <TextBlock FontWeight="Bold" FontSize="16" Margin="0,0,0,5" Text="{Binding Trip.Name}" />
                 <TextBlock VerticalAlignment="Center" Foreground="#009882" FontWeight="Bold"
                        Text="{Binding Route}"
                        TextWrapping="Wrap" />
@@ -32,12 +32,12 @@
                       Margin="8"
                       HorizontalAlignment="Right"
                       Orientation="Horizontal">
-        
+
                 <Button Width="30" x:Name="seeButton"
                     Padding="2,0,2,0" Visibility="Hidden"
                     materialDesign:RippleAssist.IsCentered="True" ToolTip="See this trip"
                     Style="{StaticResource MaterialDesignToolButton}" Click="OpenButton_click">
-                    <materialDesign:PackIcon Kind="Eye"/>
+                    <materialDesign:PackIcon Kind="Eye" />
                 </Button>
                 <Button Width="30" x:Name="deleteButton"
                     Padding="2,0,2,0" Visibility="Hidden"
@@ -46,9 +46,7 @@
                     Style="{StaticResource MaterialDesignToolButton}">
                     <materialDesign:PackIcon Kind="TrashCan" />
                 </Button>
-               
             </StackPanel>
-
         </Grid>
 
         <materialDesign:Card.Triggers>
@@ -81,6 +79,5 @@
                 </BeginStoryboard>
             </EventTrigger>
         </materialDesign:Card.Triggers>
-
     </materialDesign:Card>
 </UserControl>

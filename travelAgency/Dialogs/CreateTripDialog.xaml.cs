@@ -1,16 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using travelAgency.model;
 using travelAgency.repository;
 using travelAgency.ViewModel;
@@ -37,7 +30,7 @@ namespace travelAgency.Dialogs
             {
                 ViewModel = viewModel;
                 Trip trip = new Trip();
-                viewModel.Trip=trip;
+                viewModel.Trip = trip;
             }
             places = placeRepository.GetAll();
             this.tripRepository = tripRepository;
@@ -47,6 +40,7 @@ namespace travelAgency.Dialogs
         {
             this.Close();
         }
+
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             string text = PlaceTextBox.Text;
@@ -58,8 +52,8 @@ namespace travelAgency.Dialogs
             }
             else
                 AutocompleteListBox.Visibility = Visibility.Hidden;
-
         }
+
         private void TextBox_OnFocusLost(object sender, RoutedEventArgs e)
         {
             AutocompleteListBox.Visibility = Visibility.Hidden;
@@ -76,6 +70,7 @@ namespace travelAgency.Dialogs
                 currentIndexListBox = -1;
             }
         }
+
         private void window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Keyboard.ClearFocus();
@@ -91,12 +86,11 @@ namespace travelAgency.Dialogs
             {
                 TripSchedule tripSchedule = new TripSchedule();
                 tripSchedule.Place = selectedPlace;
-                DateTime? date=DatePicker.SelectedDate.Value;
+                DateTime? date = DatePicker.SelectedDate.Value;
                 DateTime? time = TimePicker.SelectedTime.Value;
-                
-                tripSchedule.DateTime=new DateTime(date.Value.Year,date.Value.Month,date.Value.Day,time.Value.Hour,time.Value.Minute,0);
+
+                tripSchedule.DateTime = new DateTime(date.Value.Year, date.Value.Month, date.Value.Day, time.Value.Hour, time.Value.Minute, 0);
                 ViewModel.Trip.Schedules.Add(tripSchedule);
-                
             }
             else
             {
@@ -110,6 +104,7 @@ namespace travelAgency.Dialogs
             TripSchedule tripSchedule = (TripSchedule)removeButton.DataContext;
             ViewModel.Trip.Schedules.Remove(tripSchedule);
         }
+
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Down)
@@ -143,12 +138,12 @@ namespace travelAgency.Dialogs
                     }
                 }
             }
-            if (e.Key==Key.Return)
+            if (e.Key == Key.Return)
             {
                 e.Handled = true;
                 if (currentIndexListBox != -1)
                 {
-                    AutocompleteListBox.SelectedIndex= currentIndexListBox;
+                    AutocompleteListBox.SelectedIndex = currentIndexListBox;
                 }
             }
         }

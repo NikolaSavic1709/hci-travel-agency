@@ -1,22 +1,5 @@
-﻿using MaterialDesignThemes.Wpf;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using travelAgency.model;
-using travelAgency.repository;
 
 namespace travelAgency.view
 {
@@ -47,7 +30,6 @@ namespace travelAgency.view
             loginPage = new LoginPage(this);
             loginPage.ToSignUpClicked += To_SignUpNavigation;
             FormContent.Navigate(loginPage);
-
         }
 
         private void To_SignUpNavigation(object sender, EventArgs e)
@@ -55,9 +37,6 @@ namespace travelAgency.view
             registrationPage = new RegistrationPage();
             registrationPage.ToLoginClicked += To_LoginNavigation;
             FormContent.Navigate(registrationPage);
-
         }
-
     }
-
 }

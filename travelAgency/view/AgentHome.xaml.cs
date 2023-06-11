@@ -3,21 +3,10 @@ using DevExpress.Xpf.Map;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using travelAgency.components;
 using travelAgency.controls;
 using travelAgency.Dialogs;
-using travelAgency.model;
 using travelAgency.repository;
 
 namespace travelAgency.view
@@ -34,7 +23,7 @@ namespace travelAgency.view
         public ArrangementRepository arrangementRepository;
         public AgentHome()
         {
-            
+
             InitializeComponent();
             HomeButton.IsClicked = "True";
 
@@ -46,8 +35,6 @@ namespace travelAgency.view
 
         }
 
-        
-
         private IEnumerable<DependencyObject> GetChildren(DependencyObject parent)
         {
             if (parent == null)
@@ -58,7 +45,6 @@ namespace travelAgency.view
             {
                 var child = VisualTreeHelper.GetChild(parent, i);
                 yield return child;
-
             }
         }
 
@@ -67,22 +53,22 @@ namespace travelAgency.view
             NavbarButton button = (NavbarButton)sender;
             DeselectNavbarButtons();
             button.IsClicked = "True";
-            switch(button.Name)
+            switch (button.Name)
             {
                 case "HomeButton":
                     Main.Content = new HomePage(tripRepository, placeRepository);
                     break;
                 case "PlacesButton":
-                    Main.Content = new PlacesPage(placeRepository);
+                    Main.Content = new PlacesPage();
                     break;
                 case "StayEatButton":
-                    Main.Content = new StayEatPage(tripRepository);
+                    Main.Content = new StayEatPage();
                     break;
                 case "ReportButton":
                     Main.Content = new ReportPage(tripRepository, arrangementRepository);
                     break;
                 case "HistoryButton":
-                    Main.Content = new HistoryPage(tripRepository);
+                    Main.Content = new HistoryPage();
                     break;
                 default:
                     break;
@@ -117,7 +103,6 @@ namespace travelAgency.view
                 loginwindow.Show();
                 this.Close();
             }
-           
         }
     }
 }

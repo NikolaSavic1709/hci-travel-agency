@@ -1,19 +1,13 @@
 ﻿using MaterialDesignThemes.Wpf;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using travelAgency.model;
 using travelAgency.repository;
 
@@ -26,6 +20,7 @@ namespace travelAgency.view
     {
         public TravelAgencyContext dbContext;
         public UserRepository userRepository;
+
         public RegistrationPage()
         {
             InitializeComponent();
@@ -61,9 +56,9 @@ namespace travelAgency.view
         public bool IsConfirmPasswordInvalid { get; set; }
         public string ConfirmPasswordInvalidError { get; set; }
 
-
         private string? _password1Validated = "";
         private string? _password2Validated = "";
+
         public string? Password1Validated
         {
             get => _password1Validated;
@@ -75,7 +70,6 @@ namespace travelAgency.view
                     throw new ArgumentException("Password cannot be empty");
                 }
 
-
                 string specialCharPattern = @"[!@#$%^&*()_+=\[{\]};:<>|./?,-]";
 
                 if (value.Length < 6 || !value.Any(char.IsDigit) || !Regex.IsMatch(value, specialCharPattern) || !value.Any(char.IsUpper))
@@ -83,7 +77,6 @@ namespace travelAgency.view
                     PasswordInvalidError = "Password requirements: 6+ characters, 1 number, 1 special character, 1 uppercase";
                     throw new ArgumentException("Password requirements: 6+ characters, 1 number, 1 special character, 1 uppercase");
                 }
-
 
                 _password1Validated = value;
             }
@@ -113,7 +106,6 @@ namespace travelAgency.view
                     ConfirmPasswordInvalidError = "Passwords do not match";
                     throw new ArgumentException("Passwords do not match");
                 }
-
 
                 _password2Validated = value;
             }
@@ -186,7 +178,7 @@ namespace travelAgency.view
             }
 
             var existUser = userRepository.GetByEmail(Email);
-            if (existUser == null )
+            if (existUser == null)
             {
                 var newuser = new User(Name, Email, _password1Validated, Surname);
                 userRepository.Add(newuser);
@@ -260,7 +252,6 @@ namespace travelAgency.view
             // Manually trigger the validation
             bindingExpr.UpdateSource();
         }
-
 
         private void PasswordBox_Changed(object sender, RoutedEventArgs e)
         {

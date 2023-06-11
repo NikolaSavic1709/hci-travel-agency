@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesignSnackbar="http://materialdesigninxaml.net/winfx/xaml/themes/snackbar"
-        xmlns:local="clr-namespace:travelAgency.view"   
+        xmlns:local="clr-namespace:travelAgency.view"
         xmlns:validators="clr-namespace:travelAgency.validators"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -58,7 +58,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
     </Window.Resources>
 
     <Grid Background="#c7c7c7">
@@ -70,10 +69,9 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        
-        <Image Grid.Column="0" Grid.Row="0" Source="/view/uvac.jpg" Stretch="Fill"/>
+
+        <Image Grid.Column="0" Grid.Row="0" Source="/view/uvac.jpg" Stretch="Fill" />
 
         <Frame Name="FormContent" Grid.Column="1" Grid.Row="0" NavigationUIVisibility="Hidden"></Frame>
-
     </Grid>
 </Window>

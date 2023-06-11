@@ -9,60 +9,60 @@
         Title="MainWindow" Height="800" Width="1000" Background="#C7C7C7">
     <Window.Resources>
         <Style x:Key="TransparentCircleButton" TargetType="Button">
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Background" Value="LightGray"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Height" Value="50"/>
-            <Setter Property="Width" Value="50"/>
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Background" Value="LightGray" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Height" Value="50" />
+            <Setter Property="Width" Value="50" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Grid>
-                            <Ellipse Fill="{TemplateBinding Background}" Opacity="0.5"/>
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Ellipse Fill="{TemplateBinding Background}" Opacity="0.5" />
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="DimGray"/>
+                    <Setter Property="Background" Value="DimGray" />
                 </Trigger>
             </Style.Triggers>
         </Style>
         <Style x:Key="IncDecButton" TargetType="Button">
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Background" Value="LightGray"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="Width" Value="30"/>
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Background" Value="LightGray" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Width" Value="30" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Grid>
-                            <Rectangle Fill="{TemplateBinding Background}" Opacity="0.5" RadiusX="7" RadiusY="7"/>
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Rectangle Fill="{TemplateBinding Background}" Opacity="0.5" RadiusX="7" RadiusY="7" />
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="DimGray"/>
+                    <Setter Property="Background" Value="DimGray" />
                 </Trigger>
             </Style.Triggers>
         </Style>
         <Style x:Key="AddButton" TargetType="Button">
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Background" Value="#C7C7C7"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="Width" Value="30"/>
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Background" Value="#C7C7C7" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Width" Value="30" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Grid>
-                            <Ellipse x:Name="Ellipse" Width="30" Height="30" Fill="#439800" Stroke="White" StrokeThickness="2"/>
+                            <Ellipse x:Name="Ellipse" Width="30" Height="30" Fill="#439800" Stroke="White" StrokeThickness="2" />
                             <TextBlock Text="+" Height="30" Foreground="White" FontSize="19" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Grid>
                         <ControlTemplate.Triggers>
@@ -75,20 +75,20 @@
             </Setter>
         </Style>
         <Style x:Key="NavbarButton" TargetType="controls:NavbarButton">
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Background" Value="#009882"/>
-            <Setter Property="Foreground" Value="#f5f5f5"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Height" Value="35"/>
-            <Setter Property="Width" Value="80"/>
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="FontWeight" Value="DemiBold"/>
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Background" Value="#009882" />
+            <Setter Property="Foreground" Value="#f5f5f5" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Height" Value="35" />
+            <Setter Property="Width" Value="80" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="DemiBold" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="controls:NavbarButton">
                         <Grid>
-                            <Rectangle Fill="{TemplateBinding Background}" Opacity="1"/>
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Rectangle Fill="{TemplateBinding Background}" Opacity="1" />
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
@@ -97,12 +97,12 @@
                 <Trigger Property="controls:NavbarButton.IsClicked" Value="True">
                     <Setter Property="Background">
                         <Setter.Value>
-                            <SolidColorBrush Color="#f5f5f5"/>
+                            <SolidColorBrush Color="#f5f5f5" />
                         </Setter.Value>
                     </Setter>
                     <Setter Property="Foreground">
                         <Setter.Value>
-                            <SolidColorBrush Color="#009882"/>
+                            <SolidColorBrush Color="#009882" />
                         </Setter.Value>
                     </Setter>
                 </Trigger>
@@ -113,12 +113,11 @@
                     </MultiTrigger.Conditions>
                     <Setter Property="Background">
                         <Setter.Value>
-                            <SolidColorBrush Color="#40f5f5f5"/>
+                            <SolidColorBrush Color="#40f5f5f5" />
                         </Setter.Value>
                     </Setter>
                 </MultiTrigger>
             </Style.Triggers>
-
         </Style>
         <Style x:Key="LeftNavbarButton" TargetType="controls:NavbarButton" BasedOn="{StaticResource NavbarButton}">
             <Setter Property="Template">
@@ -126,13 +125,12 @@
                     <ControlTemplate TargetType="controls:NavbarButton">
                         <Grid>
                             <Border Background="{TemplateBinding Background}" Opacity="1" CornerRadius="4,0,0,4">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </Border>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-
         </Style>
         <Style x:Key="RightNavbarButton" TargetType="controls:NavbarButton" BasedOn="{StaticResource NavbarButton}">
             <Setter Property="Template">
@@ -140,7 +138,7 @@
                     <ControlTemplate TargetType="controls:NavbarButton">
                         <Grid>
                             <Border Background="{TemplateBinding Background}" Opacity="1" CornerRadius="0,4,4,0">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </Border>
                         </Grid>
                     </ControlTemplate>
@@ -148,14 +146,14 @@
             </Setter>
         </Style>
         <Style x:Key="SingleNavbarButton" TargetType="controls:NavbarButton" BasedOn="{StaticResource NavbarButton}">
-            <Setter Property="Foreground" Value="#009882"/>
-            <Setter Property="Background" Value="#f5f5f5"/>
+            <Setter Property="Foreground" Value="#009882" />
+            <Setter Property="Background" Value="#f5f5f5" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="controls:NavbarButton">
                         <Grid>
                             <Border Background="{TemplateBinding Background}" Opacity="1" CornerRadius="4,4,4,4">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </Border>
                         </Grid>
                     </ControlTemplate>
@@ -169,29 +167,27 @@
                     </MultiTrigger.Conditions>
                     <Setter Property="Background">
                         <Setter.Value>
-                            <SolidColorBrush Color="#eef5f5f5"/>
+                            <SolidColorBrush Color="#eef5f5f5" />
                         </Setter.Value>
                     </Setter>
                 </MultiTrigger>
             </Style.Triggers>
         </Style>
-
     </Window.Resources>
     <DockPanel>
         <Grid Name="Navbar" Background="#009882" Height="50" DockPanel.Dock="Top">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="10*"/>
-                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="10*" />
+                <ColumnDefinition Width="3*" />
             </Grid.ColumnDefinitions>
             <Image Grid.Column="0" Height="50" Width="60" Source="/view/travel_logo.png"></Image>
             <StackPanel Name="NavbarButtons" HorizontalAlignment="Center" Grid.Column="1" Orientation="Horizontal">
-                <controls:NavbarButton x:Name="HomeButton" Style="{StaticResource LeftNavbarButton}" Content="HOME" Click="NavbarButton_Click"/>
-                <controls:NavbarButton Style="{StaticResource NavbarButton}" Content="PLACES" Click="NavbarButton_Click"/>
-                <controls:NavbarButton Style="{StaticResource NavbarButton}" Content="STAY&amp;EAT" Click="NavbarButton_Click"/>
-                <controls:NavbarButton Style="{StaticResource NavbarButton}" Content="REPORT" Click="NavbarButton_Click"/>
-                <controls:NavbarButton Style="{StaticResource RightNavbarButton}" Content="HISTORY" Click="NavbarButton_Click"/>
-
+                <controls:NavbarButton x:Name="HomeButton" Style="{StaticResource LeftNavbarButton}" Content="HOME" Click="NavbarButton_Click" />
+                <controls:NavbarButton Style="{StaticResource NavbarButton}" Content="PLACES" Click="NavbarButton_Click" />
+                <controls:NavbarButton Style="{StaticResource NavbarButton}" Content="STAY&amp;EAT" Click="NavbarButton_Click" />
+                <controls:NavbarButton Style="{StaticResource NavbarButton}" Content="REPORT" Click="NavbarButton_Click" />
+                <controls:NavbarButton Style="{StaticResource RightNavbarButton}" Content="HISTORY" Click="NavbarButton_Click" />
             </StackPanel>
             <StackPanel HorizontalAlignment="Center" Grid.Column="2" Orientation="Horizontal">
                 <controls:NavbarButton Style="{StaticResource SingleNavbarButton}" Width="40" Margin="0,0,10,0">
@@ -200,7 +196,6 @@
                 <controls:NavbarButton Style="{StaticResource SingleNavbarButton}" Content="LOG OUT">
                 </controls:NavbarButton>
             </StackPanel>
-
         </Grid>
         <StackPanel Orientation="Horizontal">
 
@@ -213,12 +208,10 @@
                     <materialDesign:Flipper Name="ImageFlipper" Width="300" Height="300" Canvas.ZIndex="1">
                         <materialDesign:Flipper.FrontContent>
                             <Image Source="{Binding FrontImageSource}" Stretch="UniformToFill">
-
                             </Image>
                         </materialDesign:Flipper.FrontContent>
                         <materialDesign:Flipper.BackContent>
                             <Image Source="{Binding BackImageSource}" Stretch="UniformToFill">
-
                             </Image>
                         </materialDesign:Flipper.BackContent>
                     </materialDesign:Flipper>
@@ -231,9 +224,9 @@
             <StackPanel  Background="#f5f5f5">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="150"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
                     <Button Grid.Column="0" Click="DecreaseButton_Click" Style="{StaticResource IncDecButton}">
@@ -252,7 +245,7 @@
                             <Setter Property="VerticalAlignment" Value="Center" />
                             <Setter Property="Height" Value="40" />
                             <Setter Property="VerticalContentAlignment" Value="Center" />
-                            <Setter Property="Padding" Value="5"/>
+                            <Setter Property="Padding" Value="5" />
 
                             <Style.Triggers>
                                 <Trigger Property="controls:CalendarLabel.IsSelected" Value="True">
@@ -261,37 +254,34 @@
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <Setter Property="Background" Value="LightBlue" />
                                 </Trigger>
-
-
                             </Style.Triggers>
                         </Style>
                     </Grid.Resources>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <controls:CalendarLabel Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="JAN" MouseDown="SelectMonth_Click" />
-                    <controls:CalendarLabel Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="FEB" MouseDown="SelectMonth_Click"/>
-                    <controls:CalendarLabel Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="MAR" MouseDown="SelectMonth_Click"/>
-                    <controls:CalendarLabel Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="APR" MouseDown="SelectMonth_Click"/>
-                    <controls:CalendarLabel Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="MAY" MouseDown="SelectMonth_Click"/>
-                    <controls:CalendarLabel Grid.Row="1" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="JUN" MouseDown="SelectMonth_Click"/>
-                    <controls:CalendarLabel Grid.Row="2" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="JUL" MouseDown="SelectMonth_Click"/>
-                    <controls:CalendarLabel Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="AUG" MouseDown="SelectMonth_Click"/>
-                    <controls:CalendarLabel Grid.Row="2" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="SEP" MouseDown="SelectMonth_Click"/>
-                    <controls:CalendarLabel Grid.Row="3" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="OCT" MouseDown="SelectMonth_Click"/>
-                    <controls:CalendarLabel Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="NOV" MouseDown="SelectMonth_Click"/>
-                    <controls:CalendarLabel Grid.Row="3" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="DEC" MouseDown="SelectMonth_Click"/>
-
+                    <controls:CalendarLabel Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="FEB" MouseDown="SelectMonth_Click" />
+                    <controls:CalendarLabel Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="MAR" MouseDown="SelectMonth_Click" />
+                    <controls:CalendarLabel Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="APR" MouseDown="SelectMonth_Click" />
+                    <controls:CalendarLabel Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="MAY" MouseDown="SelectMonth_Click" />
+                    <controls:CalendarLabel Grid.Row="1" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="JUN" MouseDown="SelectMonth_Click" />
+                    <controls:CalendarLabel Grid.Row="2" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="JUL" MouseDown="SelectMonth_Click" />
+                    <controls:CalendarLabel Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="AUG" MouseDown="SelectMonth_Click" />
+                    <controls:CalendarLabel Grid.Row="2" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="SEP" MouseDown="SelectMonth_Click" />
+                    <controls:CalendarLabel Grid.Row="3" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="OCT" MouseDown="SelectMonth_Click" />
+                    <controls:CalendarLabel Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="NOV" MouseDown="SelectMonth_Click" />
+                    <controls:CalendarLabel Grid.Row="3" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="DEC" MouseDown="SelectMonth_Click" />
                 </Grid>
-                <TextBox Name="tb1" TextWrapping="Wrap" Text="TextBox" Margin="0,50,0,50" Width="120"/>
+                <TextBox Name="tb1" TextWrapping="Wrap" Text="TextBox" Margin="0,50,0,50" Width="120" />
             </StackPanel>
             <ItemsControl ItemsSource="{Binding Trip.Schedules}" Margin="0,30,0,0">
                 <ItemsControl.ItemTemplate>
@@ -301,16 +291,16 @@
                             <Border BorderBrush="#aa000000" BorderThickness="0.4" Height="100" Width="350">
                                 <Grid Background="White">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*" />
+                                        <RowDefinition Height="1*" />
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="2*"/>
-                                        <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*" />
+                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="1*" />
+                                        <ColumnDefinition Width="1*" />
                                     </Grid.ColumnDefinitions>
-                                    <materialDesign:PackIcon Kind="Location" Height="20" Width="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    <materialDesign:PackIcon Kind="Location" Height="20" Width="20" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                     <Label Grid.Column="1" FontSize="18" VerticalAlignment="Center" Content="{Binding Place.Name}"></Label>
                                 </Grid>
                             </Border>
@@ -326,20 +316,11 @@
                                 <Ellipse Width="20" Height="20" Fill="#009882" Stroke="White" StrokeThickness="2" />
                                 <Border Width="1" Height="80" Background="#aa000000" />
                             </StackPanel>
-
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                <Button Grid.Column="2" Click="Button_Click" Style="{StaticResource AddButton}"/>
-
-
-
+                <Button Grid.Column="2" Click="Button_Click" Style="{StaticResource AddButton}" />
             </StackPanel>
-
-
         </StackPanel>
     </DockPanel>
-
-
-
 </Window>
