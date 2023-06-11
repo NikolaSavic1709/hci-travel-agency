@@ -60,6 +60,7 @@ namespace travelAgency.view
                 if (isStay)
                 {
                     AmenitiesSegment.Visibility = Visibility.Visible;
+                    Place = stayRepository.GetById(Place.Id);
                     RefreshAmenities();
                 } else
                 {
