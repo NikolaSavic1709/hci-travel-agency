@@ -11,7 +11,7 @@ using travelAgency;
 namespace travelAgency.Migrations
 {
     [DbContext(typeof(TravelAgencyContext))]
-    [Migration("20230609165515_InitialCreate")]
+    [Migration("20230610230131_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -48,13 +48,16 @@ namespace travelAgency.Migrations
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("NumberOfPersons")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("REAL");
+
                     b.Property<int>("TripId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("numberOfPearsons")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");

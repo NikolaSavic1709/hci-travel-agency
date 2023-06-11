@@ -12,8 +12,9 @@ public class Arrangement
 
     [Key]
     public int Id { get; set; }
-    public int numberOfPearsons { get; set; }
+    public int NumberOfPersons { get; set; }
     public DateTime DateTime { get; set; }
+    public double Price { get; set; }
     public int TripId { get; set; }
     public virtual Trip Trip { get; set; }
     public int UserId { get; set; }

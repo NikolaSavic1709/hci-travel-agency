@@ -45,13 +45,16 @@ namespace travelAgency.Migrations
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("NumberOfPersons")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("REAL");
+
                     b.Property<int>("TripId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("numberOfPearsons")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");

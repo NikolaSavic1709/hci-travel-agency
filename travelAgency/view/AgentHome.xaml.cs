@@ -31,6 +31,7 @@ namespace travelAgency.view
         public TravelAgencyContext dbContext;
         public TripRepository tripRepository;
         public PlaceRepository placeRepository;
+        public ArrangementRepository arrangementRepository;
         public AgentHome()
         {
             
@@ -40,6 +41,7 @@ namespace travelAgency.view
             dbContext = new TravelAgencyContext();
             tripRepository = new TripRepository(dbContext);
             placeRepository = new PlaceRepository(dbContext);
+            arrangementRepository = new ArrangementRepository(dbContext);
             Main.Content = new HomePage(tripRepository, placeRepository);
 
         }
@@ -77,7 +79,7 @@ namespace travelAgency.view
                     Main.Content = new StayEatPage(tripRepository);
                     break;
                 case "ReportButton":
-                    Main.Content = new ReportPage(tripRepository);
+                    Main.Content = new ReportPage(tripRepository, arrangementRepository);
                     break;
                 case "HistoryButton":
                     Main.Content = new HistoryPage(tripRepository);
