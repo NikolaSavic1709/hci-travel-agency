@@ -18,6 +18,8 @@ using travelAgency.Dialogs;
 using travelAgency.model;
 using travelAgency.repository;
 using travelAgency.components;
+using MaterialDesignThemes.Wpf;
+using travelAgency.Commands;
 
 namespace travelAgency.view
 {
@@ -29,10 +31,16 @@ namespace travelAgency.view
         public TravelAgencyContext dbContext;
         public ArrangementRepository arrangementRepository;
         public List<Arrangement> arrangements;
+        public List<ArrangementCard> arrangementCards;
+        public List<ArrangementCard> filteredArrangementCards;
+        public ICommand SearchCommand { get; }
+
         public HistoryPage(User loggedUser)
         {
-           
+            SearchCommand = new CommandImplementationcs(Search);
+            arrangementCards = new List<ArrangementCard>();
             InitializeComponent();
+            DataContext = this;
             dbContext = new TravelAgencyContext();
             arrangementRepository = new ArrangementRepository(dbContext);
             
@@ -52,7 +60,7 @@ namespace travelAgency.view
                     Arrangement = a
 
                 };
-                cards.Children.Add(arrangementCard);
+                arrangementCards.Add(arrangementCard);
             }
 
             Trip trip = new Trip();
@@ -71,8 +79,8 @@ namespace travelAgency.view
                 Margin = new Thickness(10),
                 Arrangement = arrangement
             };
-            
-            cards.Children.Add(arrangementCard1);
+
+            arrangementCards.Add(arrangementCard1);
 
             Trip trip2 = new Trip();
             trip2.Price = 900;
@@ -91,15 +99,29 @@ namespace travelAgency.view
                 Arrangement = arrangement2
             };
 
-            cards.Children.Add(arrangementCard2);
+            arrangementCards.Add(arrangementCard2);
+            RefreshCards(false);
         }
 
-        private void Search_OnKeyDown(object sender, KeyEventArgs e)
+        public void RefreshCards(bool isFilter)
         {
-            var textBox = (TextBox)sender;
-            if (e.Key == Key.Enter)
-                SearchButton.Command.Execute(textBox.Text);
+            cards.Children.Clear();
+            if (isFilter)
+            {             
+                foreach (ArrangementCard a in filteredArrangementCards)
+                {
+                    cards.Children.Add(a);
+                }
+            } else
+            {
+                foreach (ArrangementCard a in arrangementCards)
+                {
+                    cards.Children.Add(a);
+                }
+            }
+            
         }
+
         private void geocodeProvider_LocationInformationReceived(object sender, LocationInformationReceivedEventArgs e)
         {
 
@@ -164,6 +186,30 @@ namespace travelAgency.view
                 mapItem.Location = point;
 
             }
+        }
+
+
+        private void Search_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            var textBox = (TextBox)sender;
+            if (e.Key == Key.Enter)
+                SearchButton.Command.Execute(textBox.Text);
+        }
+
+        private async void Search(object? obj)
+        {
+            var text = obj as string;
+            if (string.IsNullOrWhiteSpace(text))
+            {
+              filteredArrangementCards = arrangementCards;
+            }
+            else
+            {
+                filteredArrangementCards = await Task.Run(() => arrangementCards
+                    .Where(x => x.Trip.Name.IndexOf(text, StringComparison.CurrentCultureIgnoreCase) >= 0)
+                    .ToList());
+            }
+            RefreshCards(true);
         }
 
     }

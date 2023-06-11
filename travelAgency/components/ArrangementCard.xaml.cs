@@ -40,9 +40,11 @@ namespace travelAgency.components
                     IsReservation = "Purchase";
                 }
                 TotalPrice = (int)Math.Round(a.numberOfPearsons * a.Trip.Price);
+                Trip = a.Trip;
             }
         }
         public string IsReservation { get; set; }
+        public Trip Trip { get; set; }
         public int TotalPrice { get; set; }
         public ArrangementCard()
         {
