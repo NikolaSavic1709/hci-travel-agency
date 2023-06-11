@@ -96,6 +96,7 @@ namespace travelAgency.Dialogs
 
         private void GeocodeProvider_LocationInformationReceived(object sender, LocationInformationReceivedEventArgs e)
         {
+            searchLayer.ClearResults();
             GeocodeRequestResult result = e.Result;
             StringBuilder resultList = new StringBuilder("");
             resultList.Append(String.Format("Status: {0}\n", result.ResultCode));
@@ -148,6 +149,7 @@ namespace travelAgency.Dialogs
 
         private void BingSearchDataProvider_SearchCompleted(object sender, BingSearchCompletedEventArgs e)
         {
+            coderLayer.ClearResults();
             SearchRequestResult result = e.RequestResult;
 
             if (result.ResultCode != RequestResultCode.Success)

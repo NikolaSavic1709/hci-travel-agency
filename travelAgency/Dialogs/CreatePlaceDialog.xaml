@@ -185,10 +185,10 @@
                                      MarkerTemplate="{StaticResource pushpin}" />-->
                             </dxm:MapItemStorage>
                         </dxm:VectorLayer>
-                        <dxm:InformationLayer>
-                            <dxm:BingSearchDataProvider BingKey="Bobfc3eHAUPXgpeTYjms~m6tD9dbiJz0HFBraHXWR_A~AvjPgt_MJZVhNNdKhscJbncrArt9ydMHTLueaT6sDhboip1smAQSMs7436fWsrtq" SearchCompleted="BingSearchDataProvider_SearchCompleted" />
+                        <dxm:InformationLayer Name="searchLayer">
+                            <dxm:BingSearchDataProvider BingKey="Bobfc3eHAUPXgpeTYjms~m6tD9dbiJz0HFBraHXWR_A~AvjPgt_MJZVhNNdKhscJbncrArt9ydMHTLueaT6sDhboip1smAQSMs7436fWsrtq" SearchCompleted="BingSearchDataProvider_SearchCompleted" x:Name="search" />
                         </dxm:InformationLayer>
-                        <dxm:InformationLayer>
+                        <dxm:InformationLayer Name="coderLayer">
                             <dxm:BingGeocodeDataProvider x:Name="geocode"  LocationInformationReceived="GeocodeProvider_LocationInformationReceived" BingKey="Bobfc3eHAUPXgpeTYjms~m6tD9dbiJz0HFBraHXWR_A~AvjPgt_MJZVhNNdKhscJbncrArt9ydMHTLueaT6sDhboip1smAQSMs7436fWsrtq" MaxVisibleResultCount="1" />
                         </dxm:InformationLayer>
                     </dxm:MapControl>
