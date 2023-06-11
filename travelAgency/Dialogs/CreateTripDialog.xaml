@@ -5,11 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:validators="clr-namespace:travelAgency.validators"
-        xmlns:local="clr-namespace:travelAgency.Dialogs"
+        xmlns:local="clr-namespace:travelAgency.Dialogs" xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         mc:Ignorable="d"
         Title="Create new trip"  ResizeMode="NoResize" Height="800" Width="600"
         MouseDown="window_MouseDown" WindowStartupLocation="CenterScreen">
     <Window.Resources>
+        <CollectionViewSource x:Key="SortedSchedules" Source="{Binding Trip.Schedules}">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="DateTime" />
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
         <Style x:Key="BottomButton" TargetType="Button">
             <Setter Property="Cursor" Value="Hand" />
             <Setter Property="BorderThickness" Value="0" />
@@ -137,7 +142,7 @@
                 <TextBox Height="80" Width="Auto" Grid.Row="1" Grid.ColumnSpan="5" AcceptsReturn="True" TextWrapping="Wrap" Name="DescriptionTxtBox"
                        Background="#ececec" FontSize="16"  materialDesign:HintAssist.Hint="Description" Style="{StaticResource MaterialDesignOutlinedTextBox}"
                  materialDesign:HintAssist.Background="#00000000" Padding="7,0,5,0" VerticalContentAlignment="Center"
-                  Margin="60,0,60,0"  BorderBrush="#55000000" BorderThickness="1" />
+                  Margin="60,0,60,0"  BorderBrush="#55000000" BorderThickness="1" DataObject.Pasting="TextBoxPasting" PreviewTextInput="Price_PreviewTextInput" />
 
                 <TextBox Grid.Row="2" Grid.ColumnSpan="5" Background="#ececec" FontSize="16" Name="PriceTxtBox"
                   Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Price"
@@ -218,7 +223,7 @@
                     <materialDesign:PackIcon Kind="Plus" Height="25" Width="25" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" />
                 </Button>
 
-                <ItemsControl ItemsSource="{Binding Trip.Schedules}" Grid.Row="6" Grid.ColumnSpan="4" Margin="60,0,60,0">
+                <ItemsControl ItemsSource="{Binding Source={StaticResource SortedSchedules}}" Grid.Row="6" Grid.ColumnSpan="4" Margin="60,0,60,0">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
 

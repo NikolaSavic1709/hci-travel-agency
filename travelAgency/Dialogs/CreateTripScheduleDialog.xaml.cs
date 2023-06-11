@@ -20,14 +20,24 @@ namespace travelAgency.Dialogs
         Trip Trip { get; set; }
         TripRepository tripRepository;
         private PlaceRepository placeRepository;
+        TripSchedule TripSchedule { get; set; }
 
-        public CreateTripScheduleDialog(Trip trip, TripRepository tripRepository, PlaceRepository placeRepository)
+        public CreateTripScheduleDialog(Trip trip, TripRepository tripRepository, PlaceRepository placeRepository, TripSchedule? tripScheduleForEdit)
         {
             InitializeComponent();
             Trip = trip;
             this.tripRepository = tripRepository;
             this.placeRepository = placeRepository;
             places = placeRepository.GetAll();
+            if(tripScheduleForEdit!=null)
+            {
+                TripSchedule = tripScheduleForEdit;
+                PlaceTextBox.Text = TripSchedule.Place.Name;
+                PlaceTextBox.IsEnabled = false;
+                AutocompleteListBox.Visibility = Visibility.Hidden;
+                DatePicker.SelectedDate=TripSchedule.DateTime;
+                TimePicker.SelectedTime=TripSchedule.DateTime;
+            }
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -121,13 +131,24 @@ namespace travelAgency.Dialogs
 
             if (selectedPlace != null)
             {
-                TripSchedule tripSchedule = new TripSchedule();
-                tripSchedule.Place = selectedPlace;
                 DateTime? date = DatePicker.SelectedDate.Value;
                 DateTime? time = TimePicker.SelectedTime.Value;
 
-                tripSchedule.DateTime = new DateTime(date.Value.Year, date.Value.Month, date.Value.Day, time.Value.Hour, time.Value.Minute, 0);
-                Trip.Schedules.Add(tripSchedule);
+                if (TripSchedule!=null)
+                {
+                    TripSchedule.DateTime = new DateTime(date.Value.Year, date.Value.Month, date.Value.Day, time.Value.Hour, time.Value.Minute, 0);
+                    Trip.Schedules.Remove(TripSchedule);
+                    Trip.Schedules.Add(TripSchedule);
+                }
+                else
+                {
+                    TripSchedule tripSchedule = new TripSchedule();
+                    tripSchedule.Place = selectedPlace;
+                    
+                    tripSchedule.DateTime = new DateTime(date.Value.Year, date.Value.Month, date.Value.Day, time.Value.Hour, time.Value.Minute, 0);
+                    Trip.Schedules.Add(tripSchedule);
+                }
+                
                 tripRepository.Save();
                 Close();
             }

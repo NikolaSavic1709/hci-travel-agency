@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -20,7 +21,7 @@ namespace travelAgency.Dialogs
 
         CreateTripViewModel ViewModel { get; set; }
         int currentIndexListBox=-1;
-
+        private static readonly Regex _regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
         public CreateTripDialog(TripRepository tripRepository, PlaceRepository placeRepository)
         {
             InitializeComponent();
@@ -91,6 +92,10 @@ namespace travelAgency.Dialogs
 
                 tripSchedule.DateTime = new DateTime(date.Value.Year, date.Value.Month, date.Value.Day, time.Value.Hour, time.Value.Minute, 0);
                 ViewModel.Trip.Schedules.Add(tripSchedule);
+                PlaceTextBox.Text = string.Empty;
+                DatePicker.SelectedDate = null;
+                TimePicker.SelectedTime = null;
+
             }
             else
             {
@@ -158,6 +163,28 @@ namespace travelAgency.Dialogs
             Close();
         }
         public event EventHandler<ToTripEventArgs> NewTrip;
-      
+        private static bool IsTextAllowed(string text)
+        {
+            return !_regex.IsMatch(text);
+        }
+        private void TextBoxPasting(object sender, DataObjectPastingEventArgs e)
+        {
+            if (e.DataObject.GetDataPresent(typeof(String)))
+            {
+                String text = (String)e.DataObject.GetData(typeof(String));
+                if (!IsTextAllowed(text))
+                {
+                    e.CancelCommand();
+                }
+            }
+            else
+            {
+                e.CancelCommand();
+            }
+        }
+        private void Price_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !IsTextAllowed(e.Text);
+        }
     }
 }

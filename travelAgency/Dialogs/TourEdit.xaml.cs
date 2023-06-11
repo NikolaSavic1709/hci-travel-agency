@@ -50,7 +50,7 @@ public partial class TourEdit : Window
             this.trip = trip;
             NameTxtBox.Text=trip.Name;
             DescriptionTxtBox.Text = trip.Description;
-            PriceTxtBox.Text = trip.Price + " IZM";
+            PriceTxtBox.Text = trip.Price.ToString();
         }
     }
 

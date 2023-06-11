@@ -1,18 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace travelAgency.model
 {
-    /*public class Trip
-    {
-        [Key]
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public double Price { get; set; }
-        public virtual List<TripSchedule> Schedules { get; set; }
-    }*/
 
     public class Trip : INotifyPropertyChanged
     {
@@ -83,6 +75,12 @@ namespace travelAgency.model
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void AddTripSchedule(TripSchedule tripSchedule)
+        {
+            this.Schedules.Add(tripSchedule);
+            //this.Schedules = new ObservableCollection<TripSchedule>(this.Schedules.OrderBy(ts => ts.DateTime));
         }
     }
 }
