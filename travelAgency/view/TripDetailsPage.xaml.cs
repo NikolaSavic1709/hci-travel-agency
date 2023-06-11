@@ -41,7 +41,7 @@ namespace travelAgency.view
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            CreateTripScheduleDialog dialog = new CreateTripScheduleDialog(Trip, tripRepository, placeRepository);
+            CreateTripScheduleDialog dialog = new CreateTripScheduleDialog(Trip, tripRepository, placeRepository, null);
             dialog.ShowDialog();
             DrawRoute();
         }
@@ -77,7 +77,7 @@ namespace travelAgency.view
 
         private void EditTour_Click(object sender, RoutedEventArgs e)
         {
-            TourEdit dialog = new TourEdit(Trip,tripRepository);
+            TourEdit dialog = new TourEdit(Trip, tripRepository);
             dialog.ShowDialog();
         }
 
