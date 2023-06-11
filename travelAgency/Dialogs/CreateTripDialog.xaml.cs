@@ -20,7 +20,7 @@ namespace travelAgency.Dialogs
         private TripRepository tripRepository;
 
         CreateTripViewModel ViewModel { get; set; }
-        int currentIndexListBox=-1;
+        int currentIndexListBox=-1; 
         private static readonly Regex _regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
         public CreateTripDialog(TripRepository tripRepository, PlaceRepository placeRepository)
         {
