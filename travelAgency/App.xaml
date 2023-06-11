@@ -3,7 +3,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:travelAgency"
-             StartupUri="view/ClientHome.xaml">  <!--Dialogs/CreateTripDialog-->
+             StartupUri="view/AgentHome.xaml">  <!--Dialogs/CreateTripDialog-->
     <Application.Resources>
 
         <ResourceDictionary>

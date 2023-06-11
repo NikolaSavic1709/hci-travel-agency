@@ -16,7 +16,7 @@ namespace travelAgency.view;
 public partial class PlacesPage : Page
 {
     public TravelAgencyContext dbContext;
-    public PlaceRepository placeRepository;
+    public AttractionRepository attractionRepository;
     public string BingKey { get; set; }
     private MapPushpin pin;
 
@@ -27,30 +27,38 @@ public partial class PlacesPage : Page
         InitializeComponent();
 
         dbContext = new TravelAgencyContext();
-        placeRepository = new PlaceRepository(dbContext);
+        attractionRepository = new AttractionRepository(dbContext);
 
-        List<Place> places = placeRepository.GetAll();
-        foreach (Place p in places)
+        List<Attraction> attractions = attractionRepository.GetAll();
+        foreach (Attraction a in attractions)
         {
-            PlaceCard placeCard = new PlaceCard
-            {
-                Margin = new Thickness(10),
-                Place = p
-            };
-            placeCard.ToPlaceClicked += PlaceCard_ToPlace;
-            placeCard.MouseDown += PlaceCard1_MouseDown;
-            cards.Children.Add(placeCard);
+            CreateCard(a);
         }
 
         
     }
-
-    private void PlaceCard1_MouseDown(object sender, MouseButtonEventArgs e)
+    private void CreateCard(Attraction attraction)
+    {
+        AttractionCard placeCard = new AttractionCard
+        {
+            Margin = new Thickness(10),
+            Attraction = attraction
+        };
+        placeCard.ToAttractionClicked += AttractionCard_ToPlace;
+        placeCard.AttractionDelete += AttractionCard_Remove;
+        placeCard.MouseDown += AttractionCard_MouseDown;
+        cards.Children.Add(placeCard);
+    }
+    private void AttractionCard_NewAttraction(object sender, ToAttractionEventArgs e)
+    {
+        CreateCard(e.Attraction);
+    }
+    private void AttractionCard_MouseDown(object sender, MouseButtonEventArgs e)
     {
         if (pin != null)
             mapItems.Items.Remove(pin);
 
-        Place p = ((PlaceCard)e.Source).Place;
+        Place p = ((AttractionCard)e.Source).Attraction;
         pin = new MapPushpin();
 
         //pin.MarkerTemplate = (DataTemplate)TryFindResource("pushpin");
@@ -61,13 +69,20 @@ public partial class PlacesPage : Page
         mapItems.Items.Add(pin);
     }
 
-    private void PlaceCard_ToPlace(object sender, ToPlaceEventArgs e)
+    private void AttractionCard_ToPlace(object sender, ToAttractionEventArgs e)
     {
-        Place place = e.Place;
+        Attraction attraction = e.Attraction;
 
-        //NavigationService?.Navigate(new TripDetailsPage(place));
+        NavigationService?.Navigate(new AdminStayEatDetailPage(attraction, false));
     }
+    private void AttractionCard_Remove(object sender, ToAttractionEventArgs e)
+    {
+        Attraction attraction = e.Attraction;
+        AttractionCard card = (AttractionCard)sender;
+        cards.Children.Remove(card);
+        attractionRepository.Delete(attraction);
 
+    }
     private void Search_OnKeyDown(object sender, KeyEventArgs e)
     {
         var textBox = (TextBox)sender;
@@ -77,9 +92,11 @@ public partial class PlacesPage : Page
 
     private MapPushpin mapItem;
 
-    private void CreateTrip_Click(object sender, RoutedEventArgs e)
+    private void CreatePlace_Click(object sender, RoutedEventArgs e)
     {
         CreatePlaceDialog window = new CreatePlaceDialog();
+        window.NewAttraction += AttractionCard_NewAttraction;
         window.ShowDialog();
     }
+
 }

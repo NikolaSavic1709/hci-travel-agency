@@ -80,7 +80,7 @@
                     ToolTip="Filter" />
                 <Button Content="{materialDesign:PackIcon Plus}" Background="#009882" Padding="0"
                     Grid.Column="5" Grid.Row="1"
-                    ToolTip="Create trip" Click="CreateTrip_Click" />
+                    ToolTip="Create trip" Click="CreatePlace_Click" />
 
                 <Grid Grid.Column="7"  Grid.Row="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                     <dxm:MapControl Name="map" HorizontalAlignment="Stretch"  VerticalAlignment="Center" Width="Auto">

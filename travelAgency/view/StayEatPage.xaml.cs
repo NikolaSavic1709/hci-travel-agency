@@ -1,4 +1,5 @@
-﻿using DevExpress.Xpf.Map;
+﻿using DevExpress.Pdf.Native.BouncyCastle.Asn1.X509.Qualified;
+using DevExpress.Xpf.Map;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -32,75 +33,33 @@ public partial class StayEatPage : Page
         List<Restaurant> restaurants = restaurantRepository.GetAll();
         foreach (Restaurant p in restaurants)
         {
-            StayEatCard stayEatCard = new StayEatCard
-            {
-                Margin = new Thickness(10),
-                StayEat = p
-            };
-            stayEatCard.ToStayEatClicked += StayEatCard_ToStayEat;
-            cards.Children.Add(stayEatCard);
+            CreateCard(p);
         }
 
         List<Stay> stays = stayRepository.GetAll();
         foreach (Stay p in stays)
         {
-            StayEatCard stayEatCard = new StayEatCard
-            {
-                Margin = new Thickness(10),
-                StayEat = p
-            };
-            stayEatCard.ToStayEatClicked += StayEatCard_ToStayEat;
-            cards.Children.Add(stayEatCard);
+            CreateCard(p);
         }
 
-        Trip trip = new Trip();
-        trip.Name = "Tura zapadna Srbija";
-        trip.Description = "Tura je veoma zaniljiva i duga jer Savic i drugari imaju sta da ponude i njihovom kraju";
-        Place place = new Place();
-        place.Name = "Vranje";
-        Place place2 = new Place();
-        place2.Name = "Smederevo";
-        TripSchedule tripSchedule = new TripSchedule();
-        tripSchedule.Place = place;
-        TripSchedule tripSchedule2 = new TripSchedule();
-        tripSchedule2.Place = place2;
-
-        trip.Schedules.Add(tripSchedule);
-        trip.Schedules.Add(tripSchedule2);
-
-        place2.lat = 44.66278;
-        place2.lng = 20.93;
-
-        Restaurant restaurant = new Restaurant();
-        restaurant.Name = "Vila Jugovo";
-        restaurant.lat = 44.66278;
-        restaurant.lng = 20.93;
-
-        StayEatCard placeCard1 = new StayEatCard
-        {
-            Margin = new Thickness(10),
-            StayEat = restaurant
-        };
-        placeCard1.ToStayEatClicked += StayEatCard_ToStayEat;
-        placeCard1.MouseDown += PlaceCard1_MouseDown;
-        cards.Children.Add(placeCard1);
-
-        Stay stay = new Stay();
-        stay.Name = "Saviceva kuca";
-        stay.lat = 44.7553;
-        stay.lng = 19.6923;
-
-        StayEatCard placeCard2 = new StayEatCard
-        {
-            Margin = new Thickness(10),
-            StayEat = stay
-        };
-        placeCard2.ToStayEatClicked += StayEatCard_ToStayEat;
-        placeCard2.MouseDown += PlaceCard1_MouseDown;
-        cards.Children.Add(placeCard2);
     }
-
-    private void PlaceCard1_MouseDown(object sender, MouseButtonEventArgs e)
+    private void CreateCard(Place place)
+    {
+        StayEatCard placeCard = new StayEatCard
+        {
+            Margin = new Thickness(10),
+            StayEat=place
+        };
+        placeCard.ToStayEatClicked += StayEatCard_ToStayEat;
+        placeCard.StayEatDelete += StayEatCard_Remove;
+        placeCard.MouseDown += StayEatCard_MouseDown;
+        cards.Children.Add(placeCard);
+    }
+    private void StayEatCard_NewStayEat(object sender, ToStayEatEventArgs e)
+    {
+        CreateCard(e.Place);
+    }
+    private void StayEatCard_MouseDown(object sender, MouseButtonEventArgs e)
     {
         if (pin != null)
             mapItems.Items.Remove(pin);
@@ -119,10 +78,23 @@ public partial class StayEatPage : Page
     private void StayEatCard_ToStayEat(object sender, ToStayEatEventArgs e)
     {
         Place place = e.Place;
-
-        //NavigationService?.Navigate(new TripDetailsPage(place));
+        if (place is Stay)
+            NavigationService?.Navigate(new AdminStayEatDetailPage(place, true));
+        else
+            NavigationService?.Navigate(new AdminStayEatDetailPage(place, false));
     }
+    private void StayEatCard_Remove(object sender, ToStayEatEventArgs e)
+    {
+        Place place = e.Place;
+        
+        StayEatCard card = (StayEatCard)sender;
+        cards.Children.Remove(card);
+        if (place is Restaurant)
+            restaurantRepository.Delete((Restaurant)place);
+        else
+            stayRepository.Delete((Stay)place);
 
+    }
     private void Search_OnKeyDown(object sender, KeyEventArgs e)
     {
         var textBox = (TextBox)sender;
@@ -132,9 +104,10 @@ public partial class StayEatPage : Page
 
     private MapPushpin mapItem;
 
-    private void CreateTrip_Click(object sender, RoutedEventArgs e)
+    private void CreatePlace_Click(object sender, RoutedEventArgs e)
     {
         CreatePlaceDialog window = new CreatePlaceDialog();
+        window.NewStayEat += StayEatCard_NewStayEat;
         window.ShowDialog();
     }
 }

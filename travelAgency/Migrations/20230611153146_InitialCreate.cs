@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 using travelAgency.model;
 
@@ -71,7 +70,7 @@ namespace travelAgency.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     amenity = table.Column<int>(type: "INTEGER", nullable: false),
-                    StayId = table.Column<int>(type: "INTEGER", nullable: true)
+                    StayId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -80,7 +79,8 @@ namespace travelAgency.Migrations
                         name: "FK_Amenities_Places_StayId",
                         column: x => x.StayId,
                         principalTable: "Places",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -139,7 +139,8 @@ namespace travelAgency.Migrations
                     DateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Price = table.Column<double>(type: "REAL", nullable: false),
                     TripId = table.Column<int>(type: "INTEGER", nullable: false),
-                    UserId = table.Column<int>(type: "INTEGER", nullable: false)
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false),
+                    IsReservation = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -183,26 +184,30 @@ namespace travelAgency.Migrations
                 table: "TripSchedules",
                 column: "PlaceId");
 
+            UserType userType = UserType.Agent;
+            int authValue = (int)userType;
+
             migrationBuilder.CreateIndex(
                 name: "IX_TripSchedules_TripId",
                 table: "TripSchedules",
                 column: "TripId");
-            UserType userType = UserType.Agent;
-            int authValue = (int)userType;
-
             migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Name", "Surname", "Email", "Password", "Auth"},
-                values: new object[] { "Nikola", "Savic", "ns@gmail.com", "sifra", authValue });
+               table: "Users",
+               columns: new[] { "Name", "Surname", "Email", "Password", "Auth" },
+               values: new object[] { "Nikola", "Savic", "ns@gmail.com", "sifra", authValue });
             migrationBuilder.InsertData(
                 table: "Places",
                 columns: new[] { "Name", "Description", "Location", "lat", "lng", "Discriminator" },
-                values: new object[] { "Sabac", "Najlepsi grad", "Macva", 44.75, 19.60, "Place" });
+                values: new object[] { "Sabac", "Najlepsi grad", "Macva", 44.75, 19.60, "Attraction" });
 
             migrationBuilder.InsertData(
                 table: "Places",
                 columns: new[] { "Name", "Description", "Location", "lat", "lng", "Discriminator" },
-                values: new object[] { "Novi Sad", "Srpska Atina", "Vojvodina", 45.75, 19.60, "Place" });
+                values: new object[] { "Novi Sad", "Srpska Atina", "Vojvodina", 45.75, 19.60, "Attraction" });
+            migrationBuilder.InsertData(
+                table: "Places",
+                columns: new[] { "Name", "Description", "Location", "lat", "lng", "Discriminator" },
+                values: new object[] { "Jedite kod Ajkule", "pseca hrana", "ftn", 45.00, 19.60, "Restaurant" });
 
             migrationBuilder.InsertData(
                 table: "Trips",
@@ -220,8 +225,8 @@ namespace travelAgency.Migrations
                 values: new object[] { new DateTime(2023, 6, 10, 14, 0, 0), 1, 2 });
             migrationBuilder.InsertData(
                 table: "Arrangements",
-                columns: new[] { "DateTime", "TripId", "NumberOfPersons", "Price", "UserId" },
-                values: new object[] { new DateTime(2023,6,10,13,0,0), 1, 3, 23000, 1}
+                columns: new[] { "DateTime", "TripId", "NumberOfPersons", "Price", "UserId", "IsReservation" },
+                values: new object[] { new DateTime(2023, 6, 10, 13, 0, 0), 1, 3, 23000, 1, true }
                 );
         }
 

@@ -49,7 +49,7 @@ public partial class ClientHome : Window
                 Main.Content = new ClientHomePage();
                 break;
             case "HistoryButton":
-                Main.Content = new HistoryPage();
+                Main.Content = new HistoryPage(null);
                 break;
 
             default:

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="travelAgency.components.PlaceCard"
+﻿<UserControl x:Class="travelAgency.components.AttractionCard"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -20,12 +20,12 @@
                  Stretch="UniformToFill" />-->
 
             <StackPanel Grid.Row="0" Margin="8,7,8,0">
-                <TextBlock FontWeight="Bold" FontSize="16" Margin="0,0,0,5" Text="{Binding Place.Name}" />
+                <TextBlock FontWeight="Bold" FontSize="16" Margin="0,0,0,5" Text="{Binding Attraction.Name}" />
                 <TextBlock VerticalAlignment="Center" Foreground="#009882" FontWeight="Bold"
                        Text="{Binding Route}"
                        TextWrapping="Wrap" />
                 <TextBlock VerticalAlignment="Center" FontSize="11"
-                       Text="{Binding Place.Description}"
+                       Text="{Binding Attraction.Description}"
                        TextWrapping="Wrap" />
             </StackPanel>
             <StackPanel Grid.Row="1" x:Name="buttonStackPanel"
@@ -35,13 +35,13 @@
 
                 <Button Width="30" x:Name="seeButton"
                     Padding="2,0,2,0" Visibility="Hidden"
-                    materialDesign:RippleAssist.IsCentered="True" ToolTip="See this place"
+                    materialDesign:RippleAssist.IsCentered="True" ToolTip="See this attraction"
                     Style="{StaticResource MaterialDesignToolButton}" Click="OpenButton_click">
                     <materialDesign:PackIcon Kind="Eye" />
                 </Button>
                 <Button Width="30" x:Name="deleteButton"
                     Padding="2,0,2,0" Visibility="Hidden"
-                    materialDesign:RippleAssist.IsCentered="True" ToolTip="Delete this place"
+                    materialDesign:RippleAssist.IsCentered="True" ToolTip="Delete this attraction"
                     Click="DeleteButton_Click"
                     Style="{StaticResource MaterialDesignToolButton}">
                     <materialDesign:PackIcon Kind="TrashCan" />

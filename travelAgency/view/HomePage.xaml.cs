@@ -149,6 +149,7 @@ namespace travelAgency.view
         private void CreateTrip_Click(object sender, RoutedEventArgs e)
         {
             CreateTripDialog window = new CreateTripDialog(tripRepository, placeRepository);
+            window.NewTrip += TripCard_NewTrip;
             window.ShowDialog();
         }
 

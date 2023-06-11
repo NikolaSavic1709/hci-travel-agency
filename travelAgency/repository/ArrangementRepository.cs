@@ -19,12 +19,22 @@ namespace travelAgency.repository
 
         public Arrangement GetById(int id)
         {
-            return dbContext.Arrangements.FirstOrDefault(u => u.Id == id);
+            return dbContext.Arrangements
+                .AsNoTracking()
+                .FirstOrDefault(u => u.Id == id);
         }
 
         public List<Arrangement> GetAll()
         {
-            return dbContext.Arrangements.ToList();
+            //return dbContext.Arrangements.ToList();
+            return dbContext.Arrangements.Include(a => a.Trip).Include(a => a.User).ToList();
+        }
+
+        public List<Arrangement> GetArrangementsForUser(int userId)
+        {
+            return dbContext.Arrangements
+                .Where(a => a.UserId == userId)
+                .ToList();
         }
 
         public void Add(Arrangement arrangement)
@@ -34,7 +44,7 @@ namespace travelAgency.repository
         }
 
         public void Update(Arrangement arrangement)
-        {
+        {          
             dbContext.Arrangements.Update(arrangement);
             dbContext.SaveChanges();
         }

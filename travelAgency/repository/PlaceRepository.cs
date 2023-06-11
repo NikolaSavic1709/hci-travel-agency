@@ -8,41 +8,41 @@ using travelAgency.model;
 
 namespace travelAgency.repository
 {
-public class PlaceRepository
-{
-    private readonly TravelAgencyContext dbContext;
-
-    public PlaceRepository(TravelAgencyContext dbContext)
+    public class PlaceRepository
     {
-        this.dbContext = dbContext;
-    }
+        private readonly TravelAgencyContext dbContext;
 
-    public Place GetById(int id)
-    {
-        return dbContext.Places.FirstOrDefault(u => u.Id == id);
-    }
+        public PlaceRepository(TravelAgencyContext dbContext)
+        {
+            this.dbContext = dbContext;
+        }
 
-    public List<Place> GetAll()
-    {
-        return dbContext.Places.ToList();
-    }
+        public Place GetById(int id)
+        {
+            return dbContext.Places.FirstOrDefault(u => u.Id == id);
+        }
 
-    public void Add(Place place)
-    {
-        dbContext.Places.Add(place);
-        dbContext.SaveChanges();
-    }
+        public List<Place> GetAll()
+        {
+            return dbContext.Places.ToList();
+        }
 
-    public void Update(Place place)
-    {
-        dbContext.Places.Update(place);
-        dbContext.SaveChanges();
-    }
+        public void Add(Place place)
+        {
+            dbContext.Places.Add(place);
+            dbContext.SaveChanges();
+        }
 
-    public void Delete(Place place)
-    {
-        dbContext.Places.Remove(place);
-        dbContext.SaveChanges();
+        public void Update(Place place)
+        {
+            dbContext.Places.Update(place);
+            dbContext.SaveChanges();
+        }
+
+        public void Delete(Place place)
+        {
+            dbContext.Places.Remove(place);
+            dbContext.SaveChanges();
         }
         public void Save()
         {

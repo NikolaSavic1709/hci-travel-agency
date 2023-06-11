@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using travelAgency.model;
 
 namespace travelAgency.ViewModel
 {
@@ -7,21 +9,28 @@ namespace travelAgency.ViewModel
         public IconItemListingViewModel ActiveIconItemListingViewModel { get; set; }
         public IconItemListingViewModel RemainingIconItemListingViewModel { get; set; }
 
-        public AmenitiesDialogViewModel()
+        public AmenitiesDialogViewModel(Stay stay)
         {
-            // :TODO add real data from db
 
             IconItemListingViewModel activeIconItemListingViewModel = new IconItemListingViewModel();
-            for (int i = 0; i < 10; i++)
+            List<int> amenitiesIdxs = new List<int>();
+
+            for (int i = 0; i < stay.StayAmenities.Count; i++)
             {
-                activeIconItemListingViewModel.AddTodoItem(new IconItemViewModel(i));
+                int amenityIdx = (int)stay.StayAmenities[i].amenity;
+                amenitiesIdxs.Add(amenityIdx);
+                activeIconItemListingViewModel.AddTodoItem(new IconItemViewModel(amenityIdx));
             }
             ActiveIconItemListingViewModel = activeIconItemListingViewModel;
 
             IconItemListingViewModel remainingIconItemListingViewModel = new IconItemListingViewModel();
             for (int i = 0; i < 10; i++)
             {
-                remainingIconItemListingViewModel.AddTodoItem(new IconItemViewModel(i));
+                if (!amenitiesIdxs.Contains(i))
+                {
+                    remainingIconItemListingViewModel.AddTodoItem(new IconItemViewModel(i));
+                }
+                
             }
             RemainingIconItemListingViewModel = remainingIconItemListingViewModel;
         }

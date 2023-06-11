@@ -4,10 +4,114 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:travelAgency.view"
-      mc:Ignorable="d"
+      xmlns:controls="clr-namespace:travelAgency.controls"
+      xmlns:dxm="http://schemas.devexpress.com/winfx/2008/xaml/map"
+      mc:Ignorable="d" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:clr="clr-namespace:System;assembly=mscorlib"
+      Background="{DynamicResource MaterialDesignPaper}"
+      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
       d:DesignHeight="700" d:DesignWidth="1000"
       Title="HistoryPage">
+    <Page.Resources>
+        <DataTemplate x:Key="pushpin">
+            <StackPanel ToolTipService.ToolTip="{Binding Path=MapItem.Information}" Height="NaN" Orientation="Horizontal"  >
+                <Image  Source="pack://application:,,,/pin.png" Width="20" Height="20"  />
 
+            </StackPanel>
+        </DataTemplate>
+        <clr:String x:Key=" ">""</clr:String>
+    </Page.Resources>
     <Grid>
+        <Grid Background="#c7c7c7">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30*" />
+                <ColumnDefinition Width="300*" />
+                <ColumnDefinition Width="12*" />
+                <ColumnDefinition Width="35*" />
+                <ColumnDefinition Width="12*" />
+                <ColumnDefinition Width="35*" />
+                <ColumnDefinition Width="25*" />
+                <ColumnDefinition Width="300*" />
+                <ColumnDefinition Width="30*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="17*" />
+                <RowDefinition Height="30*" />
+                <RowDefinition Height="17*" />
+                <RowDefinition Height="410*" />
+                <RowDefinition Height="40*" />
+
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+                MaxHeight="30"
+                Background="#F6F6F6"
+                CornerRadius="3"
+                ToolTip="Enter to search, ignore case">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Button x:Name="SearchButton"
+                    Width="24"
+                    Height="24"
+                    Command="{Binding SearchCommand}"
+                    CommandParameter="{Binding ElementName=SearchBox, Path=Text}"
+                    Style="{StaticResource MaterialDesignToolButton}">
+                        <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
+                    </Button>
+
+                    <TextBox x:Name="SearchBox"
+                     Grid.Column="1"
+                     MinWidth="200"
+                     Margin="5,0,0,0"
+                     VerticalAlignment="Center"
+                     materialDesign:HintAssist.Hint="Search"
+                     materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
+                     BorderThickness="0"
+                     KeyDown="Search_OnKeyDown" />
+                </Grid>
+            </Border>
+
+            <Button Content="{materialDesign:PackIcon Filter}" Background="#009882" Padding="0"
+                    Grid.Column="5" Grid.Row="1"
+                    ToolTip="Filter" Click="Filter_Click" />
+
+
+
+            <Grid Grid.Column="7"  Grid.Row="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <dxm:MapControl Name="map" HorizontalAlignment="Stretch"  VerticalAlignment="Center" Width="Auto"
+                                MouseLeftButtonDown="map_MouseLeftButtonDown" MouseLeftButtonUp="map_MouseLeftButtonUp" MouseMove="map_MouseMove"  >
+                    <dxm:ImageLayer>
+                        <dxm:BingMapDataProvider Kind="RoadLight" BingKey=" "/>
+                    </dxm:ImageLayer>
+                    <dxm:VectorLayer>
+                        <dxm:MapItemStorage x:Name="mapItems" >
+                            <!--<dxm:MapPushpin  Location="41.88,-87.63" 
+                                     Information="Test Chicago Information"
+                                     MarkerTemplate="{StaticResource pushpin}" />-->
+                        </dxm:MapItemStorage>
+                    </dxm:VectorLayer>
+                    <dxm:InformationLayer>
+                        <dxm:BingSearchDataProvider BingKey=" "/>
+                    </dxm:InformationLayer>
+                    <dxm:InformationLayer>
+                        <dxm:BingGeocodeDataProvider x:Name="geocode"  LocationInformationReceived="geocodeProvider_LocationInformationReceived" BingKey=" "/>
+                    </dxm:InformationLayer>
+
+                </dxm:MapControl>
+                <TextBlock x:Name="tbResults" TextWrapping="Wrap" Text="TextBlock" Margin="0,0,512,0"/>
+
+            </Grid>
+
+            <controls:FlexWrapPanel HorizontalAlignment="Stretch" RequestedItemWidth="245" Width="Auto" Margin="-10"
+                                Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="3" x:Name="cards">
+                
+            </controls:FlexWrapPanel>
+
+        </Grid>
     </Grid>
 </Page>

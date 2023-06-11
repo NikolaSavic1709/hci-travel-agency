@@ -4,7 +4,16 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Forms;
+using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using travelAgency.components;
 using travelAgency.controls;
 using travelAgency.Dialogs;
 using travelAgency.repository;
@@ -68,7 +77,7 @@ namespace travelAgency.view
                     Main.Content = new ReportPage(tripRepository, arrangementRepository);
                     break;
                 case "HistoryButton":
-                    Main.Content = new HistoryPage();
+                    Main.Content = new HistoryPage(null);
                     break;
                 default:
                     break;
