@@ -94,7 +94,7 @@ public partial class PlacesPage : Page
 
     private void CreatePlace_Click(object sender, RoutedEventArgs e)
     {
-        CreatePlaceDialog window = new CreatePlaceDialog();
+        CreatePlaceDialog window = new CreatePlaceDialog(true);
         window.NewAttraction += AttractionCard_NewAttraction;
         window.ShowDialog();
     }

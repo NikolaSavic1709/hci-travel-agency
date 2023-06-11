@@ -106,7 +106,7 @@ public partial class StayEatPage : Page
 
     private void CreatePlace_Click(object sender, RoutedEventArgs e)
     {
-        CreatePlaceDialog window = new CreatePlaceDialog();
+        CreatePlaceDialog window = new CreatePlaceDialog(false);
         window.NewStayEat += StayEatCard_NewStayEat;
         window.ShowDialog();
     }

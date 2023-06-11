@@ -18,13 +18,22 @@ namespace travelAgency.Dialogs
         StayRepository stayRepository;
         RestaurantRepository restaurantRepository;
         public TravelAgencyContext dbContext;
-        public CreatePlaceDialog()
+        public CreatePlaceDialog(bool createPlace)
         {
             InitializeComponent();
             dbContext = new TravelAgencyContext();
             attractionRepository = new AttractionRepository(dbContext);
             stayRepository = new StayRepository(dbContext);
             restaurantRepository = new RestaurantRepository(dbContext);
+            if (createPlace)
+            {
+                OutlinedComboBox.SelectedIndex = 0;
+                OutlinedComboBox.IsEnabled = false;
+            }
+            else
+            {
+                OutlinedComboBox.Items.RemoveAt(0);
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
