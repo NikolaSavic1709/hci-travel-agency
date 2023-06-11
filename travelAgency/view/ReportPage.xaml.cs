@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using travelAgency.Commands;
 using travelAgency.components;
 using travelAgency.controls;
 using travelAgency.Dialogs;
@@ -31,12 +32,19 @@ namespace travelAgency.view
         public (int month, int year) lastMonthFilter = (0, 0);
         public string BingKey { get; set; }
 
+        public List<ReportCard> reportCards;
+        public List<ReportCard> filteredReportCards;
+        public ICommand SearchCommand { get; }
         public ReportPage(TripRepository tripRepository, ArrangementRepository arrangementRepository)
         {
             this.tripRepository = tripRepository;
             this.arrangementRepository = arrangementRepository;
             BingKey = "";
+            SearchCommand = new CommandImplementationcs(Search);
+            reportCards = new List<ReportCard>();
             InitializeComponent();
+            DataContext = this;
+
             Grid calendarGrid = Calendar;
 
             if (calendarGrid.Children.Count >= 6 && calendarGrid.Children[5] is CalendarLabel label)
@@ -97,6 +105,7 @@ namespace travelAgency.view
             {
                 CreateCard(arrangement);
             }
+            RefreshCards(false);
         }
 
         private void CreateCard(Arrangement arrangement)
@@ -106,8 +115,28 @@ namespace travelAgency.view
                 Margin = new Thickness(10),
                 Arrangement = arrangement
             };
-            reportCard.MouseDown += ReportCard_MouseDown;
-            cards.Children.Add(reportCard);
+
+            reportCards.Add(reportCard);
+        }
+
+        public void RefreshCards(bool isFilter)
+        {
+            cards.Children.Clear();
+            if (isFilter)
+            {
+                foreach (ReportCard a in filteredReportCards)
+                {
+                    cards.Children.Add(a);
+                }
+            }
+            else
+            {
+                foreach (ReportCard a in reportCards)
+                {
+                    cards.Children.Add(a);
+                }
+            }
+
         }
 
         private void ReportCard_MouseDown(object sender, MouseButtonEventArgs e)
@@ -195,6 +224,24 @@ namespace travelAgency.view
             if (e.Key == Key.Enter)
                 SearchButton.Command.Execute(textBox.Text);
         }
+
+        private async void Search(object? obj)
+        {
+            var text = obj as string;
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                filteredReportCards = reportCards;
+            }
+            else
+            {
+                filteredReportCards = await Task.Run(() => reportCards
+                    .Where(x => x.Trip.Name.IndexOf(text, StringComparison.CurrentCultureIgnoreCase) >= 0)
+                    .ToList());
+            }
+            RefreshCards(true);
+        }
+        private void geocodeProvider_LocationInformationReceived(object sender, LocationInformationReceivedEventArgs e)
+        {
 
         private void routeProvider_LayerItemsGenerating(object sender, LayerItemsGeneratingEventArgs args)
         {

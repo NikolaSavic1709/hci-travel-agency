@@ -50,14 +50,27 @@ namespace travelAgency.view
             placeRepository = new PlaceRepository(dbContext);
 
             // TODO: add directory for every place
-            //ImageDirectory = "C:\\semestar6\\HCI\\vezbe\\projekat\\hci-travel-agency\\travelAgency\\Resources\\Images";
-            //ImageNames = Directory.GetFiles(ImageDirectory);
-            //CurrentImageIndex = 0;
-            //var viewModel = DataContext as StayEatViewModel;
-            //if (viewModel != null)
-            //{
-            //    viewModel.FrontImageSource = ImageNames[CurrentImageIndex];
-            //    viewModel.BackImageSource = ImageNames[CurrentImageIndex];
+            ImageDirectory = "C:\\semestar6\\HCI\\vezbe\\projekat\\hci-travel-agency\\travelAgency\\Resources\\Images";
+            ImageNames = Directory.GetFiles(ImageDirectory);
+            CurrentImageIndex = 0;
+            var viewModel = DataContext as StayEatViewModel;
+            if (viewModel != null)
+            {
+                viewModel.FrontImageSource = ImageNames[CurrentImageIndex];
+                viewModel.BackImageSource = ImageNames[CurrentImageIndex];
+                
+                if (isStay)
+                {
+                    AmenitiesSegment.Visibility = Visibility.Visible;
+                    Place = stayRepository.GetById(Place.Id);
+                    RefreshAmenities();
+                } else
+                {
+                    AmenitiesSegment.Visibility = Visibility.Collapsed;
+                }
+                
+                
+            }
 
             //    if (isStay)
             //    {

@@ -2,6 +2,8 @@
 using DevExpress.XtraPrinting.Native;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text;
 using System.Windows;
@@ -10,6 +12,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using travelAgency.model;
 using travelAgency.repository;
+using travelAgency.ViewModel;
 
 namespace travelAgency.Dialogs
 {
@@ -33,6 +36,9 @@ namespace travelAgency.Dialogs
             attractionRepository = new AttractionRepository(dbContext);
             stayRepository = new StayRepository(dbContext);
             restaurantRepository = new RestaurantRepository(dbContext);
+
+            DataContext = this;
+            SetAmenities();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -77,6 +83,22 @@ namespace travelAgency.Dialogs
                 stayRepository.Add(place);
                 place.lat = lat;
                 place.lng = lng;
+
+
+                IEnumerable<IconItemViewModel> todoItemViewModels = ActiveIconItemListingViewModel.TodoItemViewModels;
+
+                List<Amenity> amenities = new List<Amenity>();
+
+                foreach (var itemViewModel in todoItemViewModels)
+                {
+                    Amenity amenity = new Amenity();
+                    amenity.amenity = (AmenityEnum)itemViewModel.KindValue;
+                    amenities.Add(amenity);
+                }
+
+                place.StayAmenities = amenities;
+
+                stayRepository.Add(place);
                 NewStayEat?.Invoke(this, new ToStayEatEventArgs(place));
             }
             else if (selectedOption == "Restaurant")
@@ -165,12 +187,67 @@ namespace travelAgency.Dialogs
         }
     }
 
+
+        private void RemoveAllBtn_Click(object sender, RoutedEventArgs e)
+        {
+            RemoveAll();
+        }
+
+        private void AddAllBtn_Click(object sender, RoutedEventArgs e)
+        {
+            AddAll();
+        }
+
+        public IconItemListingViewModel ActiveIconItemListingViewModel { get; set; }
+        public IconItemListingViewModel RemainingIconItemListingViewModel { get; set; }
+
+        public void SetAmenities()
+        {
+            IconItemListingViewModel activeIconItemListingViewModel = new IconItemListingViewModel();
+
+            ActiveIconItemListingViewModel = activeIconItemListingViewModel;
+
+            IconItemListingViewModel remainingIconItemListingViewModel = new IconItemListingViewModel();
+            for (int i = 0; i < 10; i++)
+            {               
+                remainingIconItemListingViewModel.AddTodoItem(new IconItemViewModel(i));
+            }
+
+            RemainingIconItemListingViewModel = remainingIconItemListingViewModel;
+        }
+        public void RemoveAll()
+        {
+            ObservableCollection<IconItemViewModel> movedIconItemViewModels = ActiveIconItemListingViewModel.RemoveAllTodoItems();
+            foreach (IconItemViewModel item in movedIconItemViewModels)
+            {
+                RemainingIconItemListingViewModel.AddTodoItem(item);
+            }
+        }
+
+        public void AddAll()
+        {
+            ObservableCollection<IconItemViewModel> movedIconItemViewModels = RemainingIconItemListingViewModel.RemoveAllTodoItems();
+            foreach (IconItemViewModel item in movedIconItemViewModels)
+            {
+                ActiveIconItemListingViewModel.AddTodoItem(item);
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
     public class VisibilityToGridHeightConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var visibility = (Visibility)value;
-            return visibility == Visibility.Visible ? new GridLength(200) : new GridLength(0);
+            return visibility == Visibility.Visible ? new GridLength(350) : new GridLength(0);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
