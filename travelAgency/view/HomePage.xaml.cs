@@ -43,7 +43,7 @@ namespace travelAgency.view
                 TripCard tripCard = new TripCard
                 {
                     Margin = new Thickness(10),
-                    Trip = t
+                    Place = t
                    
                 };
                 tripCard.ToTripClicked += TripCard_ToTrip;
@@ -68,7 +68,7 @@ namespace travelAgency.view
             TripCard tripCard1 = new TripCard
             {
                 Margin = new Thickness(10),
-               Trip = trip
+               Place = trip
             };
             tripCard1.ToTripClicked += TripCard_ToTrip;
 

@@ -39,7 +39,7 @@ public partial class ClientHomePage : Page
             TripCard tripCard = new TripCard
             {
                 Margin = new Thickness(10),
-                Trip = t
+                Place = t
 
             };
             tripCard.ToTripClicked += TripCard_ToTrip;

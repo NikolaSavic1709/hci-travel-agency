@@ -26,7 +26,7 @@ namespace travelAgency.components
         public static readonly DependencyProperty TripProperty =
     DependencyProperty.Register("Trip", typeof(Trip), typeof(TripCard), new PropertyMetadata(null));
 
-        public Trip Trip
+        public Trip Place
         {
             get { return (Trip)GetValue(TripProperty); }
             set { 
@@ -46,7 +46,7 @@ namespace travelAgency.components
         public event EventHandler<ToTripEventArgs> ToTripClicked;
         private void OpenButton_click(object sender, RoutedEventArgs e)
         {
-            ToTripClicked?.Invoke(this, new ToTripEventArgs(Trip));
+            ToTripClicked?.Invoke(this, new ToTripEventArgs(Place));
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
