@@ -212,5 +212,23 @@ namespace travelAgency.view
             RefreshCards(true);
         }
 
+        private void Filter_Click(object sender, RoutedEventArgs e)
+        {
+            FilterArrangementDialog filterArrangementDialog = new FilterArrangementDialog();
+
+            filterArrangementDialog.DialogResultEvent += Filter_DialogResultEvent;
+
+            filterArrangementDialog.ShowDialog();
+        }
+
+        private void Filter_DialogResultEvent(object sender, DialogResultEventArgs e)
+        {
+            bool result = e.Result;
+
+            if (result)
+            {
+               
+            }
+        }
     }
 }

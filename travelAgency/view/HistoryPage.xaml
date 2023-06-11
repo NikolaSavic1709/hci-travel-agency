@@ -78,7 +78,7 @@
 
             <Button Content="{materialDesign:PackIcon Filter}" Background="#009882" Padding="0"
                     Grid.Column="5" Grid.Row="1"
-                    ToolTip="Filter" />
+                    ToolTip="Filter" Click="Filter_Click" />
 
 
 
