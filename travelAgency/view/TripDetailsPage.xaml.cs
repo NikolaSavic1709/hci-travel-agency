@@ -68,18 +68,17 @@ namespace travelAgency.view
 
         private void EditPlace_Click(object sender, RoutedEventArgs e)
         {
-            Button removeButton = (Button)sender;
-            TripSchedule tripSchedule = (TripSchedule)removeButton.DataContext;
-            Place place = tripSchedule.Place;
+            Button editButton = (Button)sender;
+            TripSchedule tripSchedule = (TripSchedule)editButton.DataContext;
 
-            PlaceEdit dialog = new PlaceEdit(place);
-            dialog.Show();
+            CreateTripScheduleDialog dialog = new CreateTripScheduleDialog(Trip, tripRepository, placeRepository, tripSchedule);
+            dialog.ShowDialog();
         }
 
         private void EditTour_Click(object sender, RoutedEventArgs e)
         {
-            TourEdit dialog = new TourEdit(Trip, tripRepository);
-            dialog.Show();
+            TourEdit dialog = new TourEdit(Trip,tripRepository);
+            dialog.ShowDialog();
         }
 
         private void routeProvider_LayerItemsGenerating(object sender, LayerItemsGeneratingEventArgs args)
