@@ -84,7 +84,6 @@ namespace travelAgency.Dialogs
                 place.lat = lat;
                 place.lng = lng;
 
-
                 IEnumerable<IconItemViewModel> todoItemViewModels = ActiveIconItemListingViewModel.TodoItemViewModels;
 
                 List<Amenity> amenities = new List<Amenity>();
@@ -185,8 +184,6 @@ namespace travelAgency.Dialogs
                 lng = locations.Location.Longitude;
             }
         }
-    }
-
 
         private void RemoveAllBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -209,12 +206,13 @@ namespace travelAgency.Dialogs
 
             IconItemListingViewModel remainingIconItemListingViewModel = new IconItemListingViewModel();
             for (int i = 0; i < 10; i++)
-            {               
+            {
                 remainingIconItemListingViewModel.AddTodoItem(new IconItemViewModel(i));
             }
 
             RemainingIconItemListingViewModel = remainingIconItemListingViewModel;
         }
+
         public void RemoveAll()
         {
             ObservableCollection<IconItemViewModel> movedIconItemViewModels = ActiveIconItemListingViewModel.RemoveAllTodoItems();
@@ -233,14 +231,6 @@ namespace travelAgency.Dialogs
             }
         }
     }
-
-
-
-
-
-
-
-
 
     public class VisibilityToGridHeightConverter : IValueConverter
     {

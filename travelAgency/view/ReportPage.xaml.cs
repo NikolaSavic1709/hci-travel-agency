@@ -35,6 +35,7 @@ namespace travelAgency.view
         public List<ReportCard> reportCards;
         public List<ReportCard> filteredReportCards;
         public ICommand SearchCommand { get; }
+
         public ReportPage(TripRepository tripRepository, ArrangementRepository arrangementRepository)
         {
             this.tripRepository = tripRepository;
@@ -136,7 +137,6 @@ namespace travelAgency.view
                     cards.Children.Add(a);
                 }
             }
-
         }
 
         private void ReportCard_MouseDown(object sender, MouseButtonEventArgs e)
@@ -240,10 +240,8 @@ namespace travelAgency.view
             }
             RefreshCards(true);
         }
-        private void geocodeProvider_LocationInformationReceived(object sender, LocationInformationReceivedEventArgs e)
-        {
 
-        private void routeProvider_LayerItemsGenerating(object sender, LayerItemsGeneratingEventArgs args)
+        public void routeProvider_LayerItemsGenerating(object sender, LayerItemsGeneratingEventArgs args)
         {
             char letter = 'A';
             foreach (MapItem item in args.Items)

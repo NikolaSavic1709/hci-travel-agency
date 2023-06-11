@@ -31,8 +31,8 @@ namespace travelAgency
             //}
 
             //optionsBuilder.UseSqlite(connectionString);
-            optionsBuilder.UseSqlite("Data Source=..\\..\\..\\database\\database.sqlite"); //za pokretanje
-            //optionsBuilder.UseSqlite("Data Source=database\\database.sqlite"); //za migracije
+            //optionsBuilder.UseSqlite("Data Source=..\\..\\..\\database\\database.sqlite"); //za pokretanje
+            optionsBuilder.UseSqlite("Data Source=database\\database.sqlite"); //za migracije
         }
     }
 }
