@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using travelAgency.components;
 using travelAgency.Dialogs;
 using travelAgency.model;
 using travelAgency.repository;
@@ -27,14 +28,15 @@ namespace travelAgency.view
     /// </summary>
     public partial class UserStayEatDetailPage : Page
     {
-        string ImageDirectory { get; set; }
-        string[] ImageNames { get; set; }
-        int CurrentImageIndex { get; set; }
-        Place Place { get; set; }
+        private string ImageDirectory { get; set; }
+        private string[] ImageNames { get; set; }
+        private int CurrentImageIndex { get; set; }
+        private Place Place { get; set; }
 
         public TravelAgencyContext dbContext;
         public StayRepository stayRepository;
         public PlaceRepository placeRepository;
+
         public UserStayEatDetailPage(Place place, bool isStay)
         {
             InitializeComponent();
@@ -64,10 +66,8 @@ namespace travelAgency.view
                 {
                     AmenitiesSegment.Visibility = Visibility.Collapsed;
                 }
-
-
             }
-
+            DrawPin();
         }
 
         private void RefreshAmenities()
@@ -85,7 +85,6 @@ namespace travelAgency.view
                     viewModel.AddTodoItem(new IconItemViewModel(amenityIdx));
                 }
             }
-
         }
 
         private void SlideLeft(object sender, RoutedEventArgs e)
@@ -124,72 +123,18 @@ namespace travelAgency.view
             }
         }
 
-        private void geocodeProvider_LocationInformationReceived(object sender, LocationInformationReceivedEventArgs e)
+        private MapPushpin pin;
+
+        public void DrawPin()
         {
-
-            GeocodeRequestResult result = e.Result;
-            StringBuilder resultList = new StringBuilder("");
-            resultList.Append(String.Format("Status: {0}\n", result.ResultCode));
-            resultList.Append(String.Format("Fault reason: {0}\n", result.FaultReason));
-            resultList.Append(String.Format("______________________________\n"));
-
-            if (result.ResultCode != RequestResultCode.Success)
-            {
-                tbResults.Text = resultList.ToString();
-                return;
-            }
-
-            int resCounter = 1;
-            foreach (LocationInformation locations in result.Locations)
-            {
-                resultList.Append(String.Format("Request Result {0}:\n", resCounter));
-                resultList.Append(String.Format("Display Name: {0}\n", locations.DisplayName));
-                resultList.Append(String.Format("Entity Type: {0}\n", locations.EntityType));
-                resultList.Append(String.Format("Address: {0}\n", locations.Address));
-                resultList.Append(String.Format("Location: {0}\n", locations.Location));
-                resultList.Append(String.Format("______________________________\n"));
-                resCounter++;
-            }
-
-            tbResults.Text = resultList.ToString();
+            if (pin != null)
+                mapItems.Items.Remove(pin);
+            pin = new MapPushpin();
+            pin.Location = new GeoPoint(Place.lat, Place.lng);
+            pin.Information = Place.Name;
+            pin.LocationChangedAnimation = new PushpinLocationAnimation();
+            pin.CanMove = false;
+            mapItems.Items.Add(pin);
         }
-
-        private MapPushpin mapItem;
-
-        private void map_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-
-            var hitInfo = map.CalcHitInfo(e.GetPosition(map));
-            if (hitInfo.InMapPushpin)
-            {
-                map.EnableScrolling = false;
-                mapItem = hitInfo.HitObjects[0] as MapPushpin;
-
-            }
-
-        }
-
-        private void map_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (mapItem != null)
-            {
-                var point = map.ScreenPointToCoordPoint(e.GetPosition(map));
-                mapItem.Location = point;
-                map.EnableScrolling = true;
-                mapItem = null;
-            }
-        }
-
-        private void map_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (mapItem != null)
-            {
-                var point = map.ScreenPointToCoordPoint(e.GetPosition(map));
-                mapItem.Location = point;
-
-            }
-        }
-
     }
 }

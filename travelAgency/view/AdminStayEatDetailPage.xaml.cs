@@ -28,16 +28,18 @@ namespace travelAgency.view
     /// </summary>
     public partial class AdminStayEatDetailPage : Page
     {
+        private string ImageDirectory { get; set; }
+        private string[] ImageNames { get; set; }
+        private int CurrentImageIndex { get; set; }
+        private Place Place { get; set; }
 
-        string ImageDirectory { get; set; }
-        string[] ImageNames { get; set; }
-        int CurrentImageIndex { get; set; }
-        Place Place { get; set; }
+        private MapPushpin pin;
 
         public TravelAgencyContext dbContext;
         public StayRepository stayRepository;
         public PlaceRepository placeRepository;
-        public AdminStayEatDetailPage(Place place,bool isStay)
+
+        public AdminStayEatDetailPage(Place place, bool isStay)
         {
             InitializeComponent();
             Place = place;
@@ -48,27 +50,26 @@ namespace travelAgency.view
             placeRepository = new PlaceRepository(dbContext);
 
             // TODO: add directory for every place
-            ImageDirectory = "C:\\semestar6\\HCI\\vezbe\\projekat\\hci-travel-agency\\travelAgency\\Resources\\Images";
-            ImageNames = Directory.GetFiles(ImageDirectory);
-            CurrentImageIndex = 0;
-            var viewModel = DataContext as StayEatViewModel;
-            if (viewModel != null)
-            {
-                viewModel.FrontImageSource = ImageNames[CurrentImageIndex];
-                viewModel.BackImageSource = ImageNames[CurrentImageIndex];
-                
-                if (isStay)
-                {
-                    AmenitiesSegment.Visibility = Visibility.Visible;
-                    RefreshAmenities();
-                } else
-                {
-                    AmenitiesSegment.Visibility = Visibility.Collapsed;
-                }
-                
-                
-            }
+            //ImageDirectory = "C:\\semestar6\\HCI\\vezbe\\projekat\\hci-travel-agency\\travelAgency\\Resources\\Images";
+            //ImageNames = Directory.GetFiles(ImageDirectory);
+            //CurrentImageIndex = 0;
+            //var viewModel = DataContext as StayEatViewModel;
+            //if (viewModel != null)
+            //{
+            //    viewModel.FrontImageSource = ImageNames[CurrentImageIndex];
+            //    viewModel.BackImageSource = ImageNames[CurrentImageIndex];
 
+            //    if (isStay)
+            //    {
+            //        AmenitiesSegment.Visibility = Visibility.Visible;
+            //        RefreshAmenities();
+            //    }
+            //    else
+            //    {
+            //        AmenitiesSegment.Visibility = Visibility.Collapsed;
+            //    }
+            //}
+            DrawPin();
         }
 
         private void RefreshAmenities()
@@ -86,7 +87,6 @@ namespace travelAgency.view
                     viewModel.AddTodoItem(new IconItemViewModel(amenityIdx));
                 }
             }
-            
         }
 
         private void SlideLeft(object sender, RoutedEventArgs e)
@@ -125,50 +125,16 @@ namespace travelAgency.view
             }
         }
 
-        private void geocodeProvider_LocationInformationReceived(object sender, LocationInformationReceivedEventArgs e)
-        {
-
-            GeocodeRequestResult result = e.Result;
-            StringBuilder resultList = new StringBuilder("");
-            resultList.Append(String.Format("Status: {0}\n", result.ResultCode));
-            resultList.Append(String.Format("Fault reason: {0}\n", result.FaultReason));
-            resultList.Append(String.Format("______________________________\n"));
-
-            if (result.ResultCode != RequestResultCode.Success)
-            {
-                tbResults.Text = resultList.ToString();
-                return;
-            }
-
-            int resCounter = 1;
-            foreach (LocationInformation locations in result.Locations)
-            {
-                resultList.Append(String.Format("Request Result {0}:\n", resCounter));
-                resultList.Append(String.Format("Display Name: {0}\n", locations.DisplayName));
-                resultList.Append(String.Format("Entity Type: {0}\n", locations.EntityType));
-                resultList.Append(String.Format("Address: {0}\n", locations.Address));
-                resultList.Append(String.Format("Location: {0}\n", locations.Location));
-                resultList.Append(String.Format("______________________________\n"));
-                resCounter++;
-            }
-
-            tbResults.Text = resultList.ToString();
-        }
-
         private MapPushpin mapItem;
 
         private void map_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
-
             var hitInfo = map.CalcHitInfo(e.GetPosition(map));
             if (hitInfo.InMapPushpin)
             {
                 map.EnableScrolling = false;
                 mapItem = hitInfo.HitObjects[0] as MapPushpin;
-
             }
-
         }
 
         private void map_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -179,6 +145,10 @@ namespace travelAgency.view
                 mapItem.Location = point;
                 map.EnableScrolling = true;
                 mapItem = null;
+                Place.lng = point.GetX();
+                Place.lat = point.GetY();
+
+                placeRepository.Update(Place);
             }
         }
 
@@ -188,10 +158,8 @@ namespace travelAgency.view
             {
                 var point = map.ScreenPointToCoordPoint(e.GetPosition(map));
                 mapItem.Location = point;
-
             }
         }
-
 
         private void EditData_Click(object sender, RoutedEventArgs e)
         {
@@ -223,7 +191,6 @@ namespace travelAgency.view
                 Place place = placeRepository.GetById(Place.Id);
                 viewModel.Place = place;
             }
-
         }
 
         private void EditAmenities_Click(object sender, RoutedEventArgs e)
@@ -245,6 +212,18 @@ namespace travelAgency.view
                 Place = stayRepository.GetById(id);
                 RefreshAmenities();
             }
+        }
+
+        public void DrawPin()
+        {
+            if (pin != null)
+                mapItems.Items.Remove(pin);
+            pin = new MapPushpin();
+            pin.Location = new GeoPoint(Place.lat, Place.lng);
+            pin.Information = Place.Name;
+            pin.LocationChangedAnimation = new PushpinLocationAnimation();
+            pin.CanMove = false;
+            mapItems.Items.Add(pin);
         }
     }
 }

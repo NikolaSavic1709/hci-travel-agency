@@ -1,9 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DevExpress.Xpf.Map;
+using DevExpress.XtraPrinting.Native;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Globalization;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using travelAgency.model;
 using travelAgency.repository;
 
@@ -14,10 +18,14 @@ namespace travelAgency.Dialogs
     /// </summary>
     public partial class CreatePlaceDialog : Window
     {
-        AttractionRepository attractionRepository;
-        StayRepository stayRepository;
-        RestaurantRepository restaurantRepository;
+        private AttractionRepository attractionRepository;
+        private StayRepository stayRepository;
+        private RestaurantRepository restaurantRepository;
         public TravelAgencyContext dbContext;
+        private MapPushpin mapItem;
+        private double lat;
+        private double lng;
+
         public CreatePlaceDialog()
         {
             InitializeComponent();
@@ -41,32 +49,34 @@ namespace travelAgency.Dialogs
             else
                 AmenitiesFragment.Visibility = Visibility.Hidden;
         }
+
         public event EventHandler<ToAttractionEventArgs> NewAttraction;
+
         public event EventHandler<ToStayEatEventArgs> NewStayEat;
+
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            
-            String selectedOption=((ComboBoxItem) OutlinedComboBox.SelectedItem).Content.ToString();
-            if(selectedOption=="Attraction")
+            String selectedOption = ((ComboBoxItem)OutlinedComboBox.SelectedItem).Content.ToString();
+            if (selectedOption == "Attraction")
             {
                 Attraction place = new Attraction();
                 place.Name = NameTxtBox.Text;
                 place.Description = DescriptionTxtBox.Text;
                 place.Location = LocationTxtBox.Text;
-                place.lat = 45;
-                place.lng = 20;
+                place.lat = lat;
+                place.lng = lng;
                 attractionRepository.Add(place);
-                NewAttraction?.Invoke(this, new ToAttractionEventArgs((Attraction) place));
+                NewAttraction?.Invoke(this, new ToAttractionEventArgs((Attraction)place));
             }
-            else if(selectedOption=="Accomodation")
+            else if (selectedOption == "Accomodation")
             {
                 Stay place = new Stay();
                 place.Name = NameTxtBox.Text;
                 place.Description = DescriptionTxtBox.Text;
                 place.Location = LocationTxtBox.Text;
                 stayRepository.Add(place);
-                place.lat = 46;
-                place.lng = 20;
+                place.lat = lat;
+                place.lng = lng;
                 NewStayEat?.Invoke(this, new ToStayEatEventArgs(place));
             }
             else if (selectedOption == "Restaurant")
@@ -76,12 +86,80 @@ namespace travelAgency.Dialogs
                 place.Description = DescriptionTxtBox.Text;
                 place.Location = LocationTxtBox.Text;
                 restaurantRepository.Add(place);
-                place.lat = 47;
-                place.lng = 20;
+                place.lat = lat;
+                place.lng = lng;
                 NewStayEat?.Invoke(this, new ToStayEatEventArgs(place));
             }
 
             Close();
+        }
+
+        private void GeocodeProvider_LocationInformationReceived(object sender, LocationInformationReceivedEventArgs e)
+        {
+            GeocodeRequestResult result = e.Result;
+            StringBuilder resultList = new StringBuilder("");
+            resultList.Append(String.Format("Status: {0}\n", result.ResultCode));
+            resultList.Append(String.Format("Fault reason: {0}\n", result.FaultReason));
+            resultList.Append(String.Format("______________________________\n"));
+
+            if (result.ResultCode != RequestResultCode.Success)
+            {
+                return;
+            }
+
+            foreach (LocationInformation locations in result.Locations)
+            {
+                lat = locations.Location.Latitude;
+                lng = locations.Location.Longitude;
+            }
+        }
+
+        private void map_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var hitInfo = map.CalcHitInfo(e.GetPosition(map));
+            if (hitInfo.InMapPushpin)
+            {
+                map.EnableScrolling = false;
+                mapItem = hitInfo.HitObjects[0] as MapPushpin;
+            }
+        }
+
+        private void map_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (mapItem != null)
+            {
+                var point = map.ScreenPointToCoordPoint(e.GetPosition(map));
+                mapItem.Location = point;
+                map.EnableScrolling = true;
+                mapItem = null;
+                lng = point.GetX();
+                lat = point.GetY();
+            }
+        }
+
+        private void map_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (mapItem != null)
+            {
+                var point = map.ScreenPointToCoordPoint(e.GetPosition(map));
+                mapItem.Location = point;
+            }
+        }
+
+        private void BingSearchDataProvider_SearchCompleted(object sender, BingSearchCompletedEventArgs e)
+        {
+            SearchRequestResult result = e.RequestResult;
+
+            if (result.ResultCode != RequestResultCode.Success)
+            {
+                return;
+            }
+
+            foreach (LocationInformation locations in result.SearchResults)
+            {
+                lat = locations.Location.Latitude;
+                lng = locations.Location.Longitude;
+            }
         }
     }
 
