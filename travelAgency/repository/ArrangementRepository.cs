@@ -29,6 +29,13 @@ namespace travelAgency.repository
             return dbContext.Arrangements.ToList();
         }
 
+        public List<Arrangement> GetArrangementsForUser(int userId)
+        {
+            return dbContext.Arrangements
+                .Where(a => a.UserId == userId)
+                .ToList();
+        }
+
         public void Add(Arrangement arrangement)
         {
             dbContext.Arrangements.Add(arrangement);

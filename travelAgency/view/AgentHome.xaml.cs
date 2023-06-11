@@ -104,7 +104,7 @@ namespace travelAgency.view
                     Main.Content = new ReportPage();
                     break;
                 case "HistoryButton":
-                    Main.Content = new HistoryPage();
+                    Main.Content = new HistoryPage(null);
                     break;
                 default:
                     break;

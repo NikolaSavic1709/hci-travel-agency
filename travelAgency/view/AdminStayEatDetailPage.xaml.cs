@@ -47,7 +47,7 @@ namespace travelAgency.view
             stayRepository = new StayRepository(dbContext);
             placeRepository = new PlaceRepository(dbContext);
 
-
+            // TODO: add directory for every place
             ImageDirectory = "C:\\semestar6\\HCI\\vezbe\\projekat\\hci-travel-agency\\travelAgency\\Resources\\Images";
             ImageNames = Directory.GetFiles(ImageDirectory);
             CurrentImageIndex = 0;
@@ -56,19 +56,7 @@ namespace travelAgency.view
             {
                 viewModel.FrontImageSource = ImageNames[CurrentImageIndex];
                 viewModel.BackImageSource = ImageNames[CurrentImageIndex];
-                Trip trip = new Trip();
-                Place place1 = new Place();
-                place1.Name = "Sabac";
-                Place place2 = new Place();
-                place2.Name = "Novi Sad";
-
-                TripSchedule ts1 = new TripSchedule();
-                ts1.Place = place1;
-                TripSchedule ts2 = new TripSchedule();
-                ts2.Place = place2;
-                //trip.Schedules = new List<TripSchedule> { ts1, ts2 };
-                viewModel.Trip = trip;
-
+                
                 if (isStay)
                 {
                     AmenitiesSegment.Visibility = Visibility.Visible;

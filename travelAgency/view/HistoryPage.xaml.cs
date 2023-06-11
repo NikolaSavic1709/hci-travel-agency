@@ -28,13 +28,22 @@ namespace travelAgency.view
     {
         public TravelAgencyContext dbContext;
         public ArrangementRepository arrangementRepository;
-        public HistoryPage()
+        public List<Arrangement> arrangements;
+        public HistoryPage(User loggedUser)
         {
+           
             InitializeComponent();
             dbContext = new TravelAgencyContext();
             arrangementRepository = new ArrangementRepository(dbContext);
-
-            List<Arrangement> arrangements = arrangementRepository.GetAll();
+            
+            if (loggedUser == null)
+            {
+                arrangements = arrangementRepository.GetAll();
+            } else
+            {
+                arrangements = arrangementRepository.GetArrangementsForUser(loggedUser.Id);
+            }
+           
             foreach (Arrangement a in arrangements)
             {
                 ArrangementCard arrangementCard = new ArrangementCard
