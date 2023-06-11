@@ -1,14 +1,14 @@
 ﻿<Application x:Class="travelAgency.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:travelAgency"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             StartupUri="view/AgentHome.xaml">  <!--Dialogs/CreateTripDialog-->
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="view/ClientHome.xaml">
+    <!--Dialogs/CreateTripDialog-->
     <Application.Resources>
-        
+
         <ResourceDictionary>
             <BitmapImage x:Key="AppIcon" UriSource="/view/travel_logo.png" />
-            
+
             <ResourceDictionary.MergedDictionaries>
                 <materialDesign:CustomColorTheme BaseTheme="Light" PrimaryColor="Black" SecondaryColor="#009882" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace travelAgency.controls
@@ -31,7 +26,7 @@ namespace travelAgency.controls
                     requestedWidth = panelWidth;
                 }
 
-                if (requestedWidth*2 < panelWidth)
+                if (requestedWidth * 2 < panelWidth)
                 {
                     foreach (UIElement child in InternalChildren)
                     {
@@ -46,8 +41,6 @@ namespace travelAgency.controls
                         child.SetValue(WidthProperty, width);
                     }
                 }
-
-                
             }
 
             return base.MeasureOverride(constraint);

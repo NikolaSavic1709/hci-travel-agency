@@ -1,18 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using travelAgency.model;
-using travelAgency.ViewModel;
 
 namespace travelAgency.Dialogs
 {
@@ -21,9 +13,10 @@ namespace travelAgency.Dialogs
     /// </summary>
     public partial class CreateTripScheduleDialog : Window
     {
-        List<Place> allPlaces;
-        int currentIndexListBox = -1;
-        Trip Trip { get; set; }
+        private List<Place> allPlaces;
+        private int currentIndexListBox = -1;
+        private Trip Trip { get; set; }
+
         public CreateTripScheduleDialog(Trip trip)
         {
             InitializeComponent();
@@ -36,6 +29,7 @@ namespace travelAgency.Dialogs
             place3.Name = "Beograd";
             allPlaces = new List<Place> { place1, place2, place3 };
         }
+
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             string text = PlaceTextBox.Text;
@@ -47,12 +41,13 @@ namespace travelAgency.Dialogs
             }
             else
                 AutocompleteListBox.Visibility = Visibility.Hidden;
-
         }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
+
         private void TextBox_OnFocusLost(object sender, RoutedEventArgs e)
         {
             AutocompleteListBox.Visibility = Visibility.Hidden;
@@ -69,12 +64,14 @@ namespace travelAgency.Dialogs
                 currentIndexListBox = -1;
             }
         }
+
         private void window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Keyboard.ClearFocus();
             AutocompleteListBox.Visibility = Visibility.Hidden;
             currentIndexListBox = -1;
         }
+
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Down)
@@ -98,7 +95,7 @@ namespace travelAgency.Dialogs
                 if (AutocompleteListBox.Items.Count > 0)
                 {
                     if (currentIndexListBox == -1) currentIndexListBox = 0;
-                    currentIndexListBox = (currentIndexListBox - 1+AutocompleteListBox.Items.Count) % AutocompleteListBox.Items.Count;
+                    currentIndexListBox = (currentIndexListBox - 1 + AutocompleteListBox.Items.Count) % AutocompleteListBox.Items.Count;
                     Place? place = AutocompleteListBox.Items[currentIndexListBox] as Place;
                     if (place != null)
                     {

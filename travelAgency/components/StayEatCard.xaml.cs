@@ -7,18 +7,20 @@ using travelAgency.model;
 namespace travelAgency.components;
 
 /// <summary>
-/// Interaction logic for PlaceCard.xaml
+/// Interaction logic for StayEatCard.xaml
 /// </summary>
-public partial class PlaceCard : UserControl
+public partial class StayEatCard : UserControl
 {
-    public PlaceCard()
+    public string Type { get; set; }
+
+    public StayEatCard()
     {
         InitializeComponent();
         DataContext = this;
     }
 
     public static readonly DependencyProperty PlaceProperty =
-    DependencyProperty.Register("Place", typeof(Place), typeof(PlaceCard), new PropertyMetadata(null));
+   DependencyProperty.Register("Place", typeof(Place), typeof(PlaceCard), new PropertyMetadata(null));
 
     public Place Place
     {
@@ -26,16 +28,24 @@ public partial class PlaceCard : UserControl
         set
         {
             SetValue(PlaceProperty, value);
+            if (value is Stay)
+            {
+                Type = "Stay";
+            }
+            else
+            {
+                Type = "Restaurant";
+            }
         }
     }
 
     public string Route { get; set; }
 
-    public event EventHandler<ToPlaceEventArgs> ToPlaceClicked;
+    public event EventHandler<ToStayEatEventArgs> ToStayEatClicked;
 
     private void OpenButton_click(object sender, RoutedEventArgs e)
     {
-        ToPlaceClicked?.Invoke(this, new ToPlaceEventArgs(Place));
+        ToStayEatClicked?.Invoke(this, new ToStayEatEventArgs(Place));
     }
 
     private void DeleteButton_Click(object sender, RoutedEventArgs e)

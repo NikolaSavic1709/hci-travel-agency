@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using travelAgency.model;
 
 namespace travelAgency.repository
@@ -43,6 +40,5 @@ namespace travelAgency.repository
             dbContext.Trips.Remove(trip);
             dbContext.SaveChanges();
         }
-        
     }
 }

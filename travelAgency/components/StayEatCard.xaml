@@ -1,12 +1,11 @@
-﻿<UserControl x:Class="travelAgency.components.TripCard"
+﻿<UserControl x:Class="travelAgency.components.StayEatCard"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:local="clr-namespace:travelAgency.components"
              mc:Ignorable="d"
-             d:DesignHeight="220" d:DesignWidth="290">
+             d:DesignHeight="250" d:DesignWidth="290">
     <materialDesign:Card HorizontalContentAlignment="Stretch">
         <Grid>
             <Grid.RowDefinitions>
@@ -19,14 +18,17 @@
                  Source="/data/img/uvac.jpg"
                  Stretch="UniformToFill" />-->
 
-            <StackPanel Grid.Row="0" Margin="8,7,8,0">
-                <TextBlock FontWeight="Bold" FontSize="16" Margin="0,0,0,5" Text="{Binding Trip.Name}" />
-                <TextBlock VerticalAlignment="Center" Foreground="#009882" FontWeight="Bold"
+            <StackPanel Grid.Row="0">
+                <TextBlock FontWeight="Bold" FontSize="16" Margin="0,0,0,5" Text="{Binding Type}" Background="#009882" TextAlignment="Center"  Foreground="#FFFFFF" />
+                <StackPanel Margin="8,7,8,0">
+                    <TextBlock FontWeight="Bold" FontSize="16" Margin="0,0,0,5" Text="{Binding Place.Name}" />
+                    <TextBlock VerticalAlignment="Center" Foreground="#009882" FontWeight="Bold"
                        Text="{Binding Route}"
                        TextWrapping="Wrap" />
-                <TextBlock VerticalAlignment="Center" FontSize="11"
-                       Text="{Binding Trip.Description}"
+                    <TextBlock VerticalAlignment="Center" FontSize="11"
+                       Text="{Binding Place.Description}"
                        TextWrapping="Wrap" />
+                </StackPanel>
             </StackPanel>
             <StackPanel Grid.Row="1" x:Name="buttonStackPanel"
                       Margin="8"
@@ -35,13 +37,13 @@
 
                 <Button Width="30" x:Name="seeButton"
                     Padding="2,0,2,0" Visibility="Hidden"
-                    materialDesign:RippleAssist.IsCentered="True" ToolTip="See this trip"
+                    materialDesign:RippleAssist.IsCentered="True" ToolTip="See this place"
                     Style="{StaticResource MaterialDesignToolButton}" Click="OpenButton_click">
                     <materialDesign:PackIcon Kind="Eye" />
                 </Button>
                 <Button Width="30" x:Name="deleteButton"
                     Padding="2,0,2,0" Visibility="Hidden"
-                    materialDesign:RippleAssist.IsCentered="True" ToolTip="Delete this trip"
+                    materialDesign:RippleAssist.IsCentered="True" ToolTip="Delete this place"
                     Click="DeleteButton_Click"
                     Style="{StaticResource MaterialDesignToolButton}">
                     <materialDesign:PackIcon Kind="TrashCan" />
@@ -73,8 +75,8 @@
                         </ObjectAnimationUsingKeyFrames>
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="deleteButton"
                                                        Storyboard.TargetProperty="Visibility">
-                                <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="{x:Static Visibility.Hidden}" />
-                            </ObjectAnimationUsingKeyFrames>
+                            <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="{x:Static Visibility.Hidden}" />
+                        </ObjectAnimationUsingKeyFrames>
                     </Storyboard>
                 </BeginStoryboard>
             </EventTrigger>

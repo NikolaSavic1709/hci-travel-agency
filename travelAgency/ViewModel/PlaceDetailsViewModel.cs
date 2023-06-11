@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using travelAgency.model;
 
 namespace travelAgency.ViewModel;
 
-class PlaceDetailsViewModel : INotifyPropertyChanged
+internal class PlaceDetailsViewModel : INotifyPropertyChanged
 {
     private Place _place;
+
     public Place Trip
     {
         get { return _place; }
@@ -20,11 +16,11 @@ class PlaceDetailsViewModel : INotifyPropertyChanged
             OnPropertyChanged(nameof(Trip));
         }
     }
+
     public event PropertyChangedEventHandler PropertyChanged;
 
     protected virtual void OnPropertyChanged(string propertyName)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
-
 }

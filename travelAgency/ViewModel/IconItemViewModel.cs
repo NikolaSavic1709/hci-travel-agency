@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using travelAgency.model;
 
 namespace travelAgency.ViewModel
@@ -23,6 +19,7 @@ namespace travelAgency.ViewModel
         }
 
         private int _kindValue;
+
         public int KindValue
         {
             get
@@ -36,8 +33,8 @@ namespace travelAgency.ViewModel
             }
         }
 
-
         private string _kind;
+
         public string Kind
         {
             get
@@ -51,8 +48,8 @@ namespace travelAgency.ViewModel
             }
         }
 
-
         private string _aliases;
+
         public string Aliases
         {
             get
@@ -65,6 +62,5 @@ namespace travelAgency.ViewModel
                 OnPropertyChanged(nameof(Aliases));
             }
         }
-
     }
 }

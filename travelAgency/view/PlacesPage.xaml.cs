@@ -1,19 +1,8 @@
 ﻿using DevExpress.Xpf.Map;
-using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using travelAgency.components;
 using travelAgency.Dialogs;
 using travelAgency.model;
@@ -30,6 +19,7 @@ public partial class PlacesPage : Page
     public PlaceRepository placeRepository;
     public string BingKey { get; set; }
     private MapPushpin pin;
+
     public PlacesPage()
     {
         BingKey = "Bobfc3eHAUPXgpeTYjms~m6tD9dbiJz0HFBraHXWR_A~AvjPgt_MJZVhNNdKhscJbncrArt9ydMHTLueaT6sDhboip1smAQSMs7436fWsrtq";
@@ -46,7 +36,6 @@ public partial class PlacesPage : Page
             {
                 Margin = new Thickness(10),
                 Place = p
-
             };
             placeCard.ToPlaceClicked += PlaceCard_ToPlace;
             cards.Children.Add(placeCard);
@@ -66,7 +55,7 @@ public partial class PlacesPage : Page
 
         trip.Schedules.Add(tripSchedule);
         trip.Schedules.Add(tripSchedule2);
-         
+
         place2.lat = 44.66278;
         place2.lng = 20.93;
 
@@ -78,8 +67,6 @@ public partial class PlacesPage : Page
         placeCard1.ToPlaceClicked += PlaceCard_ToPlace;
         placeCard1.MouseDown += PlaceCard1_MouseDown;
         cards.Children.Add(placeCard1);
-
-
     }
 
     private void PlaceCard1_MouseDown(object sender, MouseButtonEventArgs e)
@@ -98,15 +85,13 @@ public partial class PlacesPage : Page
         mapItems.Items.Add(pin);
     }
 
-
-
-
     private void PlaceCard_ToPlace(object sender, ToPlaceEventArgs e)
     {
         Place place = e.Place;
 
         //NavigationService?.Navigate(new TripDetailsPage(place));
     }
+
     private void Search_OnKeyDown(object sender, KeyEventArgs e)
     {
         var textBox = (TextBox)sender;
@@ -115,7 +100,6 @@ public partial class PlacesPage : Page
     }
 
     private MapPushpin mapItem;
-
 
     private void CreateTrip_Click(object sender, RoutedEventArgs e)
     {
