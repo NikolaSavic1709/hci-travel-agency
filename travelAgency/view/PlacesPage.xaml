@@ -88,7 +88,7 @@
                 <Grid Grid.Column="7"  Grid.Row="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                     <dxm:MapControl Name="map" HorizontalAlignment="Stretch"  VerticalAlignment="Center" Width="Auto" >
                         <dxm:ImageLayer>
-                            <dxm:BingMapDataProvider Kind="RoadLight" BingKey=" "/>
+                            <dxm:BingMapDataProvider Kind="RoadLight" BingKey="Bobfc3eHAUPXgpeTYjms~m6tD9dbiJz0HFBraHXWR_A~AvjPgt_MJZVhNNdKhscJbncrArt9ydMHTLueaT6sDhboip1smAQSMs7436fWsrtq"/>
                         </dxm:ImageLayer>
                         <dxm:VectorLayer>
                             <dxm:MapItemStorage x:Name="mapItems" >
@@ -97,12 +97,6 @@
                                      MarkerTemplate="{StaticResource pushpin}" />-->
                             </dxm:MapItemStorage>
                         </dxm:VectorLayer>
-                        <dxm:InformationLayer>
-                            <dxm:BingSearchDataProvider BingKey=" "/>
-                        </dxm:InformationLayer>
-                        <dxm:InformationLayer>
-                            <dxm:BingGeocodeDataProvider x:Name="geocode" BingKey=" "/>
-                        </dxm:InformationLayer>
 
                     </dxm:MapControl>
                     <TextBlock x:Name="tbResults" TextWrapping="Wrap" Text="TextBlock" Margin="0,0,512,0"/>

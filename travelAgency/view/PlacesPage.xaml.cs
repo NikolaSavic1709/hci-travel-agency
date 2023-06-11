@@ -26,9 +26,13 @@ namespace travelAgency.view;
 /// </summary>
 public partial class PlacesPage : Page
 {
+    public TravelAgencyContext dbContext;
+    public PlaceRepository placeRepository;
+    public string BingKey { get; set; }
+    private MapPushpin pin;
     public PlacesPage()
     {
-        BingKey = "";
+        BingKey = "Bobfc3eHAUPXgpeTYjms~m6tD9dbiJz0HFBraHXWR_A~AvjPgt_MJZVhNNdKhscJbncrArt9ydMHTLueaT6sDhboip1smAQSMs7436fWsrtq";
 
         InitializeComponent();
 
@@ -62,8 +66,9 @@ public partial class PlacesPage : Page
 
         trip.Schedules.Add(tripSchedule);
         trip.Schedules.Add(tripSchedule2);
-        place.lat = 44.6620;
-        place2.lng = 20.9302;
+         
+        place2.lat = 44.66278;
+        place2.lng = 20.93;
 
         PlaceCard placeCard1 = new PlaceCard
         {
@@ -79,13 +84,21 @@ public partial class PlacesPage : Page
 
     private void PlaceCard1_MouseDown(object sender, MouseButtonEventArgs e)
     {
+        if (pin != null)
+            mapItems.Items.Remove(pin);
+
         Place p = ((PlaceCard)e.Source).Place;
-        
+        pin = new MapPushpin();
+
+        //pin.MarkerTemplate = (DataTemplate)TryFindResource("pushpin");
+        pin.Location = new GeoPoint(p.lat, p.lng);
+        pin.Information = p.Name;
+        pin.LocationChangedAnimation = new PushpinLocationAnimation();
+        pin.CanMove = false;
+        mapItems.Items.Add(pin);
     }
 
-    public TravelAgencyContext dbContext;
-    public PlaceRepository placeRepository;
-    public string BingKey { get; set; }
+
 
 
     private void PlaceCard_ToPlace(object sender, ToPlaceEventArgs e)
