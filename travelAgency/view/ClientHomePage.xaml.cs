@@ -21,13 +21,15 @@ namespace travelAgency.view;
 /// </summary>
 public partial class ClientHomePage : Page
 {
-
     public TravelAgencyContext dbContext;
     public TripRepository tripRepository;
     public PlaceRepository placeRepository;
+    public ArrangementRepository arrangementRepository;
+    public UserRepository userRepository;
     public List<ClientTripCard> tripCards;
     public List<ClientTripCard> filteredTripCards;
     public ICommand SearchCommand { get; }
+
     public ClientHomePage()
     {
         BingKey = "";
@@ -38,8 +40,9 @@ public partial class ClientHomePage : Page
         dbContext = new TravelAgencyContext();
         tripRepository = new TripRepository(dbContext);
         placeRepository = new PlaceRepository(dbContext);
+        arrangementRepository = new ArrangementRepository(dbContext);
+        userRepository = new UserRepository(dbContext);
         List<Trip> trips = tripRepository.GetAll();
-
 
         foreach (Trip t in trips)
         {
@@ -48,18 +51,19 @@ public partial class ClientHomePage : Page
 
         RefreshCards(false);
     }
+
     private void CreateCard(Trip trip)
     {
         ClientTripCard tripCard = new ClientTripCard
         {
             Margin = new Thickness(10),
             Trip = trip
-
         };
         tripCard.ToTripClicked += TripCard_ToTrip;
         tripCard.MouseDown += TripCard_MouseDown;
         tripCards.Add(tripCard);
     }
+
     public void RefreshCards(bool isFilter)
     {
         cards.Children.Clear();
@@ -77,7 +81,6 @@ public partial class ClientHomePage : Page
                 cards.Children.Add(a);
             }
         }
-
     }
 
     private void TripCard_MouseDown(object sender, MouseButtonEventArgs e)
@@ -97,7 +100,7 @@ public partial class ClientHomePage : Page
     {
         Trip trip = e.Trip;
 
-        NavigationService?.Navigate(new ClientTripDetailsPage(trip,tripRepository,placeRepository));
+        NavigationService?.Navigate(new ClientTripDetailsPage(trip, tripRepository, placeRepository, arrangementRepository, userRepository));
     }
 
     private void Search_OnKeyDown(object sender, KeyEventArgs e)

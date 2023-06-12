@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.Xpf.Map;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,19 +25,22 @@ namespace travelAgency.view
     /// </summary>
     public partial class ClientTripDetailsPage : Page
     {
-        Trip Trip { get; set; }
-        TripDetailsViewModel? ViewModel { get; set; }
+        private Trip Trip { get; set; }
+        private TripDetailsViewModel? ViewModel { get; set; }
 
         public TripRepository tripRepository;
         private PlaceRepository placeRepository;
 
-        public ClientTripDetailsPage(Trip trip, TripRepository tripRepository, PlaceRepository placeRepository)
+        public UserRepository userRepository;
+        public ArrangementRepository arrangementRepository;
+
+        public ClientTripDetailsPage(Trip trip, TripRepository tripRepository, PlaceRepository placeRepository, ArrangementRepository arrangementRepository, UserRepository userRepository)
         {
             InitializeComponent();
             this.tripRepository = tripRepository;
             this.placeRepository = placeRepository;
-
-
+            this.arrangementRepository = arrangementRepository;
+            this.userRepository = userRepository;
             Trip = trip;
             DataContext = new TripDetailsViewModel();
 
@@ -45,16 +49,56 @@ namespace travelAgency.view
             {
                 ViewModel.Trip = trip;
             }
+            DrawRoute();
         }
 
         private void Purchase_Click(object sender, RoutedEventArgs e)
         {
-
+            Arrangement arrangement = new Arrangement();
+            arrangement.Trip = Trip;
+            arrangement.User = userRepository.GetById(1);
+            arrangement.IsReservation = false;
+            (new BuyReservation(arrangement, arrangementRepository)).ShowDialog();
         }
 
         private void Reserve_Click(object sender, RoutedEventArgs e)
         {
+            Arrangement arrangement = new Arrangement();
+            arrangement.Trip = Trip;
+            arrangement.User = userRepository.GetById(1);
+            arrangement.IsReservation = true;
+            (new BuyReservation(arrangement, arrangementRepository)).ShowDialog();
+        }
 
+        private void routeProvider_LayerItemsGenerating(object sender, LayerItemsGeneratingEventArgs args)
+        {
+            char letter = 'A';
+            foreach (MapItem item in args.Items)
+            {
+                MapPushpin pushpin = item as MapPushpin;
+                if (pushpin != null)
+                    pushpin.Text = letter++.ToString();
+                MapPolyline line = item as MapPolyline;
+                if (line != null)
+                {
+                    var converter = new System.Windows.Media.BrushConverter();
+                    var brush = (Brush)converter.ConvertFromString("#009882");
+                    line.Fill = brush;
+                    line.Stroke = brush;
+                }
+            }
+
+            map.ZoomToFit(args.Items);
+        }
+
+        public void DrawRoute()
+        {
+            List<RouteWaypoint> waypoints = new List<RouteWaypoint>();
+            foreach (var schedule in Trip.Schedules)
+            {
+                waypoints.Add(new RouteWaypoint(schedule.Place.Name, new GeoPoint(schedule.Place.lat, schedule.Place.lng)));
+            }
+            routeProvider.CalculateRoute(waypoints);
         }
     }
 }

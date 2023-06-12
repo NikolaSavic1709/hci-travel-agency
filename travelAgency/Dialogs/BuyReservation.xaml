@@ -48,8 +48,8 @@
             </Grid.ColumnDefinitions>
 
             <materialDesign:PackIcon Kind="CurrencyUsd" HorizontalAlignment="Center" Grid.Column="1" VerticalAlignment="Center" BorderThickness="0" />
-            <TextBox  Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Text="Price:" BorderThickness="0" ></TextBox>
-            <TextBox Text="1234" Grid.Column="2" VerticalAlignment="Center" BorderThickness="0"  ></TextBox>
+            <Label  Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Price:" BorderThickness="0" ></Label>
+            <Label  Grid.Column="2" VerticalAlignment="Center" BorderThickness="0" Name="PriceLabel"  ></Label>
         </Grid>
         <Button
   Content="{Binding Action}"
