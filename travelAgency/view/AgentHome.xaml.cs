@@ -133,5 +133,50 @@ namespace travelAgency.view
                 Help.HelpProvider.ShowHelp(str, this);
             }
         }
+
+
+        private void ToHome_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            DeselectNavbarButtons();
+            HomeButton.IsClicked = "True";
+            Main.Content = new HomePage(tripRepository, placeRepository);
+        }
+
+        private void ToPlaces_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            DeselectNavbarButtons();
+            PlacesButton.IsClicked = "True";
+            Main.Content = new PlacesPage();
+        }
+
+        private void ToStayEat_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            DeselectNavbarButtons();
+            StayEatButton.IsClicked = "True";
+            Main.Content = new StayEatPage();
+        }
+
+        private void ToReport_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            DeselectNavbarButtons();
+            ReportButton.IsClicked = "True";
+            Main.Content = new StayEatPage();
+        }
+
+        private void ToHistory_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            DeselectNavbarButtons();
+            HistoryButton.IsClicked = "True";
+            Main.Content = new HistoryPage(dbContext, null);
+        }
+
+        private void Logout_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var logoutDialog = new LogoutDialog();
+
+            logoutDialog.DialogResultEvent += DialogWindow_DialogResultEvent;
+
+            logoutDialog.ShowDialog();
+        }
     }
 }

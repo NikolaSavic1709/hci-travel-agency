@@ -26,5 +26,17 @@ namespace travelAgency.Dialogs
             DialogResultEvent?.Invoke(this, new DialogResultEventArgs(false));
             Close();
         }
+
+        private void Yes_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+        {
+            DialogResultEvent?.Invoke(this, new DialogResultEventArgs(true));
+            Close();
+        }
+
+        private void No_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+        {
+            DialogResultEvent?.Invoke(this, new DialogResultEventArgs(false));
+            Close();
+        }
     }
 }

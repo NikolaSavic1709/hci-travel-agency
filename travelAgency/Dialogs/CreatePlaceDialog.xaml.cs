@@ -74,6 +74,11 @@ namespace travelAgency.Dialogs
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
+            Save();
+        }
+
+        public void Save()
+        {
             String selectedOption = ((ComboBoxItem)OutlinedComboBox.SelectedItem).Content.ToString();
             if (selectedOption == "Attraction")
             {
@@ -240,6 +245,26 @@ namespace travelAgency.Dialogs
             {
                 ActiveIconItemListingViewModel.AddTodoItem(item);
             }
+        }
+
+        private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Save();
+        }
+
+        private void Quit_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void AddAll_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            AddAll();
+        }
+
+        private void RemoveAll_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            RemoveAll();
         }
 
         private void ComboBox_LostFocus(object sender, RoutedEventArgs e)

@@ -33,6 +33,13 @@ namespace travelAgency.view
 
             Email = "";
             Error = "";
+            Loaded += Page_Loaded;
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            FocusManager.SetFocusedElement(this, EmailTxtBox);
+            Keyboard.Focus(this);
         }
 
         public string Error { get; set; }
@@ -180,6 +187,11 @@ namespace travelAgency.view
             LoginBtn.Background = new BrushConverter().ConvertFromString("#609882") as Brush;
             LoginBtn.Cursor = Cursors.Arrow;
             ProgresBar.Visibility = Visibility.Visible;
+        }
+
+        private void ToRegister_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            ToSignUpClicked?.Invoke(this, EventArgs.Empty);
         }
     }
 }
