@@ -66,7 +66,6 @@ namespace travelAgency.view
                 filteredArrangementCards.Add(arrangementCard);
             }
             RefreshCards(false);
-            
         }
 
         private void ArrangementCard_MouseDown(object sender, MouseButtonEventArgs e)
@@ -78,7 +77,7 @@ namespace travelAgency.view
         {
             cards.Children.Clear();
             if (isFilter)
-            {             
+            {
                 foreach (ArrangementCard a in searchArrangementCards)
                 {
                     cards.Children.Add(a);
@@ -105,7 +104,7 @@ namespace travelAgency.view
             var text = obj as string;
             if (string.IsNullOrWhiteSpace(text))
             {
-              searchArrangementCards = filteredArrangementCards;
+                searchArrangementCards = filteredArrangementCards;
             }
             else
             {
@@ -130,7 +129,7 @@ namespace travelAgency.view
         {
             List<ArrangementCard> result = e.ArrangementCards;
 
-            if (result!=null)
+            if (result != null)
             {
                 filteredArrangementCards = result;
             }
@@ -165,6 +164,7 @@ namespace travelAgency.view
             {
                 waypoints.Add(new RouteWaypoint(schedule.Place.Name, new GeoPoint(schedule.Place.lat, schedule.Place.lng)));
             }
+            routeProvider.CalculateRoute(waypoints);
         }
     }
 }

@@ -99,16 +99,16 @@
                         </dxm:InformationLayer>
                     </dxm:MapControl>
                 </Grid>
-
-                <controls:FlexWrapPanel HorizontalAlignment="Stretch" RequestedItemWidth="245" Width="Auto" Margin="-10"
-                                Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="3" x:Name="cards">
-                    <!--<components:TripCard Margin="10" TripName="Tura zapadna Srbija" Route="Šabac - Bajina Bašta"
+                <ScrollViewer  Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="3" Margin="-10" VerticalScrollBarVisibility="Auto">
+                    <controls:FlexWrapPanel HorizontalAlignment="Stretch" RequestedItemWidth="245" Width="Auto" x:Name="cards">
+                        <!--<components:TripCard Margin="10" TripName="Tura zapadna Srbija" Route="Šabac - Bajina Bašta"
                                  Description="Tura je veoma zaniljiva i duga jer Savic i drugari imaju sta da ponude i njihovom kraju" />
             <components:TripCard Margin="10" TripName="Planinski maratoni" Route="Raška - Pančićev vrh"
                                  Description="Tura je veoma zaniljiva i duga jer Savic i drugari imaju sta da ponude i njihovom kraju" />
             <components:TripCard Margin="10" TripName="Tura južna Srbija" Route="Vranje - Đavolja Varoš  "
                                  Description="Ubedljiva najbolja tura u nasoj ponudi" />-->
-                </controls:FlexWrapPanel>
+                    </controls:FlexWrapPanel>
+                </ScrollViewer>
             </Grid>
         </Grid>
     </Grid>

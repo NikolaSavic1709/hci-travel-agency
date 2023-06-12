@@ -22,12 +22,13 @@
         <clr:String x:Key=" ">""</clr:String>
     </Page.Resources>
     <Page.CommandBindings>
-        <CommandBinding Command="ApplicationCommands.Save" Executed="SaveCommandExecuted"/>
+        <CommandBinding Command="ApplicationCommands.Save" Executed="SaveCommandExecuted" />
     </Page.CommandBindings>
 
     <Page.InputBindings>
-        <KeyBinding Command="ApplicationCommands.Save" Key="S" Modifiers="Ctrl"/>
+        <KeyBinding Command="ApplicationCommands.Save" Key="S" Modifiers="Ctrl" />
     </Page.InputBindings>
+
     <Grid>
         <Grid Background="#c7c7c7">
 
@@ -90,8 +91,8 @@
                     Grid.Column="5" Grid.Row="1"
                     ToolTip="Create trip" Click="CreateTrip_Click" />
 
-            <Grid Grid.Column="7"  Grid.Row="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                <dxm:MapControl Name="map" HorizontalAlignment="Stretch"  VerticalAlignment="Center" Width="Auto"
+            <Grid Grid.Column="7"  Grid.Row="3"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <dxm:MapControl Name="map" HorizontalAlignment="Stretch" MinHeight="500"  VerticalAlignment="Center" Width="Auto"
                                 MouseLeftButtonDown="map_MouseLeftButtonDown" MouseLeftButtonUp="map_MouseLeftButtonUp" MouseMove="map_MouseMove">
                     <dxm:ImageLayer>
                         <dxm:ImageLayer.DataProvider>
@@ -109,16 +110,17 @@
                 </dxm:MapControl>
                 <TextBlock x:Name="tbResults" TextWrapping="Wrap" Text="TextBlock" Margin="0,0,512,0" />
             </Grid>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="3" Width="Auto" Margin="-10">
+                <controls:FlexWrapPanel HorizontalAlignment="Stretch" RequestedItemWidth="245" x:Name="cards">
 
-            <controls:FlexWrapPanel HorizontalAlignment="Stretch" RequestedItemWidth="245" Width="Auto" Margin="-10"
-                                Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="3" x:Name="cards">
-                <!--<components:TripCard Margin="10" TripName="Tura zapadna Srbija" Route="Šabac - Bajina Bašta"
+                    <!--<components:TripCard Margin="10" TripName="Tura zapadna Srbija" Route="Šabac - Bajina Bašta"
                                  Description="Tura je veoma zaniljiva i duga jer Savic i drugari imaju sta da ponude i njihovom kraju" />
             <components:TripCard Margin="10" TripName="Planinski maratoni" Route="Raška - Pančićev vrh"
                                  Description="Tura je veoma zaniljiva i duga jer Savic i drugari imaju sta da ponude i njihovom kraju" />
             <components:TripCard Margin="10" TripName="Tura južna Srbija" Route="Vranje - Đavolja Varoš  "
                                  Description="Ubedljiva najbolja tura u nasoj ponudi" />-->
-            </controls:FlexWrapPanel>
+                </controls:FlexWrapPanel>
+            </ScrollViewer>
         </Grid>
     </Grid>
 </Page>

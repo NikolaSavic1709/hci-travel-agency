@@ -96,10 +96,10 @@
                     </dxm:InformationLayer>
                 </dxm:MapControl>
             </Grid>
-
-            <controls:FlexWrapPanel HorizontalAlignment="Stretch" RequestedItemWidth="245" Width="Auto" Margin="-10"
-                                Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="3" x:Name="cards">
-            </controls:FlexWrapPanel>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="-10" Grid.Column="1" Grid.ColumnSpan="5">
+                <controls:FlexWrapPanel HorizontalAlignment="Stretch" RequestedItemWidth="245" Width="Auto"  Grid.Row="3" x:Name="cards">
+                </controls:FlexWrapPanel>
+            </ScrollViewer>
         </Grid>
     </Grid>
 </Page>

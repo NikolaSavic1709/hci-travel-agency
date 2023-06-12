@@ -187,10 +187,10 @@
                     </dxm:InformationLayer>
                 </dxm:MapControl>
             </Grid>
-
-            <controls:FlexWrapPanel HorizontalAlignment="Stretch" RequestedItemWidth="245" Width="Auto" Margin="-10"
-                                Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="3" Grid.RowSpan="3" x:Name="cards">
-            </controls:FlexWrapPanel>
+            <ScrollViewer Margin="-10" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="3" Grid.RowSpan="3" VerticalScrollBarVisibility="Auto">
+                <controls:FlexWrapPanel HorizontalAlignment="Stretch" RequestedItemWidth="245" Width="Auto"  x:Name="cards">
+                </controls:FlexWrapPanel>
+            </ScrollViewer>
         </Grid>
     </Grid>
 </Page>
