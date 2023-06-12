@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 using travelAgency.controls;
 using travelAgency.Dialogs;
@@ -51,10 +52,12 @@ public partial class ClientHome : Window
         {
             case "HomeButton":
                 Main.Content = new ClientHomePage(dbContext, loggedUser);
+                Help.HelpProvider.SetHelpKey((DependencyObject)Main, "client-index");
                 break;
 
             case "HistoryButton":
                 Main.Content = new HistoryPage(dbContext, loggedUser);
+                Help.HelpProvider.SetHelpKey((DependencyObject)Main, "client-history");
                 break;
 
             default:
@@ -90,6 +93,16 @@ public partial class ClientHome : Window
             Window loginwindow = new RegistrationWindow();
             loginwindow.Show();
             this.Close();
+        }
+    }
+
+    private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+    {
+        IInputElement focusedControl = FocusManager.GetFocusedElement(System.Windows.Application.Current.Windows[0]);
+        if (focusedControl is DependencyObject)
+        {
+            string str = Help.HelpProvider.GetHelpKey((DependencyObject)Main);
+            Help.HelpProvider.ShowHelp(str, this);
         }
     }
 }
