@@ -1,0 +1,151 @@
+﻿<Window x:Class="travelAgency.Dialogs.CreateTripScheduleDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:validators="clr-namespace:travelAgency.validators"
+        xmlns:local="clr-namespace:travelAgency.Dialogs"
+        mc:Ignorable="d"
+        Title="Add place to trip"  ResizeMode="NoResize" Height="250" Width="600"
+        MouseDown="window_MouseDown" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style x:Key="BottomButton" TargetType="Button">
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Height" Value="35" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="DemiBold" />
+            <Setter Property="Foreground" Value="#E0E0E0" />
+            <Setter Property="Margin" Value="5,0,5,0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border Background="{TemplateBinding Background}" Opacity="1" CornerRadius="4,4,4,4">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="SaveButton" TargetType="Button" BasedOn="{StaticResource BottomButton}">
+            <Setter Property="Background" Value="#009882" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#00AF82" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="QuitButton" TargetType="Button" BasedOn="{StaticResource BottomButton}">
+            <Setter Property="Background" Value="#E0E0E0" />
+            <Setter Property="Foreground" Value="#980012"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#55000000" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <DockPanel>
+
+        <Grid DockPanel.Dock="Bottom" Height="50">
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                <Button Content="Quit" FontSize="15" Width="80" Style="{StaticResource QuitButton}" Click="Button_Click" />
+                <Button Content="Save changes" FontSize="15" Width="130" Style="{StaticResource SaveButton}" Click="SaveButton_Click" />
+            </StackPanel>
+        </Grid>
+        <Grid>
+            <Grid.Resources>
+                <Style TargetType="Label">
+                    <Setter Property="HorizontalAlignment" Value="Left" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="Height" Value="40" />
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                    <Setter Property="Padding" Value="5" />
+                    <Setter Property="Margin" Value="30,0,0,0" />
+                    <Setter Property="FontSize" Value="16" />
+                </Style>
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.5*" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="0.3*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="0.3*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="0.5*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.7*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+
+            <TextBox Grid.Row="0" Grid.Column="1" Background="#ececec" FontSize="16" Name="PlaceTextBox"
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Place"
+                    materialDesign:HintAssist.Background="#00000000" materialDesign:HintAssist.FloatingOffset="0,-25"
+                    Padding="7,0,5,0" VerticalContentAlignment="Center" VerticalAlignment="Bottom" Height="40" Width="Auto" HorizontalAlignment="Stretch"
+                    BorderThickness="1"
+                    TextChanged="TextBox_TextChanged" LostFocus="TextBox_OnFocusLost" KeyUp="TextBox_KeyDown" />
+
+            <ListBox Grid.Row="1" Grid.Column="1" Margin="0,2,0,0"
+                     Name="AutocompleteListBox" FontSize="16"  HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                      MaxHeight="200" Visibility="Hidden" SelectionChanged="AutocompleteListBox_SelectionChanged" Panel.ZIndex="6" Background="#ececec">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Height" Value="40" />
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
+
+            <DatePicker Name="DatePicker"  Grid.Row="0" Grid.Column="3" Height="40" FontSize="16" Padding="7,0,5,0" Width="Auto"
+             Background="#ececec" materialDesign:HintAssist.Hint="Date" VerticalAlignment="Bottom"
+             BorderThickness="1" SelectedDateFormat="Short">
+                <DatePicker.Resources>
+                    <SolidColorBrush x:Key="SecondaryColorBrush" Color="#009882" />
+                    <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#009882" />
+                    <SolidColorBrush x:Key="SecondaryHueMidBrush" Color="#009882" />
+                    <SolidColorBrush x:Key="SecondaryHueMidForegroundBrush" Color="Black" />
+                    <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="Black" />
+                    <!-- Customized colors for the calendar -->
+                    <Style x:Key="CustomCalendarDayButton" TargetType="CalendarDayButton" BasedOn="{StaticResource MaterialDesignCalendarDayButton}">
+                        <Setter Property="materialDesign:CalendarAssist.SelectionColor" Value="#009882" />
+                        <Setter Property="materialDesign:CalendarAssist.SelectionForegroundColor" Value="Black" />
+                    </Style>
+                    <Style x:Key="CustomCalendarButton" TargetType="CalendarButton" BasedOn="{StaticResource MaterialDesignCalendarButton}">
+                        <Setter Property="materialDesign:CalendarAssist.SelectionColor" Value="#009882" />
+                        <Setter Property="materialDesign:CalendarAssist.SelectionForegroundColor" Value="Black" />
+                    </Style>
+                    <Style x:Key="CustomCalendar" TargetType="{x:Type Calendar}" BasedOn="{StaticResource MaterialDesignDatePickerCalendarPortrait}">
+                        <Setter Property="Background" Value="#ececec" />
+                        <Setter Property="CalendarButtonStyle" Value="{StaticResource CustomCalendarButton}" />
+                        <Setter Property="CalendarDayButtonStyle" Value="{StaticResource CustomCalendarDayButton}" />
+                        <Setter Property="Foreground" Value="Black" />
+                        <Setter Property="materialDesign:CalendarAssist.HeaderBackground" Value="#009882" />
+                        <Setter Property="materialDesign:CalendarAssist.HeaderForeground" Value="Black" />
+                    </Style>
+                    <!-- Apply the MaterialDesignOutlinedDatePicker style -->
+                    <Style TargetType="DatePicker" BasedOn="{StaticResource MaterialDesignOutlinedDatePicker}">
+                        <Setter Property="CalendarStyle" Value="{StaticResource CustomCalendar}" />
+                    </Style>
+                </DatePicker.Resources>
+            </DatePicker>
+
+            <Border Background="#ececec" VerticalAlignment="Bottom" Height="40" Grid.Row="0" Grid.Column="5">
+                <materialDesign:TimePicker Name="TimePicker"  Height="40" FontSize="16" Padding="7,0,5,0" Width="Auto"
+                        materialDesign:HintAssist.Hint="Time"
+                        BorderThickness="1"
+                        Is24Hours="True" Style="{StaticResource MaterialDesignOutlinedTimePicker}">
+                    <materialDesign:TimePicker.Resources>
+                        <SolidColorBrush x:Key="SecondaryColorBrush" Color="#009882" />
+                        <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#009882" />
+                        <SolidColorBrush x:Key="SecondaryHueMidBrush" Color="#009882" />
+                        <SolidColorBrush x:Key="SecondaryHueMidForegroundBrush" Color="Black" />
+                        <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="Black" />
+                    </materialDesign:TimePicker.Resources>
+                </materialDesign:TimePicker>
+            </Border>
+        </Grid>
+    </DockPanel>
+</Window>
