@@ -1,4 +1,5 @@
 ﻿using DevExpress.Xpf.Map;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -95,6 +96,11 @@ namespace travelAgency.view
                 lastMonthFilter = (month, year);
                 SelectMonthLabels(label);
                 DoFilterPerMonth(month, year);
+                if (Snackbar.MessageQueue is { } messageQueue)
+                {
+                    var message = "Report refreshed";
+                    messageQueue.Enqueue(message);
+                }
             }
         }
 

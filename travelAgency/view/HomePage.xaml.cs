@@ -1,5 +1,6 @@
 ﻿using DevExpress.Xpf.Map;
 using MaterialDesignColors;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace travelAgency.view
     /// </summary>
     public partial class HomePage : Page
     {
-        public static RoutedCommand MyCommand = new RoutedCommand();
+        //public static RoutedCommand MyCommand = new RoutedCommand();
         public TripRepository tripRepository;
         public PlaceRepository placeRepository;
         public string BingKey { get; set; }
@@ -49,7 +50,7 @@ namespace travelAgency.view
 
             RefreshCards(false);
 
-            MyCommand.InputGestures.Add(new KeyGesture(Key.S, ModifierKeys.Control));
+            //MyCommand.InputGestures.Add(new KeyGesture(Key.S, ModifierKeys.Control));
             
             Loaded += Page_Loaded;
         }
@@ -118,6 +119,11 @@ namespace travelAgency.view
         {
             CreateCard(e.Trip);
             RefreshCards(false);
+            if (Snackbar.MessageQueue is { } messageQueue)
+            {
+                var message = "Trip created successfully";
+                messageQueue.Enqueue(message);
+            }
         }
         private void TripCard_Remove(object sender, ToTripEventArgs e)
         {
@@ -125,7 +131,11 @@ namespace travelAgency.view
             TripCard card = (TripCard)sender;
             cards.Children.Remove(card);
             tripRepository.Delete(trip);
-
+            if (Snackbar.MessageQueue is { } messageQueue)
+            {
+                var message = "Trip deleted successfully";
+                messageQueue.Enqueue(message);
+            }
         }
         private void Search_OnKeyDown(object sender, KeyEventArgs e)
         {

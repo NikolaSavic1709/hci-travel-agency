@@ -9,6 +9,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       d:DesignHeight="750" d:DesignWidth="1000" Background="#C7C7C7"
       Title="TripDetailsPage">
     <Page.Resources>
+        <materialDesign:SnackbarMessageQueue x:Key="SnackbarMessageQueue" />
         <CollectionViewSource x:Key="SortedSchedules" Source="{Binding Trip.Schedules}">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="DateTime" />
@@ -41,6 +42,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*" MinHeight="250"/>
                 <RowDefinition Height="2*"/>
+                
             </Grid.RowDefinitions>
             <Grid Grid.Row="0"  >
 
@@ -92,6 +94,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     <ColumnDefinition Width="0.5*"/>
 
                 </Grid.ColumnDefinitions>
+                <materialDesign:Snackbar Panel.ZIndex="999" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" x:Name="Snackbar" Background="#78000000" Padding="0" Height="40" MessageQueue="{StaticResource SnackbarMessageQueue}" />
                 <ItemsControl ItemsSource="{Binding Source={StaticResource SortedSchedules}}" Margin="0,30,0,0" Grid.Column="1">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>

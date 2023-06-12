@@ -95,11 +95,19 @@ namespace travelAgency.Dialogs
                 PlaceTextBox.Text = string.Empty;
                 DatePicker.SelectedDate = null;
                 TimePicker.SelectedTime = null;
-
+                if (Snackbar.MessageQueue is { } messageQueue)
+                {
+                    var message = "Schedule added successfully";
+                    messageQueue.Enqueue(message);
+                }
             }
             else
             {
-                //handle
+                if (Snackbar.MessageQueue is { } messageQueue)
+                {
+                    var message = "Place doesn't exist";
+                    messageQueue.Enqueue(message);
+                }
             }
         }
 
@@ -108,6 +116,11 @@ namespace travelAgency.Dialogs
             Button removeButton = (Button)sender;
             TripSchedule tripSchedule = (TripSchedule)removeButton.DataContext;
             ViewModel.Trip.Schedules.Remove(tripSchedule);
+            if (Snackbar.MessageQueue is { } messageQueue)
+            {
+                var message = "Schedule removed successfully";
+                messageQueue.Enqueue(message);
+            }
         }
 
         private void TextBox_KeyDown(object sender, KeyEventArgs e)

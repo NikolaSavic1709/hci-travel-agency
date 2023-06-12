@@ -15,6 +15,8 @@
       Title="Stay&amp;Eat">
 
     <Page.Resources>
+        <materialDesign:SnackbarMessageQueue x:Key="SnackbarMessageQueue" />
+
         <controls:MapHeightCoverter x:Key="MapHeightCoverter" />
         <Style x:Key="TransparentCircleButton" TargetType="Button">
             <Setter Property="Cursor" Value="Hand" />
@@ -59,6 +61,7 @@
                     <ColumnDefinition Width="300*" />
                     <ColumnDefinition Width="20*" />
                 </Grid.ColumnDefinitions>
+                <materialDesign:Snackbar Panel.ZIndex="999" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5" x:Name="Snackbar" Background="#78000000" Padding="0" Height="40" MessageQueue="{StaticResource SnackbarMessageQueue}" />
 
                 <Grid Grid.Column="1" VerticalAlignment="Top">
                     <Grid.RowDefinitions>
@@ -68,7 +71,7 @@
                         <RowDefinition Height="350*" />
                         <RowDefinition Height="45*" />
                     </Grid.RowDefinitions>
-
+                    
                     <Grid Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,40,0,0" Name="Carousel">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="350" />

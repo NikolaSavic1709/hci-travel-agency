@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using travelAgency.Dialogs;
 using travelAgency.model;
 using travelAgency.repository;
 
@@ -63,13 +64,14 @@ public partial class TourEdit : Window
     {
         Close();
     }
-
+    public event EventHandler<DialogResultEventArgs> DialogResultEvent;
     private void Button_Click_1(object sender, RoutedEventArgs e)
     {
         this.trip.Name=NameTxtBox.Text;
         this.trip.Description=DescriptionTxtBox.Text;
         this.trip.Price=Convert.ToDouble(PriceTxtBox.Text) ;
         tripRepository.Save();
+        DialogResultEvent?.Invoke(this, new DialogResultEventArgs(true));
         Close();
     }
 }

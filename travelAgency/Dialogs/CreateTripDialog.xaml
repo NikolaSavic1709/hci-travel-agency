@@ -10,6 +10,7 @@
         Title="Create new trip"  ResizeMode="NoResize" Height="800" Width="600"
         MouseDown="window_MouseDown" WindowStartupLocation="CenterScreen">
     <Window.Resources>
+        <materialDesign:SnackbarMessageQueue x:Key="SnackbarMessageQueue" />
         <CollectionViewSource x:Key="SortedSchedules" Source="{Binding Trip.Schedules}">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="DateTime" />
@@ -44,10 +45,11 @@
             </Style.Triggers>
         </Style>
         <Style x:Key="QuitButton" TargetType="Button" BasedOn="{StaticResource BottomButton}">
-            <Setter Property="Background" Value="#980012" />
+            <Setter Property="Background" Value="#E0E0E0" />
+            <Setter Property="Foreground" Value="#980012"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="Red" />
+                    <Setter Property="Background" Value="#55000000" />
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -96,10 +98,12 @@
 
         <Grid DockPanel.Dock="Bottom" Height="50">
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                <Button Content="QUIT" Width="80" Style="{StaticResource QuitButton}" Click="Button_Click"/>
-                <Button Content="SAVE CHANGES" Width="130" Style="{StaticResource SaveButton}" Click="Save_Click" />
+                <Button Content="Quit" Width="80" FontSize="15" Style="{StaticResource QuitButton}" Click="Button_Click"/>
+                <Button Content="Save changes" FontSize="15" Width="130" Style="{StaticResource SaveButton}" Click="Save_Click" />
                 
             </StackPanel>
+            <materialDesign:Snackbar Panel.ZIndex="999" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="9" x:Name="Snackbar" Background="#78000000" Padding="0" Height="40" MessageQueue="{StaticResource SnackbarMessageQueue}" />
+
         </Grid>
         <ScrollViewer>
             <Grid>

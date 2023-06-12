@@ -92,16 +92,6 @@ namespace travelAgency.view
                 
             }
 
-            //    if (isStay)
-            //    {
-            //        AmenitiesSegment.Visibility = Visibility.Visible;
-            //        RefreshAmenities();
-            //    }
-            //    else
-            //    {
-            //        AmenitiesSegment.Visibility = Visibility.Collapsed;
-            //    }
-            //}
             DrawPin();
         }
 
@@ -212,6 +202,11 @@ namespace travelAgency.view
                 int id = Place.Id;
                 Place = placeRepository.GetById(id);
                 RefreshPlaceData();
+                if (Snackbar.MessageQueue is { } messageQueue)
+                {
+                    var message = "Place edited successfully";
+                    messageQueue.Enqueue(message);
+                }
             }
         }
 
@@ -244,6 +239,11 @@ namespace travelAgency.view
                 int id = Place.Id;
                 Place = stayRepository.GetById(id);
                 RefreshAmenities();
+                if (Snackbar.MessageQueue is { } messageQueue)
+                {
+                    var message = "Amenities refreshed";
+                    messageQueue.Enqueue(message);
+                }
             }
         }
 

@@ -39,10 +39,11 @@
             </Style.Triggers>
         </Style>
         <Style x:Key="QuitButton" TargetType="Button" BasedOn="{StaticResource BottomButton}">
-            <Setter Property="Background" Value="#980012" />
+            <Setter Property="Background" Value="#E0E0E0" />
+            <Setter Property="Foreground" Value="#980012"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="Red" />
+                    <Setter Property="Background" Value="#55000000" />
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -51,8 +52,8 @@
 
         <Grid DockPanel.Dock="Bottom" Height="50">
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                <Button Content="QUIT" Width="80" Style="{StaticResource QuitButton}" Click="Button_Click" />
-                <Button Content="SAVE CHANGES" Width="130" Style="{StaticResource SaveButton}" Click="SaveButton_Click" />
+                <Button Content="Quit" FontSize="15" Width="80" Style="{StaticResource QuitButton}" Click="Button_Click" />
+                <Button Content="Save changes" FontSize="15" Width="130" Style="{StaticResource SaveButton}" Click="SaveButton_Click" />
             </StackPanel>
         </Grid>
         <Grid>
