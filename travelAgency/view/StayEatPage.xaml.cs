@@ -128,10 +128,25 @@ public partial class StayEatPage : Page
         
         StayEatCard card = (StayEatCard)sender;
         cards.Children.Remove(card);
+        RemoveIfExists(card);
         if (place is Restaurant)
             restaurantRepository.Delete((Restaurant)place);
         else
             stayRepository.Delete((Stay)place);
+
+    }
+
+    public void RemoveIfExists(StayEatCard card)
+    {
+        if (stayeatCards.Contains(card))
+        {
+            stayeatCards.Remove(card);
+        }
+        if (filteredStayeatCards != null)
+            if (filteredStayeatCards.Contains(card))
+            {
+                filteredStayeatCards.Remove(card);
+            }
 
     }
     private void Search_OnKeyDown(object sender, KeyEventArgs e)

@@ -140,8 +140,29 @@ namespace travelAgency.view
             Trip trip = e.Trip;
             TripCard card = (TripCard)sender;
             cards.Children.Remove(card);
+
+            RemoveIfExists(card);
+
             tripRepository.Delete(trip);
 
+        }
+
+        public void RemoveIfExists(TripCard card)
+        {
+            if (tripCards.Contains(card))
+            {
+                tripCards.Remove(card);
+            }
+            if (filteredTripCards!=null)
+                if (filteredTripCards.Contains(card))
+                {
+                    filteredTripCards.Remove(card);
+                }
+            if (searchTripCards != null)
+                if (searchTripCards.Contains(card))
+                {
+                    searchTripCards.Remove(card);
+                }
         }
         private void Search_OnKeyDown(object sender, KeyEventArgs e)
         {
