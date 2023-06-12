@@ -1,14 +1,14 @@
-﻿<Window x:Class="travelAgency.Dialogs.FilterArrangementDialog"
+﻿<Window x:Class="travelAgency.Dialogs.FilterReportDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:travelAgency.Dialogs"
-        xmlns:controls="clr-namespace:travelAgency.controls"
+       xmlns:controls="clr-namespace:travelAgency.controls"
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Title="History filter" ResizeMode="NoResize" Height="450" Width="600" WindowStartupLocation="CenterScreen">
+        Title="Report filter" ResizeMode="NoResize" Height="400" Width="600" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <controls:DoubleToIntConverter x:Key="DoubleToIntConverter" />
         <Style x:Key="CustomRangeSliderStyle" TargetType="mah:RangeSlider">
@@ -16,11 +16,11 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="mah:RangeSlider">
                         <Grid>
-                            
+
                             <Rectangle x:Name="PART_Track" Fill="#009882" Opacity="0.12" Height="7" Panel.ZIndex="1" />
 
                             <Rectangle x:Name="PART_SelectionRange" Fill="#009882"  Height="7" Panel.ZIndex="1" />
-                            
+
                             <Thumb x:Name="PART_LowerThumb" Background="#009882" Height="20" Width="5" Panel.ZIndex="2" />
 
                             <Thumb x:Name="PART_UpperThumb" Background="#009882" Height="20" Width="5" Panel.ZIndex="2"/>
@@ -71,7 +71,7 @@
             </Style.Triggers>
         </Style>
     </Window.Resources>
- 
+
     <Grid>
         <DockPanel>
 
@@ -83,7 +83,7 @@
                 </StackPanel>
             </Grid>
             <Grid>
-                
+
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="1*"/>
@@ -92,73 +92,15 @@
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="1*" MinHeight="100"/>
                     <RowDefinition Height="1.5*" MinHeight="70"/>
                     <RowDefinition Height="0.4*" />
                     <RowDefinition Height="1.5*" MinHeight="100"/>
                 </Grid.RowDefinitions>
 
-                <!--<TextBox Grid.Row="0" Grid.ColumnSpan="5" Background="#ececec" FontSize="16" Name="NameTxtBox"
-                  Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Title"
-                 materialDesign:HintAssist.Background="#00000000" materialDesign:HintAssist.FloatingOffset="0,-25"   
-                 Padding="7,0,5,0" VerticalContentAlignment="Center" 
-                  Margin="60,40,60,0" Height="40" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                     BorderBrush="#55000000" BorderThickness="1">
-
-                </TextBox>-->
-
-                <!--<Border Grid.Row="1"
-                Grid.Column="0"
-                Background="#7B1FA2"
-                Height="2"
-                Margin="10"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Center"/>
-                    <controls:RangeSlider Grid.Row="1" 
-                           Grid.Column="1"
-                           Orientation="Horizontal" 
-                           Height="25"
-                           Margin="10"
-                           Foreground="#009882"
-                           Maximum="10"
-                           Minimum="1"
-                           Start="2"
-                           End="4"/>-->
-
-                <StackPanel Orientation="Vertical"  Grid.Row="0" Grid.ColumnSpan="5"  Margin="60,0,60,0"
-                          VerticalAlignment="Center">
-
-                    <Border Padding="8">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="20"/>
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <CheckBox VerticalAlignment="Center" Name="ReservationCheckBox" Foreground="#009882" Background="#009882" IsChecked="True" />
-
-                            <StackPanel Grid.Column="1" Margin="8,0,0,0">
-                                <TextBlock FontWeight="Bold" Text="Reservation" />
-                            </StackPanel>
-                        </Grid>
-                    </Border>
-                    <Border Padding="8">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="20"/>
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <CheckBox VerticalAlignment="Center" Foreground="#009882" Background="#009882" Name="PurchaseCheckBox" IsChecked="True" />
-
-                            <StackPanel Grid.Column="1" Margin="8,0,0,0">
-                                <TextBlock FontWeight="Bold" Text="Purchase" />
-                            </StackPanel>
-                        </Grid>
-                    </Border>
-
-                </StackPanel>
+                
 
 
-                <Grid Grid.Row="1" Grid.ColumnSpan="5"  Margin="60,0,60,0">
+                <Grid Grid.Row="0" Grid.ColumnSpan="5" Margin="60,20,60,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="5*"/>
                         <RowDefinition Height="10*"/>

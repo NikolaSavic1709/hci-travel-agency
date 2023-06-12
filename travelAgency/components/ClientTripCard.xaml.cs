@@ -19,7 +19,7 @@ public partial class ClientTripCard : UserControl
     }
 
     public static readonly DependencyProperty TripProperty =
-  DependencyProperty.Register("Trip", typeof(Trip), typeof(TripCard), new PropertyMetadata(null));
+  DependencyProperty.Register("Trip", typeof(Trip), typeof(ClientTripCard), new PropertyMetadata(null));
 
     public Trip Trip
     {
@@ -27,7 +27,10 @@ public partial class ClientTripCard : UserControl
         set
         {
             SetValue(TripProperty, value);
-            Route = ((Trip)value).Schedules[0].Place.Name.ToString() + " - " + ((Trip)value).Schedules.Last().Place.Name.ToString();
+            if (((Trip)value).Schedules.Count != 0){
+                Route = ((Trip)value).Schedules[0].Place.Name.ToString() + " - " + ((Trip)value).Schedules.Last().Place.Name.ToString();
+            }
+           
             Trip t = ((Trip)value);
             TripName = t.Name;
         }

@@ -1,5 +1,4 @@
-﻿using MahApps.Metro.Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,28 +12,28 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using travelAgency.components;
-using travelAgency.repository;
 
 namespace travelAgency.Dialogs
 {
     /// <summary>
-    /// Interaction logic for FilterArrangementDialog.xaml
+    /// Interaction logic for FilterReportDialog.xaml
     /// </summary>
-    public partial class FilterArrangementDialog : Window
+    public partial class FilterReportDialog : Window
     {
-        List<ArrangementCard> arrangementCards;
-        public FilterArrangementDialog(List<ArrangementCard> arrangementCardss)
+
+        List<ReportCard> reportCards;
+        public FilterReportDialog(List<ReportCard> reportCardss)
         {
-            this.arrangementCards = new List<ArrangementCard>();
-            foreach(ArrangementCard card in arrangementCardss)
+            this.reportCards = new List<ReportCard>();
+            foreach (ReportCard card in reportCardss)
             {
-                arrangementCards.Add(card);
+                reportCards.Add(card);
             }
             InitializeComponent();
             Loaded += Window_Loaded;
         }
 
-        public event EventHandler<ArrangementCardEventArgs> DialogResultEvent;
+        public event EventHandler<ReportCardEventArgs> DialogResultEvent;
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             //DialogResultEvent?.Invoke(this, new ArrangementCardEventArgs(arrangementCards));
@@ -44,22 +43,15 @@ namespace travelAgency.Dialogs
         private void Update_Click(object sender, RoutedEventArgs e)
         {
             int maxnp, minnp;
-            double maxprice,minprice;
+            double maxprice, minprice;
             maxnp = (int)personsSlider.UpperValue;
             minnp = (int)personsSlider.LowerValue;
             maxprice = (int)priceSlider.UpperValue;
             minprice = (int)priceSlider.LowerValue;
-            if (PurchaseCheckBox.IsChecked == false)
-            {
-                arrangementCards.RemoveAll(card => !card.Arrangement.IsReservation);
-            }
-            if (ReservationCheckBox.IsChecked == false)
-            {
-                arrangementCards.RemoveAll(card => card.Arrangement.IsReservation);
-            }
-            arrangementCards.RemoveAll(card => card.Arrangement.NumberOfPersons>maxnp || card.Arrangement.NumberOfPersons < minnp);
-            arrangementCards.RemoveAll(card => card.Arrangement.Price > maxprice || card.Arrangement.Price < minprice);
-            DialogResultEvent?.Invoke(this, new ArrangementCardEventArgs(arrangementCards));
+           
+            reportCards.RemoveAll(card => card.TotalCount > maxnp || card.TotalCount < minnp);
+            reportCards.RemoveAll(card => card.TotalPrice > maxprice || card.TotalPrice < minprice);
+            DialogResultEvent?.Invoke(this, new ReportCardEventArgs(reportCards));
             Close();
         }
 
@@ -69,10 +61,10 @@ namespace travelAgency.Dialogs
             int minnp = 100000000;
             double maxprice = 0;
             double minprice = 100000000000000;
-            foreach (ArrangementCard a in arrangementCards)
+            foreach (ReportCard a in reportCards)
             {
-                int np = a.Arrangement.NumberOfPersons;
-                double price = a.Arrangement.Price;
+                int np = a.TotalCount;
+                double price = a.TotalPrice;
                 maxnp = Math.Max(np, maxnp);
                 minnp = Math.Min(np, minnp);
                 minprice = Math.Min(price, minprice);
@@ -87,6 +79,5 @@ namespace travelAgency.Dialogs
             priceSlider.LowerValue = minprice;
             priceSlider.UpperValue = maxprice;
         }
-
     }
 }

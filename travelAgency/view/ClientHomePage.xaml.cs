@@ -21,25 +21,31 @@ namespace travelAgency.view;
 /// </summary>
 public partial class ClientHomePage : Page
 {
-
     public TravelAgencyContext dbContext;
     public TripRepository tripRepository;
     public PlaceRepository placeRepository;
+    public ArrangementRepository arrangementRepository;
     public List<ClientTripCard> tripCards;
+    public List<ClientTripCard> searchTripCards;
     public List<ClientTripCard> filteredTripCards;
+    private User loggedUser;
+
     public ICommand SearchCommand { get; }
-    public ClientHomePage()
+
+    public ClientHomePage(TravelAgencyContext dbContext, User loggedUser)
     {
         BingKey = "";
         SearchCommand = new CommandImplementationcs(Search);
         tripCards = new List<ClientTripCard>();
+        filteredTripCards = new List<ClientTripCard>();
         InitializeComponent();
         DataContext = this;
-        dbContext = new TravelAgencyContext();
+        this.dbContext = dbContext;
         tripRepository = new TripRepository(dbContext);
         placeRepository = new PlaceRepository(dbContext);
+        arrangementRepository = new ArrangementRepository(dbContext);
+        this.loggedUser = loggedUser;
         List<Trip> trips = tripRepository.GetAll();
-
 
         foreach (Trip t in trips)
         {
@@ -48,36 +54,37 @@ public partial class ClientHomePage : Page
 
         RefreshCards(false);
     }
+
     private void CreateCard(Trip trip)
     {
         ClientTripCard tripCard = new ClientTripCard
         {
             Margin = new Thickness(10),
             Trip = trip
-
         };
         tripCard.ToTripClicked += TripCard_ToTrip;
         tripCard.MouseDown += TripCard_MouseDown;
         tripCards.Add(tripCard);
+        filteredTripCards.Add(tripCard);
     }
+
     public void RefreshCards(bool isFilter)
     {
         cards.Children.Clear();
         if (isFilter)
         {
-            foreach (ClientTripCard a in filteredTripCards)
+            foreach (ClientTripCard a in searchTripCards)
             {
                 cards.Children.Add(a);
             }
         }
         else
         {
-            foreach (ClientTripCard a in tripCards)
+            foreach (ClientTripCard a in filteredTripCards)
             {
                 cards.Children.Add(a);
             }
         }
-
     }
 
     private void TripCard_MouseDown(object sender, MouseButtonEventArgs e)
@@ -97,7 +104,7 @@ public partial class ClientHomePage : Page
     {
         Trip trip = e.Trip;
 
-        NavigationService?.Navigate(new ClientTripDetailsPage(trip,tripRepository,placeRepository));
+        NavigationService?.Navigate(new ClientTripDetailsPage(trip, dbContext, loggedUser));
     }
 
     private void Search_OnKeyDown(object sender, KeyEventArgs e)
@@ -112,11 +119,11 @@ public partial class ClientHomePage : Page
         var text = obj as string;
         if (string.IsNullOrWhiteSpace(text))
         {
-            filteredTripCards = tripCards;
+            searchTripCards = filteredTripCards;
         }
         else
         {
-            filteredTripCards = await Task.Run(() => tripCards
+            searchTripCards = await Task.Run(() => filteredTripCards
                 .Where(x => x.TripName.IndexOf(text, StringComparison.CurrentCultureIgnoreCase) >= 0)
                 .ToList());
         }
@@ -203,5 +210,26 @@ public partial class ClientHomePage : Page
         }
 
         map.ZoomToFit(args.Items);
+    }
+
+    private void Filter_Click(object sender, RoutedEventArgs e)
+    {
+        SearchBox.Text = "";
+        FilterClientTripDialog filterTripDialog = new FilterClientTripDialog(tripCards);
+
+        filterTripDialog.DialogResultEvent += Filter_DialogResultEvent;
+
+        filterTripDialog.ShowDialog();
+    }
+
+    private void Filter_DialogResultEvent(object sender, ClientTripCardEventArgs e)
+    {
+        List<ClientTripCard> result = e.ClientTripCards;
+
+        if (result != null)
+        {
+            filteredTripCards = result;
+        }
+        RefreshCards(false);
     }
 }

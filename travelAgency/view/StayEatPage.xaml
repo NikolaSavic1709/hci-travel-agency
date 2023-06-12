@@ -43,7 +43,7 @@
                     <RowDefinition Height="40*" />
                 </Grid.RowDefinitions>
 
-                <Border Grid.Row="1" Grid.Column="1"
+                <Border Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                 MaxHeight="30"
                 Background="#F6F6F6"
                 CornerRadius="3"
@@ -75,9 +75,6 @@
                     </Grid>
                 </Border>
 
-                <Button Content="{materialDesign:PackIcon Filter}" Background="#009882" Padding="0"
-                    Grid.Column="3" Grid.Row="1"
-                    ToolTip="Filter" />
                 <Button Content="{materialDesign:PackIcon Plus}" Background="#009882" Padding="0"
                     Grid.Column="5" Grid.Row="1"
                     ToolTip="Create trip" Click="CreatePlace_Click" />

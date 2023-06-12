@@ -33,6 +33,7 @@ namespace travelAgency.view
         public string BingKey { get; set; }
 
         public List<ReportCard> reportCards;
+        public List<ReportCard> searchReportCards;
         public List<ReportCard> filteredReportCards;
         public ICommand SearchCommand { get; }
 
@@ -43,6 +44,7 @@ namespace travelAgency.view
             BingKey = "";
             SearchCommand = new CommandImplementationcs(Search);
             reportCards = new List<ReportCard>();
+            filteredReportCards = new List<ReportCard>();
             InitializeComponent();
             DataContext = this;
 
@@ -100,7 +102,7 @@ namespace travelAgency.view
 
         private void DoFilterPerMonth(int month, int year)
         {
-            cards.Children.Clear();
+            reportCards.Clear();
             List<Arrangement> arrangements = arrangementRepository.GetAll().Where(a => a.DateTime.Month == month && a.DateTime.Year == year).ToList();
             foreach (var arrangement in arrangements)
             {
@@ -118,6 +120,7 @@ namespace travelAgency.view
             };
 
             reportCards.Add(reportCard);
+            filteredReportCards.Add(reportCard);
         }
 
         public void RefreshCards(bool isFilter)
@@ -125,14 +128,14 @@ namespace travelAgency.view
             cards.Children.Clear();
             if (isFilter)
             {
-                foreach (ReportCard a in filteredReportCards)
+                foreach (ReportCard a in searchReportCards)
                 {
                     cards.Children.Add(a);
                 }
             }
             else
             {
-                foreach (ReportCard a in reportCards)
+                foreach (ReportCard a in filteredReportCards)
                 {
                     cards.Children.Add(a);
                 }
@@ -230,11 +233,11 @@ namespace travelAgency.view
             var text = obj as string;
             if (string.IsNullOrWhiteSpace(text))
             {
-                filteredReportCards = reportCards;
+                searchReportCards = filteredReportCards;
             }
             else
             {
-                filteredReportCards = await Task.Run(() => reportCards
+                searchReportCards = await Task.Run(() => filteredReportCards
                     .Where(x => x.Trip.Name.IndexOf(text, StringComparison.CurrentCultureIgnoreCase) >= 0)
                     .ToList());
             }
@@ -270,6 +273,27 @@ namespace travelAgency.view
                 waypoints.Add(new RouteWaypoint(schedule.Place.Name, new GeoPoint(schedule.Place.lat, schedule.Place.lng)));
             }
             routeProvider.CalculateRoute(waypoints);
+        }
+
+        private void Filter_Click(object sender, RoutedEventArgs e)
+        {
+            SearchBox.Text = "";
+            FilterReportDialog filterReportDialog = new FilterReportDialog(reportCards);
+
+            filterReportDialog.DialogResultEvent += Filter_DialogResultEvent;
+
+            filterReportDialog.ShowDialog();
+        }
+
+        private void Filter_DialogResultEvent(object sender, ReportCardEventArgs e)
+        {
+            List<ReportCard> result = e.ReportCards;
+
+            if (result != null)
+            {
+                filteredReportCards = result;
+            }
+            RefreshCards(false);
         }
     }
 }

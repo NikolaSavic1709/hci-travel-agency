@@ -21,6 +21,13 @@
         </DataTemplate>
         <clr:String x:Key=" ">""</clr:String>
     </Page.Resources>
+    <Page.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Save" Executed="SaveCommandExecuted"/>
+    </Page.CommandBindings>
+
+    <Page.InputBindings>
+        <KeyBinding Command="ApplicationCommands.Save" Key="S" Modifiers="Ctrl"/>
+    </Page.InputBindings>
     <Grid>
         <Grid Background="#c7c7c7">
 
@@ -76,8 +83,8 @@
             </Border>
 
             <Button Content="{materialDesign:PackIcon Filter}" Background="#009882" Padding="0"
-                    Grid.Column="3" Grid.Row="1"
-                    ToolTip="Filter" />
+                    Grid.Column="3" Grid.Row="1" Name="Filter_Btn"
+                    ToolTip="Filter" Click="Filter_Click" />
 
             <Button Content="{materialDesign:PackIcon Plus}" Background="#009882" Padding="0"
                     Grid.Column="5" Grid.Row="1"

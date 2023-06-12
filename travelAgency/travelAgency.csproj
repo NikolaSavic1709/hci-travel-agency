@@ -19,6 +19,7 @@
     <None Remove="view\uvac.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="MahApps.Metro" Version="2.4.9" />
     <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
     <None Remove="pin.png" />
   </ItemGroup>
@@ -38,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="database\" />
+    <Folder Include="Help\docs\" />
     <Folder Include="Migrations\" />
     <Folder Include="service\" />
     <Folder Include="utils\" />
