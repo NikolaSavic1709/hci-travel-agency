@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Media;
 using travelAgency.controls;
 using travelAgency.Dialogs;
+using travelAgency.model;
 using travelAgency.repository;
 
 namespace travelAgency.view;
@@ -15,14 +16,17 @@ public partial class ClientHome : Window
     public TravelAgencyContext dbContext;
     public TripRepository tripRepository;
     public PlaceRepository placeRepository;
-    public ClientHome()
+    public User loggedUser;
+
+    public ClientHome(TravelAgencyContext dbContext, User loggedUser)
     {
         InitializeComponent();
-        dbContext = new TravelAgencyContext();
+        this.loggedUser = loggedUser;
+        this.dbContext = dbContext;
         tripRepository = new TripRepository(dbContext);
         placeRepository = new PlaceRepository(dbContext);
         HomeButton.IsClicked = "True";
-        Main.Content = new ClientHomePage();
+        Main.Content = new ClientHomePage(dbContext, loggedUser);
     }
 
     private IEnumerable<DependencyObject> GetChildren(DependencyObject parent)
@@ -46,10 +50,11 @@ public partial class ClientHome : Window
         switch (button.Name)
         {
             case "HomeButton":
-                Main.Content = new ClientHomePage();
+                Main.Content = new ClientHomePage(dbContext, loggedUser);
                 break;
+
             case "HistoryButton":
-                Main.Content = new HistoryPage(null);
+                Main.Content = new HistoryPage(dbContext, loggedUser);
                 break;
 
             default:

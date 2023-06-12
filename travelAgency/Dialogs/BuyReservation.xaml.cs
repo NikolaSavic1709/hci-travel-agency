@@ -24,10 +24,10 @@ public partial class BuyReservation : Window
     public TravelAgencyContext dbContext;
     public ArrangementRepository arrangementRepository;
 
-    public BuyReservation(Arrangement arrangement, ArrangementRepository arrangementRepository)
+    public BuyReservation(Arrangement arrangement, TravelAgencyContext dbContex)
     {
         dbContext = new TravelAgencyContext();
-        this.arrangementRepository = arrangementRepository;
+        this.arrangementRepository = new ArrangementRepository(dbContex);
         Arrangement = arrangement;
         bool Reservation = Arrangement.IsReservation;
         InitializeComponent();

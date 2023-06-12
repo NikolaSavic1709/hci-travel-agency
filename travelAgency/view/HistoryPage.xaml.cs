@@ -34,13 +34,13 @@ namespace travelAgency.view
         public List<ArrangementCard> filteredArrangementCards;
         public ICommand SearchCommand { get; }
 
-        public HistoryPage(User loggedUser)
+        public HistoryPage(TravelAgencyContext dbContext, User loggedUser)
         {
             SearchCommand = new CommandImplementationcs(Search);
             arrangementCards = new List<ArrangementCard>();
             InitializeComponent();
             DataContext = this;
-            dbContext = new TravelAgencyContext();
+            this.dbContext = dbContext;
             arrangementRepository = new ArrangementRepository(dbContext);
 
             if (loggedUser == null)

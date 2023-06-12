@@ -25,23 +25,21 @@ namespace travelAgency.view
     /// </summary>
     public partial class AgentHome : Window
     {
-
         public TravelAgencyContext dbContext;
         public TripRepository tripRepository;
         public PlaceRepository placeRepository;
         public ArrangementRepository arrangementRepository;
-        public AgentHome()
-        {
 
+        public AgentHome(TravelAgencyContext dbContext)
+        {
             InitializeComponent();
             HomeButton.IsClicked = "True";
 
-            dbContext = new TravelAgencyContext();
+            this.dbContext = dbContext;
             tripRepository = new TripRepository(dbContext);
             placeRepository = new PlaceRepository(dbContext);
             arrangementRepository = new ArrangementRepository(dbContext);
             Main.Content = new HomePage(tripRepository, placeRepository);
-
         }
 
         private IEnumerable<DependencyObject> GetChildren(DependencyObject parent)
@@ -67,22 +65,28 @@ namespace travelAgency.view
                 case "HomeButton":
                     Main.Content = new HomePage(tripRepository, placeRepository);
                     break;
+
                 case "PlacesButton":
                     Main.Content = new PlacesPage();
                     break;
+
                 case "StayEatButton":
                     Main.Content = new StayEatPage();
                     break;
+
                 case "ReportButton":
                     Main.Content = new ReportPage(tripRepository, arrangementRepository);
                     break;
+
                 case "HistoryButton":
-                    Main.Content = new HistoryPage(null);
+                    Main.Content = new HistoryPage(dbContext, null);
                     break;
+
                 default:
                     break;
             }
         }
+
         private void DeselectNavbarButtons()
         {
             if (NavbarButtons != null)

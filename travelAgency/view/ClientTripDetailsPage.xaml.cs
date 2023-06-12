@@ -31,16 +31,18 @@ namespace travelAgency.view
         public TripRepository tripRepository;
         private PlaceRepository placeRepository;
 
-        public UserRepository userRepository;
         public ArrangementRepository arrangementRepository;
+        private TravelAgencyContext dbContext;
+        private User loggedUser;
 
-        public ClientTripDetailsPage(Trip trip, TripRepository tripRepository, PlaceRepository placeRepository, ArrangementRepository arrangementRepository, UserRepository userRepository)
+        public ClientTripDetailsPage(Trip trip, TravelAgencyContext dbContext, User loggedUser)
         {
             InitializeComponent();
-            this.tripRepository = tripRepository;
-            this.placeRepository = placeRepository;
-            this.arrangementRepository = arrangementRepository;
-            this.userRepository = userRepository;
+            this.dbContext = dbContext;
+            this.tripRepository = new TripRepository(dbContext);
+            this.placeRepository = new PlaceRepository(dbContext);
+            this.arrangementRepository = new ArrangementRepository(dbContext);
+            this.loggedUser = loggedUser;
             Trip = trip;
             DataContext = new TripDetailsViewModel();
 
@@ -56,18 +58,18 @@ namespace travelAgency.view
         {
             Arrangement arrangement = new Arrangement();
             arrangement.Trip = Trip;
-            arrangement.User = userRepository.GetById(1);
+            arrangement.User = loggedUser;
             arrangement.IsReservation = false;
-            (new BuyReservation(arrangement, arrangementRepository)).ShowDialog();
+            (new BuyReservation(arrangement, dbContext)).ShowDialog();
         }
 
         private void Reserve_Click(object sender, RoutedEventArgs e)
         {
             Arrangement arrangement = new Arrangement();
             arrangement.Trip = Trip;
-            arrangement.User = userRepository.GetById(1);
+            arrangement.User = loggedUser;
             arrangement.IsReservation = true;
-            (new BuyReservation(arrangement, arrangementRepository)).ShowDialog();
+            (new BuyReservation(arrangement, dbContext)).ShowDialog();
         }
 
         private void routeProvider_LayerItemsGenerating(object sender, LayerItemsGeneratingEventArgs args)

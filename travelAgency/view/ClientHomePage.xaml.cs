@@ -25,23 +25,24 @@ public partial class ClientHomePage : Page
     public TripRepository tripRepository;
     public PlaceRepository placeRepository;
     public ArrangementRepository arrangementRepository;
-    public UserRepository userRepository;
     public List<ClientTripCard> tripCards;
     public List<ClientTripCard> filteredTripCards;
+    private User loggedUser;
+
     public ICommand SearchCommand { get; }
 
-    public ClientHomePage()
+    public ClientHomePage(TravelAgencyContext dbContext, User loggedUser)
     {
         BingKey = "";
         SearchCommand = new CommandImplementationcs(Search);
         tripCards = new List<ClientTripCard>();
         InitializeComponent();
         DataContext = this;
-        dbContext = new TravelAgencyContext();
+        this.dbContext = dbContext;
         tripRepository = new TripRepository(dbContext);
         placeRepository = new PlaceRepository(dbContext);
         arrangementRepository = new ArrangementRepository(dbContext);
-        userRepository = new UserRepository(dbContext);
+        this.loggedUser = loggedUser;
         List<Trip> trips = tripRepository.GetAll();
 
         foreach (Trip t in trips)
@@ -100,7 +101,7 @@ public partial class ClientHomePage : Page
     {
         Trip trip = e.Trip;
 
-        NavigationService?.Navigate(new ClientTripDetailsPage(trip, tripRepository, placeRepository, arrangementRepository, userRepository));
+        NavigationService?.Navigate(new ClientTripDetailsPage(trip, dbContext, loggedUser));
     }
 
     private void Search_OnKeyDown(object sender, KeyEventArgs e)
