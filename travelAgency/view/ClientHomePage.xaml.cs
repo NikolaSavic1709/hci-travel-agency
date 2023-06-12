@@ -21,15 +21,18 @@ namespace travelAgency.view;
 /// </summary>
 public partial class ClientHomePage : Page
 {
-
     public TravelAgencyContext dbContext;
     public TripRepository tripRepository;
     public PlaceRepository placeRepository;
+    public ArrangementRepository arrangementRepository;
     public List<ClientTripCard> tripCards;
     public List<ClientTripCard> searchTripCards;
     public List<ClientTripCard> filteredTripCards;
+    private User loggedUser;
+
     public ICommand SearchCommand { get; }
-    public ClientHomePage()
+
+    public ClientHomePage(TravelAgencyContext dbContext, User loggedUser)
     {
         BingKey = "";
         SearchCommand = new CommandImplementationcs(Search);
@@ -37,11 +40,12 @@ public partial class ClientHomePage : Page
         filteredTripCards = new List<ClientTripCard>();
         InitializeComponent();
         DataContext = this;
-        dbContext = new TravelAgencyContext();
+        this.dbContext = dbContext;
         tripRepository = new TripRepository(dbContext);
         placeRepository = new PlaceRepository(dbContext);
+        arrangementRepository = new ArrangementRepository(dbContext);
+        this.loggedUser = loggedUser;
         List<Trip> trips = tripRepository.GetAll();
-
 
         foreach (Trip t in trips)
         {
@@ -50,19 +54,20 @@ public partial class ClientHomePage : Page
 
         RefreshCards(false);
     }
+
     private void CreateCard(Trip trip)
     {
         ClientTripCard tripCard = new ClientTripCard
         {
             Margin = new Thickness(10),
             Trip = trip
-
         };
         tripCard.ToTripClicked += TripCard_ToTrip;
         tripCard.MouseDown += TripCard_MouseDown;
         tripCards.Add(tripCard);
         filteredTripCards.Add(tripCard);
     }
+
     public void RefreshCards(bool isFilter)
     {
         cards.Children.Clear();
@@ -80,7 +85,6 @@ public partial class ClientHomePage : Page
                 cards.Children.Add(a);
             }
         }
-
     }
 
     private void TripCard_MouseDown(object sender, MouseButtonEventArgs e)
@@ -100,7 +104,7 @@ public partial class ClientHomePage : Page
     {
         Trip trip = e.Trip;
 
-        NavigationService?.Navigate(new ClientTripDetailsPage(trip,tripRepository,placeRepository));
+        NavigationService?.Navigate(new ClientTripDetailsPage(trip, dbContext, loggedUser));
     }
 
     private void Search_OnKeyDown(object sender, KeyEventArgs e)

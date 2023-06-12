@@ -144,8 +144,16 @@ namespace travelAgency.view
             }
             else
             {
-                Window agentHome = new AgentHome();
-                agentHome.Show();
+                Window home;
+                if (loggedUser.Auth == UserType.Agent)
+                {
+                    home = new AgentHome(dbContext);
+                }
+                else
+                {
+                    home = new ClientHome(dbContext, loggedUser);
+                }
+                home.Show();
                 this.window.Close();
 
                 EmailTxtBox.Text = "";

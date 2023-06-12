@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using travelAgency.model;
+using travelAgency.repository;
 
 namespace travelAgency.view;
 
@@ -17,9 +19,17 @@ public partial class BuyReservation : Window
     public string TitleText { get; set; }
     public string Action { get; set; }
 
-    public BuyReservation()
+    public Arrangement Arrangement { get; set; }
+
+    public TravelAgencyContext dbContext;
+    public ArrangementRepository arrangementRepository;
+
+    public BuyReservation(Arrangement arrangement, TravelAgencyContext dbContex)
     {
-        bool Reservation = true;
+        dbContext = new TravelAgencyContext();
+        this.arrangementRepository = new ArrangementRepository(dbContex);
+        Arrangement = arrangement;
+        bool Reservation = Arrangement.IsReservation;
         InitializeComponent();
         Count = BuyCount.ToString();
         if (Reservation)
@@ -34,8 +44,11 @@ public partial class BuyReservation : Window
             Action = BUY;
             Text = PURCHASE;
         }
-        Text = Text + " for:";
+        Text = Text + " for: " + Arrangement.Trip.Name;
         this.DataContext = this;
+        Arrangement.Price = Arrangement.Trip.Price * BuyCount;
+        Arrangement.NumberOfPersons = BuyCount;
+        PriceLabel.Content = Arrangement.Price.ToString();
     }
 
     private void MinusClick(object sender, RoutedEventArgs e)
@@ -47,6 +60,9 @@ public partial class BuyReservation : Window
         }
         Count = BuyCount.ToString();
         CountLabel.Content = Count;
+        Arrangement.Price = Arrangement.Trip.Price * BuyCount;
+        Arrangement.NumberOfPersons = BuyCount;
+        PriceLabel.Content = Arrangement.Price.ToString();
     }
 
     private void PlusClick(object sender, RoutedEventArgs e)
@@ -54,11 +70,19 @@ public partial class BuyReservation : Window
         BuyCount += 1;
         Count = BuyCount.ToString();
         CountLabel.Content = Count;
+        Arrangement.NumberOfPersons = BuyCount;
+        Arrangement.Price = Arrangement.Trip.Price * BuyCount;
+
+        PriceLabel.Content = Arrangement.Price.ToString();
     }
 
     private void Button_Click_1(object sender, RoutedEventArgs e)
     {
-        (new Confirmation(true)).Show();
+        Arrangement.DateTime = System.DateTime.Now;
+        Arrangement.TripId = Arrangement.Trip.Id;
+        Arrangement.UserId = Arrangement.User.Id;
+        arrangementRepository.Add(Arrangement);
+        (new Confirmation(true)).ShowDialog();
         this.Close();
     }
 }
