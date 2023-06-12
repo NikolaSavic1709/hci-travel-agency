@@ -92,4 +92,27 @@ public partial class ClientHome : Window
             this.Close();
         }
     }
+
+    private void ToHome_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+    {
+        DeselectNavbarButtons();
+        HomeButton.IsClicked = "True";
+        Main.Content = new ClientHomePage(dbContext, loggedUser);
+    }
+
+    private void ToHistory_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+    {
+        DeselectNavbarButtons();
+        HistoryButton.IsClicked = "True";
+        Main.Content = new HistoryPage(dbContext, loggedUser);
+    }
+
+    private void Logout_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+    {
+        var logoutDialog = new LogoutDialog();
+
+        logoutDialog.DialogResultEvent += DialogWindow_DialogResultEvent;
+
+        logoutDialog.ShowDialog();
+    }
 }

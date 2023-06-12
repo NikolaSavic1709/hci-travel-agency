@@ -3,9 +3,24 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:view="clr-namespace:travelAgency.view"
         xmlns:local="clr-namespace:travelAgency.view" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="BuyReservation" Height="250" Width="400">
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static view:CustomCommands.Save}" Executed="Yes_Executed"/>
+        <CommandBinding Command="{x:Static view:CustomCommands.Quit}" Executed="No_Executed"/>
+        <CommandBinding Command="{x:Static view:CustomCommands.Plus}" Executed="Plus_Executed"/>
+        <CommandBinding Command="{x:Static view:CustomCommands.Minus}" Executed="Minus_Executed"/>
+    </Window.CommandBindings>
+
+    <Window.InputBindings>
+        <KeyBinding Command="{x:Static view:CustomCommands.Save}" Key="S" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static view:CustomCommands.Save}" Key="Enter"/>
+        <KeyBinding Command="{x:Static view:CustomCommands.Quit}" Key="Q" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static view:CustomCommands.Plus}" Key="OemPlus" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static view:CustomCommands.Minus}" Key="OemMinus" Modifiers="Ctrl"/>
+    </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
@@ -58,6 +73,6 @@
         <Button
   Content="Cancel"
   Style="{StaticResource MaterialDesignRaisedSecondaryButton}"
-  ToolTip="Resource name: MaterialDesignRaisedSecondaryButton" BorderThickness="0" Background="#FF980012" Foreground="#FFFFFFFF" Grid.Row="4" Margin="2" Grid.Column="2" Grid.ColumnSpan="2" />
+  ToolTip="Resource name: MaterialDesignRaisedSecondaryButton" BorderThickness="0" Background="#FF980012" Foreground="#FFFFFFFF" Grid.Row="4" Margin="2" Grid.Column="2" Grid.ColumnSpan="2" Click="Cancel_Click"/>
     </Grid>
 </Window>

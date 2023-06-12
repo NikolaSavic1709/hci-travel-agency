@@ -4,10 +4,22 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:travelAgency.view"
+        xmlns:view="clr-namespace:travelAgency.view"
         mc:Ignorable="d"
          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="PlaceEdit" Height="600" Width="800">
 
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static view:CustomCommands.Save}" Executed="Save_Executed"/>
+        <CommandBinding Command="{x:Static view:CustomCommands.Quit}" Executed="Quit_Executed"/>
+    </Window.CommandBindings>
+
+    <Window.InputBindings>
+        <KeyBinding Command="{x:Static view:CustomCommands.Save}" Key="S" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static view:CustomCommands.Save}" Key="Enter"/>
+        <KeyBinding Command="{x:Static view:CustomCommands.Quit}" Key="Q" Modifiers="Ctrl"/>
+    </Window.InputBindings>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>

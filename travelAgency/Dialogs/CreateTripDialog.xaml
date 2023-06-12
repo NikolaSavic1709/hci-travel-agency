@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:view="clr-namespace:travelAgency.view"
         xmlns:validators="clr-namespace:travelAgency.validators"
         xmlns:local="clr-namespace:travelAgency.Dialogs" xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         mc:Ignorable="d"
@@ -92,6 +93,18 @@
             </Style.Triggers>
         </Style>
     </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static view:CustomCommands.Save}" Executed="Save_Executed"/>
+        <CommandBinding Command="{x:Static view:CustomCommands.Quit}" Executed="Quit_Executed"/>
+        <CommandBinding Command="{x:Static view:CustomCommands.TripSchedule}" Executed="AddPlace_Executed"/>
+    </Window.CommandBindings>
+
+    <Window.InputBindings>
+        <KeyBinding Command="{x:Static view:CustomCommands.Save}" Key="S" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static view:CustomCommands.Save}" Key="Enter"/>
+        <KeyBinding Command="{x:Static view:CustomCommands.Quit}" Key="Q" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static view:CustomCommands.TripSchedule}" Key="A" Modifiers="Ctrl"/>
+    </Window.InputBindings>
     <DockPanel>
 
         <Grid DockPanel.Dock="Bottom" Height="50">

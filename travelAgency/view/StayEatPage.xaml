@@ -19,6 +19,16 @@
         <clr:String x:Key=" ">""</clr:String>
     </Page.Resources>
 
+    <Page.CommandBindings>
+        <CommandBinding Command="{x:Static local:CustomCommands.New}" Executed="NewCommandExecuted"/>
+        <CommandBinding Command="{x:Static local:CustomCommands.Search}" Executed="SearchCommandExecuted"/>
+    </Page.CommandBindings>
+
+    <Page.InputBindings>
+        <KeyBinding Command="{x:Static local:CustomCommands.New}" Key="N" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static local:CustomCommands.Search}" Key="S" Modifiers="Ctrl"/>
+    </Page.InputBindings>
+
     <Grid>
 
         <Grid>
@@ -76,7 +86,7 @@
                 </Border>
 
                 <Button Content="{materialDesign:PackIcon Plus}" Background="#009882" Padding="0"
-                    Grid.Column="5" Grid.Row="1"
+                    Grid.Column="5" Grid.Row="1" Name="AddBtn"
                     ToolTip="Create trip" Click="CreatePlace_Click" />
 
                 <Grid Grid.Column="7"  Grid.Row="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">

@@ -81,8 +81,13 @@ namespace travelAgency.Dialogs
 
         private void AddPlace_Click(object sender, RoutedEventArgs e)
         {
+            AddPlace();
+        }
+
+        public void AddPlace()
+        {
             Place? selectedPlace = places.Find(p => p.Name == PlaceTextBox.Text);
-            
+
             if (selectedPlace != null)
             {
                 TripSchedule tripSchedule = new TripSchedule();
@@ -155,6 +160,11 @@ namespace travelAgency.Dialogs
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
+            Save();
+        }
+
+        public void Save()
+        {
             ViewModel.Trip.Name = NameTxtBox.Text;
             ViewModel.Trip.Description = DescriptionTxtBox.Text;
             ViewModel.Trip.Price = Convert.ToDouble(PriceTxtBox.Text);
@@ -162,6 +172,7 @@ namespace travelAgency.Dialogs
             NewTrip?.Invoke(this, new ToTripEventArgs(ViewModel.Trip));
             Close();
         }
+
         public event EventHandler<ToTripEventArgs> NewTrip;
         private static bool IsTextAllowed(string text)
         {
@@ -185,6 +196,21 @@ namespace travelAgency.Dialogs
         private void Price_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = !IsTextAllowed(e.Text);
+        }
+
+        private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Save();
+        }
+
+        private void Quit_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void AddPlace_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            AddPlace();
         }
     }
 }

@@ -22,7 +22,6 @@ namespace travelAgency.view
     /// </summary>
     public partial class HomePage : Page
     {
-        public static RoutedCommand MyCommand = new RoutedCommand();
         public TripRepository tripRepository;
         public PlaceRepository placeRepository;
         public string BingKey { get; set; }
@@ -50,8 +49,6 @@ namespace travelAgency.view
             }
 
             RefreshCards(false);
-
-            MyCommand.InputGestures.Add(new KeyGesture(Key.S, ModifierKeys.Control));
             
             Loaded += Page_Loaded;
         }
@@ -61,12 +58,28 @@ namespace travelAgency.view
             FocusManager.SetFocusedElement(this, Filter_Btn);
             Keyboard.Focus(this);
         }
-        private void SaveCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        private void NewCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             CreateTripDialog window = new CreateTripDialog(tripRepository, placeRepository);
             window.NewTrip += TripCard_NewTrip;
             window.ShowDialog();
         }
+
+        private void SearchCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            SearchBox.Focus();
+        }
+
+        private void FilterCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            SearchBox.Text = "";
+            FilterTripDialog filterTripDialog = new FilterTripDialog(tripCards);
+
+            filterTripDialog.DialogResultEvent += Filter_DialogResultEvent;
+
+            filterTripDialog.ShowDialog();
+        }
+
         private void CreateCard(Trip trip)
         {
             TripCard tripCard = new TripCard
@@ -261,5 +274,7 @@ namespace travelAgency.view
             }
             RefreshCards(false);
         }
+
+       
     }
 }

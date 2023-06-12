@@ -82,6 +82,17 @@
             <Setter Property="CornerRadius" Value="10" />
         </Style>
     </Page.Resources>
+
+    <Page.CommandBindings>
+        <CommandBinding Command="{x:Static local:CustomCommands.StayEat}" Executed="Edit_Executed"/>
+        <CommandBinding Command="{x:Static local:CustomCommands.TripSchedule}" Executed="AddPlace_Executed"/>
+    </Page.CommandBindings>
+
+    <Page.InputBindings>
+        <KeyBinding Command="{x:Static local:CustomCommands.StayEat}" Key="E" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static local:CustomCommands.TripSchedule}" Key="A" Modifiers="Ctrl"/>
+    </Page.InputBindings>
+    
     <ScrollViewer>
         <Grid>
             <Grid.RowDefinitions>
@@ -102,7 +113,7 @@
 
                         <Grid DockPanel.Dock="Bottom" Height="40">
                             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                                <Button Grid.Row="0" Grid.Column="7" Style="{StaticResource EditPlaceButton}" Margin="0,0,30,0" Height="30" Width="60" VerticalAlignment="Center" Click="EditTour_Click">
+                                <Button Grid.Row="0" Grid.Column="7" Style="{StaticResource EditPlaceButton}" Margin="0,0,30,0" Height="30" Width="60" VerticalAlignment="Center" Click="EditTour_Click" Name="EditBtn">
                                     <materialDesign:PackIcon Kind="Pen" Height="25" Width="25" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                 </Button>
                             </StackPanel>

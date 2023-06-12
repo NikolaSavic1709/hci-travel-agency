@@ -128,6 +128,18 @@
         </Style>
     </Window.Resources>
 
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static local:CustomCommands.Home}" Executed="ToHome_Executed"/>
+        <CommandBinding Command="{x:Static local:CustomCommands.History}" Executed="ToHistory_Executed"/>
+        <CommandBinding Command="{x:Static local:CustomCommands.Logout}" Executed="Logout_Executed"/>
+    </Window.CommandBindings>
+
+    <Window.InputBindings>
+        <KeyBinding Command="{x:Static local:CustomCommands.Home}" Key="D1" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static local:CustomCommands.History}" Key="D2" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static local:CustomCommands.Logout}" Key="L" Modifiers="Ctrl"/>
+    </Window.InputBindings>
+    
     <DockPanel>
 
         <Grid Name="Navbar" Background="#009882" Height="50" DockPanel.Dock="Top">

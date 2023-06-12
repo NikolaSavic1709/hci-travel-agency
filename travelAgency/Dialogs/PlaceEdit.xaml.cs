@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.Xpf.Bars;
+using System;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
@@ -63,9 +64,24 @@ public partial class PlaceEdit : Window
 
     private void Button_Click_1(object sender, RoutedEventArgs e)
     {
+        Update();
+    }
+
+    public void Update()
+    {
         this.place.Name = NameTxtBox.Text;
         this.place.Description = DescriptionTxtBox.Text;
         this.place.Location = LocationTxtBox.Text;
+        Close();
+    }
+
+    private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
+    {
+        Update();
+    }
+
+    private void Quit_Executed(object sender, ExecutedRoutedEventArgs e)
+    {
         Close();
     }
 }

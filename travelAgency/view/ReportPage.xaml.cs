@@ -56,6 +56,13 @@ namespace travelAgency.view
                 args.RoutedEvent = Mouse.MouseDownEvent;
                 label.RaiseEvent(args);
             }
+            Loaded += Page_Loaded;
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            FocusManager.SetFocusedElement(this, Filter_Btn);
+            Keyboard.Focus(this);
         }
 
         private void DecreaseButton_Click(object sender, RoutedEventArgs e)
@@ -294,6 +301,21 @@ namespace travelAgency.view
                 filteredReportCards = result;
             }
             RefreshCards(false);
+        }
+
+        private void SearchCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            SearchBox.Focus();
+        }
+
+        private void FilterCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            SearchBox.Text = "";
+            FilterReportDialog filterReportDialog = new FilterReportDialog(reportCards);
+
+            filterReportDialog.DialogResultEvent += Filter_DialogResultEvent;
+
+            filterReportDialog.ShowDialog();
         }
     }
 }

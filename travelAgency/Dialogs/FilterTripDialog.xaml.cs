@@ -42,10 +42,15 @@ namespace travelAgency.Dialogs
 
         private void Update_Click(object sender, RoutedEventArgs e)
         {
-            double maxprice, minprice;            
+            Update();
+        }
+
+        public void Update()
+        {
+            double maxprice, minprice;
             maxprice = (int)priceSlider.UpperValue;
             minprice = (int)priceSlider.LowerValue;
-            
+
             tripCards.RemoveAll(card => card.Trip.Price > maxprice || card.Trip.Price < minprice);
             DialogResultEvent?.Invoke(this, new TripCardEventArgs(tripCards));
             Close();
@@ -67,5 +72,14 @@ namespace travelAgency.Dialogs
             priceSlider.UpperValue = maxprice;
         }
 
+        private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Update();
+        }
+
+        private void Quit_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

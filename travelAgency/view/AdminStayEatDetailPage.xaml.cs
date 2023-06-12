@@ -103,6 +103,13 @@ namespace travelAgency.view
             //    }
             //}
             DrawPin();
+            Loaded += Page_Loaded;
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            FocusManager.SetFocusedElement(this, editButton);
+            Keyboard.Focus(this);
         }
 
         private void RefreshAmenities()
@@ -257,6 +264,15 @@ namespace travelAgency.view
             pin.LocationChangedAnimation = new PushpinLocationAnimation();
             pin.CanMove = false;
             mapItems.Items.Add(pin);
+        }
+
+        private void Edit_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            EditPlaceDialog editPlaceDialog = new EditPlaceDialog(Place);
+
+            editPlaceDialog.DialogResultEvent += EditPlace_DialogResultEvent;
+
+            editPlaceDialog.ShowDialog();
         }
     }
 }

@@ -127,6 +127,11 @@ namespace travelAgency.Dialogs
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
+            Save();
+        }
+
+        public void Save()
+        {
             Place? selectedPlace = places.Find(p => p.Name == PlaceTextBox.Text);
 
             if (selectedPlace != null)
@@ -134,7 +139,7 @@ namespace travelAgency.Dialogs
                 DateTime? date = DatePicker.SelectedDate.Value;
                 DateTime? time = TimePicker.SelectedTime.Value;
 
-                if (TripSchedule!=null)
+                if (TripSchedule != null)
                 {
                     TripSchedule.DateTime = new DateTime(date.Value.Year, date.Value.Month, date.Value.Day, time.Value.Hour, time.Value.Minute, 0);
                     Trip.Schedules.Remove(TripSchedule);
@@ -144,11 +149,11 @@ namespace travelAgency.Dialogs
                 {
                     TripSchedule tripSchedule = new TripSchedule();
                     tripSchedule.Place = selectedPlace;
-                    
+
                     tripSchedule.DateTime = new DateTime(date.Value.Year, date.Value.Month, date.Value.Day, time.Value.Hour, time.Value.Minute, 0);
                     Trip.Schedules.Add(tripSchedule);
                 }
-                
+
                 tripRepository.Save();
                 Close();
             }
@@ -156,6 +161,16 @@ namespace travelAgency.Dialogs
             {
                 //handle
             }
+        }
+
+        private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Save();
+        }
+
+        private void Quit_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

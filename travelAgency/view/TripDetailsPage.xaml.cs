@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using travelAgency.components;
 using travelAgency.Dialogs;
@@ -37,6 +38,13 @@ namespace travelAgency.view
                 ViewModel.Trip = trip;
             }
             DrawRoute();
+            Loaded += Page_Loaded;
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            FocusManager.SetFocusedElement(this, EditBtn);
+            Keyboard.Focus(this);
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
@@ -110,6 +118,19 @@ namespace travelAgency.view
                 waypoints.Add(new RouteWaypoint(schedule.Place.Name, new GeoPoint(schedule.Place.lat, schedule.Place.lng)));
             }
             routeProvider.CalculateRoute(waypoints);
+        }
+
+        private void Edit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+        {
+            TourEdit dialog = new TourEdit(Trip, tripRepository);
+            dialog.ShowDialog();
+        }
+
+        private void AddPlace_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+        {
+            CreateTripScheduleDialog dialog = new CreateTripScheduleDialog(Trip, tripRepository, placeRepository, null);
+            dialog.ShowDialog();
+            DrawRoute();
         }
     }
 }

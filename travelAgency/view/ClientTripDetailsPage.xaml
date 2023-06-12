@@ -35,6 +35,17 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             <Setter Property="CornerRadius" Value="10" />
         </Style>
     </Page.Resources>
+
+    <Page.CommandBindings>
+        <CommandBinding Command="{x:Static local:CustomCommands.Purchase}" Executed="Purchase_Executed"/>
+        <CommandBinding Command="{x:Static local:CustomCommands.Reserve}" Executed="Reserve_Executed"/>
+    </Page.CommandBindings>
+
+    <Page.InputBindings>
+        <KeyBinding Command="{x:Static local:CustomCommands.Purchase}" Key="P" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static local:CustomCommands.Reserve}" Key="R" Modifiers="Ctrl"/>
+    </Page.InputBindings>
+    
     <ScrollViewer>
         <Grid>
             <Grid.RowDefinitions>

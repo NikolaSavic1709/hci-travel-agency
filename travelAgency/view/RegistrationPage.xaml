@@ -30,6 +30,14 @@
         </Style>
     </Page.Resources>
 
+    <Page.CommandBindings>
+        <CommandBinding Command="{x:Static local:CustomCommands.ToLogin}" Executed="ToLogin_Executed"/>
+    </Page.CommandBindings>
+
+    <Page.InputBindings>
+        <KeyBinding Command="{x:Static local:CustomCommands.ToLogin}" Key="L" Modifiers="Ctrl"/>
+    </Page.InputBindings>
+    
     <Grid Background="#c7c7c7">
 
         <Grid.ColumnDefinitions>

@@ -66,7 +66,14 @@ namespace travelAgency.view
                 filteredArrangementCards.Add(arrangementCard);
             }
             RefreshCards(false);
-            
+
+            Loaded += Page_Loaded;
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            FocusManager.SetFocusedElement(this, Filter_Btn);
+            Keyboard.Focus(this);
         }
 
         private void ArrangementCard_MouseDown(object sender, MouseButtonEventArgs e)
@@ -165,6 +172,21 @@ namespace travelAgency.view
             {
                 waypoints.Add(new RouteWaypoint(schedule.Place.Name, new GeoPoint(schedule.Place.lat, schedule.Place.lng)));
             }
+        }
+
+        private void SearchCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            SearchBox.Focus();
+        }
+
+        private void FilterCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            SearchBox.Text = "";
+            FilterArrangementDialog filterArrangementDialog = new FilterArrangementDialog(arrangementCards);
+
+            filterArrangementDialog.DialogResultEvent += Filter_DialogResultEvent;
+
+            filterArrangementDialog.ShowDialog();
         }
     }
 }

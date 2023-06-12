@@ -53,6 +53,13 @@ public partial class ClientHomePage : Page
         }
 
         RefreshCards(false);
+        Loaded += Page_Loaded;
+    }
+
+    private void Page_Loaded(object sender, RoutedEventArgs e)
+    {
+        FocusManager.SetFocusedElement(this, Filter_Btn);
+        Keyboard.Focus(this);
     }
 
     private void CreateCard(Trip trip)
@@ -231,5 +238,20 @@ public partial class ClientHomePage : Page
             filteredTripCards = result;
         }
         RefreshCards(false);
+    }
+
+    private void SearchCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+    {
+        SearchBox.Focus();
+    }
+
+    private void FilterCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+    {
+        SearchBox.Text = "";
+        FilterClientTripDialog filterTripDialog = new FilterClientTripDialog(tripCards);
+
+        filterTripDialog.DialogResultEvent += Filter_DialogResultEvent;
+
+        filterTripDialog.ShowDialog();
     }
 }
