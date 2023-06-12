@@ -85,4 +85,9 @@ public partial class BuyReservation : Window
         (new Confirmation(true)).ShowDialog();
         this.Close();
     }
+
+    private void Button_Click(object sender, RoutedEventArgs e)
+    {
+        this.Close();
+    }
 }

@@ -128,6 +128,7 @@ public partial class ClientHomePage : Page
                 .ToList());
         }
         RefreshCards(true);
+        
     }
 
     private void geocodeProvider_LocationInformationReceived(object sender, LocationInformationReceivedEventArgs e)

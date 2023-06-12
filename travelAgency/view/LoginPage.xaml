@@ -142,7 +142,7 @@
                      Value="35" Visibility="Collapsed" />
         </Grid>
 
-        <materialDesign:Snackbar HorizontalAlignment="Center" Grid.Row="14" Grid.Column="0" Width="Auto" Height="Auto"
+        <materialDesign:Snackbar Panel.ZIndex="999" HorizontalAlignment="Center" Grid.Row="14" Grid.Column="0" Width="Auto" Height="Auto"
                                           VerticalAlignment="Stretch" Margin="0,8,0,3" Padding="0,-10,0,0"
                                           x:Name="SnackbarOk" MessageQueue="{materialDesign:MessageQueue}" />
         <!-- Snackbar content goes here -->

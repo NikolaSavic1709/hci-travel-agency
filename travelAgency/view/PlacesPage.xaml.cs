@@ -82,6 +82,11 @@ public partial class PlacesPage : Page
     {
         CreateCard(e.Attraction);
         RefreshCards(false);
+        if (Snackbar.MessageQueue is { } messageQueue)
+        {
+            var message = "Attraction created successfully";
+            messageQueue.Enqueue(message);
+        }
     }
     private void AttractionCard_MouseDown(object sender, MouseButtonEventArgs e)
     {
@@ -111,6 +116,11 @@ public partial class PlacesPage : Page
         AttractionCard card = (AttractionCard)sender;
         cards.Children.Remove(card);
         attractionRepository.Delete(attraction);
+        if (Snackbar.MessageQueue is { } messageQueue)
+        {
+            var message = "Attraction deleted successfully";
+            messageQueue.Enqueue(message);
+        }
 
     }
     private void Search_OnKeyDown(object sender, KeyEventArgs e)

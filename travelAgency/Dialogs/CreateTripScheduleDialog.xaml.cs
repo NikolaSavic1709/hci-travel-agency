@@ -124,7 +124,7 @@ namespace travelAgency.Dialogs
                 }
             }
         }
-
+        public event EventHandler<DialogResultEventArgs> DialogResultEvent;
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             Place? selectedPlace = places.Find(p => p.Name == PlaceTextBox.Text);
@@ -148,7 +148,7 @@ namespace travelAgency.Dialogs
                     tripSchedule.DateTime = new DateTime(date.Value.Year, date.Value.Month, date.Value.Day, time.Value.Hour, time.Value.Minute, 0);
                     Trip.Schedules.Add(tripSchedule);
                 }
-                
+                DialogResultEvent?.Invoke(this, new DialogResultEventArgs(true));
                 tripRepository.Save();
                 Close();
             }

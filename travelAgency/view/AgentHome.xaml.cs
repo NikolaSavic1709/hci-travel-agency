@@ -65,22 +65,27 @@ namespace travelAgency.view
             {
                 case "HomeButton":
                     Main.Content = new HomePage(tripRepository, placeRepository);
+                    Help.HelpProvider.SetHelpKey((DependencyObject)Main, "index");
                     break;
 
                 case "PlacesButton":
                     Main.Content = new PlacesPage();
+                    Help.HelpProvider.SetHelpKey((DependencyObject)Main, "place");
                     break;
 
                 case "StayEatButton":
                     Main.Content = new StayEatPage();
+                    Help.HelpProvider.SetHelpKey((DependencyObject)Main, "stayeat");
                     break;
 
                 case "ReportButton":
                     Main.Content = new ReportPage(tripRepository, arrangementRepository);
+                    Help.HelpProvider.SetHelpKey((DependencyObject)Main, "report");
                     break;
 
                 case "HistoryButton":
                     Main.Content = new HistoryPage(dbContext, null);
+                    Help.HelpProvider.SetHelpKey((DependencyObject)Main, "history");
                     break;
 
                 default:
@@ -118,12 +123,13 @@ namespace travelAgency.view
                 this.Close();
             }
         }
+
         private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             IInputElement focusedControl = FocusManager.GetFocusedElement(System.Windows.Application.Current.Windows[0]);
             if (focusedControl is DependencyObject)
             {
-                string str = Help.HelpProvider.GetHelpKey((DependencyObject)focusedControl);
+                string str = Help.HelpProvider.GetHelpKey((DependencyObject)Main);
                 Help.HelpProvider.ShowHelp(str, this);
             }
         }

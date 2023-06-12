@@ -127,6 +127,9 @@
             </Style.Triggers>
         </Style>
     </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Help" Executed="CommandBinding_Executed" />
+    </Window.CommandBindings>
 
     <DockPanel>
 
@@ -142,7 +145,7 @@
                 <controls:NavbarButton x:Name="HistoryButton" Style="{StaticResource RightNavbarButton}" Content="HISTORY" Click="NavbarButton_Click" />
             </StackPanel>
             <StackPanel HorizontalAlignment="Center" Grid.Column="2" Orientation="Horizontal">
-                <controls:NavbarButton Style="{StaticResource SingleNavbarButton}" Width="40" Margin="0,0,10,0">
+                <controls:NavbarButton Style="{StaticResource SingleNavbarButton}" Width="40" Margin="0,0,10,0" Command="ApplicationCommands.Help">
                     <materialDesign:PackIcon Kind="QuestionMark" Height="30" Width="30" />
                 </controls:NavbarButton>
                 <controls:NavbarButton Style="{StaticResource SingleNavbarButton}" Click="LogoutButton_Click" Content="LOG OUT">

@@ -57,10 +57,11 @@
             </Style.Triggers>
         </Style>
         <Style x:Key="QuitButton" TargetType="Button" BasedOn="{StaticResource BottomButton}">
-            <Setter Property="Background" Value="#980012" />
+            <Setter Property="Background" Value="#E0E0E0" />
+            <Setter Property="Foreground" Value="#980012"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="Red" />
+                    <Setter Property="Background" Value="#55000000" />
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -109,8 +110,8 @@
 
         <Grid DockPanel.Dock="Bottom" Height="50">
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                <Button Content="QUIT" Width="80" Style="{StaticResource QuitButton}" Click="Button_Click" />
-                <Button Content="SAVE CHANGES" Width="130" Style="{StaticResource SaveButton}" Click="Save_Click" />
+                <Button Content="Quit" FontSize="15" Width="80" Style="{StaticResource QuitButton}" Click="Button_Click" />
+                <Button Content="Save changes" FontSize="15" Width="130" Style="{StaticResource SaveButton}" Click="Save_Click" />
             </StackPanel>
         </Grid>
         <ScrollViewer>
@@ -148,19 +149,14 @@
                  materialDesign:HintAssist.Background="#00000000" materialDesign:HintAssist.FloatingOffset="0,-25"
                  Padding="7,0,5,0" VerticalContentAlignment="Center"
                   Margin="60,40,60,0" Height="40" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                     BorderBrush="#55000000" BorderThickness="1">
-                    <!--                 materialDesign:ValidationAssist.Background="#BBBBBB"
-                 materialDesign:ValidationAssist.OnlyShowOnFocus="True"
-                 materialDesign:ValidationAssist.HasError="{Binding IsFirstNameInvalid}"
-            <TextBox.Text>
-                    <Binding Path="FirstName" UpdateSourceTrigger="LostFocus">
-                        <Binding.ValidationRules>
-                            <validators:NotEmptyValidationRule />
-                            <validators:CorrectNameValidationRule Field="Name" />
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
--->
+                      BorderThickness="1">
+                    <TextBox.Text>
+                        <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validators:NotEmptyValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
                 </TextBox>
 
                 <ComboBox x:Name="OutlinedComboBox"
@@ -168,25 +164,44 @@
                     materialDesign:HintAssist.Hint="Type" Height="40" Width="Auto" Grid.Row="1" Grid.ColumnSpan="5"
                     Background="#ececec" FontSize="16" materialDesign:HintAssist.Background="#00000000"
                     Padding="7,0,5,0" VerticalContentAlignment="Center"
-                    Margin="60,0,60,0"  BorderBrush="#55000000" BorderThickness="1"
-                    Style="{StaticResource MaterialDesignOutlinedComboBox}" SelectionChanged="OutlinedComboBox_SelectionChanged">
+                    Margin="60,0,60,0"   BorderThickness="1"
+                    Style="{StaticResource MaterialDesignOutlinedComboBox}"  LostFocus="ComboBox_LostFocus" SelectionChanged="OutlinedComboBox_SelectionChanged">
                     <ComboBoxItem Content="Attraction" />
                     <ComboBoxItem Content="Restaurant" />
                     <ComboBoxItem Content="Accomodation" />
+                    <ComboBox.SelectedItem>
+                        <Binding Path="SelectedItemProperty" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validators:ComboBoxSelectionValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </ComboBox.SelectedItem>
                 </ComboBox>
-                <!--<TextBox Grid.Row="0" Grid.ColumnSpan="5" Background="#ececec" FontSize="16" Name="NameTxtBox"
-                  Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Title"
-                 materialDesign:HintAssist.Background="#00000000" materialDesign:HintAssist.FloatingOffset="0,-25"
-                 Padding="7,0,5,0" VerticalContentAlignment="Center" Margin="60,40,60,0" Height="40" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                     BorderBrush="#55000000" BorderThickness="1" />-->
+                
                 <TextBox Height="80" Width="Auto" Grid.Row="2" Grid.ColumnSpan="5" AcceptsReturn="True" TextWrapping="Wrap" Name="LocationTxtBox"
                        Background="#ececec" FontSize="16"  materialDesign:HintAssist.Hint="Location" Style="{StaticResource MaterialDesignOutlinedTextBox}"
                  materialDesign:HintAssist.Background="#00000000" Padding="7,0,5,0" VerticalContentAlignment="Center"
-                  Margin="60,0,60,0"  BorderBrush="#55000000" BorderThickness="1" />
+                  Margin="60,0,60,0"  BorderThickness="1" >
+                    <TextBox.Text>
+                        <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validators:NotEmptyValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
                 <TextBox Height="80" Width="Auto" Grid.Row="3" Grid.ColumnSpan="5" AcceptsReturn="True" TextWrapping="Wrap" Name="DescriptionTxtBox"
                        Background="#ececec" FontSize="16"  materialDesign:HintAssist.Hint="Description" Style="{StaticResource MaterialDesignOutlinedTextBox}"
                  materialDesign:HintAssist.Background="#00000000" Padding="7,0,5,0" VerticalContentAlignment="Center"
-                  Margin="60,0,60,0"  BorderBrush="#55000000" BorderThickness="1" />
+                  Margin="60,0,60,0"  BorderThickness="1" >
+                    <TextBox.Text>
+                        <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validators:NotEmptyValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
                 <Separator Grid.Row="4" Height="1" Grid.ColumnSpan="5" HorizontalAlignment="Stretch" Margin="30,10" BorderBrush="#55000000" BorderThickness="1" />
 
                 <Grid Name="AmenitiesFragment" Grid.Row="5" Grid.ColumnSpan="5"  Visibility="Hidden">

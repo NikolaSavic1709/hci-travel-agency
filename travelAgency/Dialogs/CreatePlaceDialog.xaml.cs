@@ -28,16 +28,20 @@ namespace travelAgency.Dialogs
         private MapPushpin mapItem;
         private double lat;
         private double lng;
+        public ComboBoxItem SelectedItemProperty { get; set; }
         public CreatePlaceDialog(bool createPlace)
         {
             InitializeComponent();
+            SelectedItemProperty = null;
             dbContext = new TravelAgencyContext();
             attractionRepository = new AttractionRepository(dbContext);
             stayRepository = new StayRepository(dbContext);
             restaurantRepository = new RestaurantRepository(dbContext);
             if (createPlace)
             {
+                
                 OutlinedComboBox.SelectedIndex = 0;
+                SelectedItemProperty = (ComboBoxItem?)OutlinedComboBox.SelectedItem;
                 OutlinedComboBox.IsEnabled = false;
             }
             else
@@ -236,6 +240,15 @@ namespace travelAgency.Dialogs
             {
                 ActiveIconItemListingViewModel.AddTodoItem(item);
             }
+        }
+
+        private void ComboBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+            BindingExpression bindingExpr = comboBox.GetBindingExpression(ComboBox.SelectedIndexProperty);
+
+            // Manually trigger the validation
+            bindingExpr.UpdateSource();
         }
     }
 

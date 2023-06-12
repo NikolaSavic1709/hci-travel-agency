@@ -90,6 +90,11 @@ public partial class StayEatPage : Page
     {
         CreateCard(e.Place);
         RefreshCards(false);
+        if (Snackbar.MessageQueue is { } messageQueue)
+        {
+            var message = "Place created successfully";
+            messageQueue.Enqueue(message);
+        }
     }
     private void StayEatCard_MouseDown(object sender, MouseButtonEventArgs e)
     {
@@ -125,6 +130,11 @@ public partial class StayEatPage : Page
             restaurantRepository.Delete((Restaurant)place);
         else
             stayRepository.Delete((Stay)place);
+        if (Snackbar.MessageQueue is { } messageQueue)
+        {
+            var message = "Place deleted successfully";
+            messageQueue.Enqueue(message);
+        }
 
     }
     private void Search_OnKeyDown(object sender, KeyEventArgs e)

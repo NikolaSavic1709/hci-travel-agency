@@ -39,10 +39,11 @@
             </Style.Triggers>
         </Style>
         <Style x:Key="QuitButton" TargetType="Button" BasedOn="{StaticResource BottomButton}">
-            <Setter Property="Background" Value="#980012" />
+            <Setter Property="Background" Value="#E0E0E0" />
+            <Setter Property="Foreground" Value="#980012"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="Red" />
+                    <Setter Property="Background" Value="#55000000" />
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -51,8 +52,8 @@
 
         <Grid DockPanel.Dock="Bottom" Height="50">
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                <Button Content="QUIT" Width="80" Style="{StaticResource QuitButton}" Click="Button_Click" />
-                <Button Content="SAVE CHANGES" Width="130" Style="{StaticResource SaveButton}" Click="SaveButton_Click" />
+                <Button Content="Quit" FontSize="15" Width="80" Style="{StaticResource QuitButton}" Click="Button_Click" />
+                <Button Content="Save changes" FontSize="15" Width="130" Style="{StaticResource SaveButton}" Click="SaveButton_Click" />
             </StackPanel>
         </Grid>
         <Grid>
@@ -85,7 +86,7 @@
                     Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Place"
                     materialDesign:HintAssist.Background="#00000000" materialDesign:HintAssist.FloatingOffset="0,-25"
                     Padding="7,0,5,0" VerticalContentAlignment="Center" VerticalAlignment="Bottom" Height="40" Width="Auto" HorizontalAlignment="Stretch"
-                    BorderBrush="#55000000" BorderThickness="1"
+                    BorderThickness="1"
                     TextChanged="TextBox_TextChanged" LostFocus="TextBox_OnFocusLost" KeyUp="TextBox_KeyDown" />
 
             <ListBox Grid.Row="1" Grid.Column="1" Margin="0,2,0,0"
@@ -100,7 +101,7 @@
 
             <DatePicker Name="DatePicker"  Grid.Row="0" Grid.Column="3" Height="40" FontSize="16" Padding="7,0,5,0" Width="Auto"
              Background="#ececec" materialDesign:HintAssist.Hint="Date" VerticalAlignment="Bottom"
-             BorderBrush="#55000000" BorderThickness="1" SelectedDateFormat="Short">
+             BorderThickness="1" SelectedDateFormat="Short">
                 <DatePicker.Resources>
                     <SolidColorBrush x:Key="SecondaryColorBrush" Color="#009882" />
                     <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#009882" />
@@ -134,7 +135,7 @@
             <Border Background="#ececec" VerticalAlignment="Bottom" Height="40" Grid.Row="0" Grid.Column="5">
                 <materialDesign:TimePicker Name="TimePicker"  Height="40" FontSize="16" Padding="7,0,5,0" Width="Auto"
                         materialDesign:HintAssist.Hint="Time"
-                        BorderBrush="#55000000" BorderThickness="1"
+                        BorderThickness="1"
                         Is24Hours="True" Style="{StaticResource MaterialDesignOutlinedTimePicker}">
                     <materialDesign:TimePicker.Resources>
                         <SolidColorBrush x:Key="SecondaryColorBrush" Color="#009882" />

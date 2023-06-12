@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using travelAgency.model;
 using travelAgency.repository;
@@ -22,6 +23,7 @@ namespace travelAgency.Dialogs
         CreateTripViewModel ViewModel { get; set; }
         int currentIndexListBox=-1; 
         private static readonly Regex _regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
+
         public CreateTripDialog(TripRepository tripRepository, PlaceRepository placeRepository)
         {
             InitializeComponent();
@@ -95,11 +97,19 @@ namespace travelAgency.Dialogs
                 PlaceTextBox.Text = string.Empty;
                 DatePicker.SelectedDate = null;
                 TimePicker.SelectedTime = null;
-
+                if (Snackbar.MessageQueue is { } messageQueue)
+                {
+                    var message = "Schedule added successfully";
+                    messageQueue.Enqueue(message);
+                }
             }
             else
             {
-                //handle
+                if (Snackbar.MessageQueue is { } messageQueue)
+                {
+                    var message = "Place doesn't exist";
+                    messageQueue.Enqueue(message);
+                }
             }
         }
 
@@ -108,6 +118,11 @@ namespace travelAgency.Dialogs
             Button removeButton = (Button)sender;
             TripSchedule tripSchedule = (TripSchedule)removeButton.DataContext;
             ViewModel.Trip.Schedules.Remove(tripSchedule);
+            if (Snackbar.MessageQueue is { } messageQueue)
+            {
+                var message = "Schedule removed successfully";
+                messageQueue.Enqueue(message);
+            }
         }
 
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
@@ -185,6 +200,15 @@ namespace travelAgency.Dialogs
         private void Price_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = !IsTextAllowed(e.Text);
+        }
+
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            BindingExpression bindingExpr = textBox.GetBindingExpression(TextBox.TextProperty);
+
+            // Manually trigger the validation
+            bindingExpr.UpdateSource();
         }
     }
 }

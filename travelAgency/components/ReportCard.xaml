@@ -15,7 +15,7 @@
             </Grid.RowDefinitions>
 
             <StackPanel Grid.Row="0" Margin="8,7,8,0">
-                <TextBlock FontWeight="Bold" FontSize="20" TextWrapping="Wrap" Margin="0,0,0,5" Text="{Binding Arrangement.Trip.Name}"/>
+                <TextBlock FontWeight="Bold" FontSize="20" TextWrapping="Wrap" Margin="0,0,0,5" Text="{Binding Trip.Name}"/>
 
             </StackPanel>
             <Grid Grid.Row="1" Grid.Column="0"
@@ -39,10 +39,10 @@
                        Text="Earnings:"
                        TextWrapping="Wrap" Margin="15,0,0,0" />
                 <TextBlock Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" FontWeight="Bold" FontSize="16"
-                       Text="{Binding Arrangement.NumberOfPersons}"
+                       Text="{Binding TotalCount}"
                        TextWrapping="Wrap" />
                 <TextBlock Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" FontWeight="Bold" FontSize="16"
-                       Text="{Binding Arrangement.Price, StringFormat='{}{0:0}'}"
+                       Text="{Binding TotalPrice, StringFormat='{}{0:0}'}"
                        TextWrapping="Wrap" />
             </Grid>
 

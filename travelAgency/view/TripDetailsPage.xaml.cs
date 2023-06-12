@@ -1,5 +1,8 @@
 ﻿using DevExpress.Xpf.Map;
+using MaterialDesignThemes.Wpf;
+using System;
 using System.Collections.Generic;
+using System.ServiceModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -42,7 +45,18 @@ namespace travelAgency.view
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             CreateTripScheduleDialog dialog = new CreateTripScheduleDialog(Trip, tripRepository, placeRepository, null);
+            dialog.DialogResultEvent += AddTripSchedule_Result;
             dialog.ShowDialog();
+            
+        }
+
+        private void AddTripSchedule_Result(object? sender, DialogResultEventArgs e)
+        {
+            if (Snackbar.MessageQueue is { } messageQueue)
+            {
+                var message = "Place added successfully";
+                messageQueue.Enqueue(message);
+            }
             DrawRoute();
         }
 
@@ -52,15 +66,24 @@ namespace travelAgency.view
             TripSchedule tripSchedule = (TripSchedule)removeButton.DataContext;
             if (ViewModel != null)
             {
-                if (ViewModel.Trip.Schedules.Count > 1)
+                if (ViewModel.Trip.Schedules.Count > 0)
                 {
                     ViewModel.Trip.Schedules.Remove(tripSchedule);
                     Trip.Schedules.Remove(tripSchedule);
                     this.tripRepository.Save();
+                    if (Snackbar.MessageQueue is { } messageQueue)
+                    {
+                        var message = "Schedule removed successfully";
+                        messageQueue.Enqueue(message);
+                    }
                 }
                 else
                 {
-                    //snackbar
+                    if (Snackbar.MessageQueue is { } messageQueue)
+                    {
+                        var message = "Tour must have at least one place";
+                        messageQueue.Enqueue(message);
+                    }
                 }
             }
             DrawRoute();
@@ -72,13 +95,33 @@ namespace travelAgency.view
             TripSchedule tripSchedule = (TripSchedule)editButton.DataContext;
 
             CreateTripScheduleDialog dialog = new CreateTripScheduleDialog(Trip, tripRepository, placeRepository, tripSchedule);
+            dialog.DialogResultEvent += EditTripSchedule_Result;
             dialog.ShowDialog();
+        }
+
+        private void EditTripSchedule_Result(object? sender, DialogResultEventArgs e)
+        {
+            if (Snackbar.MessageQueue is { } messageQueue)
+            {
+                var message = "Schedule edited successfully";
+                messageQueue.Enqueue(message);
+            }
         }
 
         private void EditTour_Click(object sender, RoutedEventArgs e)
         {
             TourEdit dialog = new TourEdit(Trip, tripRepository);
+            dialog.DialogResultEvent += EditTrip_Result;
             dialog.ShowDialog();
+        }
+
+        private void EditTrip_Result(object? sender, DialogResultEventArgs e)
+        {
+            if (Snackbar.MessageQueue is { } messageQueue)
+            {
+                var message = "Trip edited successfully";
+                messageQueue.Enqueue(message);
+            }
         }
 
         private void routeProvider_LayerItemsGenerating(object sender, LayerItemsGeneratingEventArgs args)

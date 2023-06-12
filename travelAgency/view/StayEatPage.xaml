@@ -11,6 +11,7 @@
       Title="StayEatPage">
 
     <Page.Resources>
+        <materialDesign:SnackbarMessageQueue x:Key="SnackbarMessageQueue" />
         <DataTemplate x:Key="pushpin">
             <StackPanel ToolTipService.ToolTip="{Binding Path=MapItem.Information}" Height="NaN" Orientation="Horizontal">
                 <Image  Source="pack://application:,,,/pin.png" Width="20" Height="20" />
@@ -42,6 +43,7 @@
                     <RowDefinition Height="410*" />
                     <RowDefinition Height="40*" />
                 </Grid.RowDefinitions>
+                <materialDesign:Snackbar Panel.ZIndex="999" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="9" x:Name="Snackbar" Background="#78000000" Padding="0" Height="40" MessageQueue="{StaticResource SnackbarMessageQueue}" />
 
                 <Border Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                 MaxHeight="30"
@@ -93,16 +95,16 @@
                         </dxm:VectorLayer>
                     </dxm:MapControl>
                 </Grid>
-
-                <controls:FlexWrapPanel HorizontalAlignment="Stretch" RequestedItemWidth="245" Width="Auto" Margin="-10"
-                                Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="3" x:Name="cards">
-                    <!--<components:TripCard Margin="10" TripName="Tura zapadna Srbija" Route="Šabac - Bajina Bašta"
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="-10" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="3">
+                    <controls:FlexWrapPanel HorizontalAlignment="Stretch" RequestedItemWidth="245" Width="Auto"  x:Name="cards">
+                        <!--<components:TripCard Margin="10" TripName="Tura zapadna Srbija" Route="Šabac - Bajina Bašta"
                                  Description="Tura je veoma zaniljiva i duga jer Savic i drugari imaju sta da ponude i njihovom kraju" />
             <components:TripCard Margin="10" TripName="Planinski maratoni" Route="Raška - Pančićev vrh"
                                  Description="Tura je veoma zaniljiva i duga jer Savic i drugari imaju sta da ponude i njihovom kraju" />
             <components:TripCard Margin="10" TripName="Tura južna Srbija" Route="Vranje - Đavolja Varoš  "
                                  Description="Ubedljiva najbolja tura u nasoj ponudi" />-->
-                </controls:FlexWrapPanel>
+                    </controls:FlexWrapPanel>
+                </ScrollViewer>
             </Grid>
         </Grid>
     </Grid>

@@ -13,6 +13,7 @@
       d:DesignHeight="700" d:DesignWidth="1000"
       Title="HistoryPage">
     <Page.Resources>
+        <materialDesign:SnackbarMessageQueue x:Key="SnackbarMessageQueue" />
         <DataTemplate x:Key="pushpin">
             <StackPanel ToolTipService.ToolTip="{Binding Path=MapItem.Information}" Height="NaN" Orientation="Horizontal">
                 <Image  Source="pack://application:,,,/pin.png" Width="20" Height="20" />
@@ -41,6 +42,7 @@
                 <RowDefinition Height="410*" />
                 <RowDefinition Height="40*" />
             </Grid.RowDefinitions>
+            <materialDesign:Snackbar Panel.ZIndex="999" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="9" x:Name="Snackbar" Background="#78000000" Padding="0" Height="40" MessageQueue="{StaticResource SnackbarMessageQueue}" />
 
             <Border Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                 MaxHeight="30"
@@ -96,10 +98,10 @@
                     </dxm:InformationLayer>
                 </dxm:MapControl>
             </Grid>
-
-            <controls:FlexWrapPanel HorizontalAlignment="Stretch" RequestedItemWidth="245" Width="Auto" Margin="-10"
-                                Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="3" x:Name="cards">
-            </controls:FlexWrapPanel>
+            <ScrollViewer VerticalScrollBarVisibility="Auto"  Grid.Row="3" Margin="-10" Grid.Column="1" Grid.ColumnSpan="5">
+                <controls:FlexWrapPanel HorizontalAlignment="Stretch" RequestedItemWidth="245" Width="Auto"  x:Name="cards">
+                </controls:FlexWrapPanel>
+            </ScrollViewer>
         </Grid>
     </Grid>
 </Page>
