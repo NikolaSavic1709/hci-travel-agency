@@ -1,5 +1,7 @@
 ﻿using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Map;
+using DevExpress.XtraRichEdit.Model;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -48,10 +50,28 @@ namespace travelAgency.view
             dbContext = new TravelAgencyContext();
             stayRepository = new StayRepository(dbContext);
             placeRepository = new PlaceRepository(dbContext);
+            string curDir = Directory.GetCurrentDirectory();
 
-            // TODO: add directory for every place
-            ImageDirectory = "C:\\Nikola\\programiranje\\6_semestar\\covek_racunar\\hci-travel-agency\\travelAgency\\Resources\\Images";
-            ImageNames = Directory.GetFiles(ImageDirectory);
+            int index = 1;
+            for (int i = 0; i < 3; i++)
+            {
+                index = curDir.LastIndexOf('\\');
+                if (index == -1)
+                    break;
+                curDir = curDir.Substring(0, index);
+            }
+            curDir += "\\Resources\\Images\\";
+            ImageDirectory = curDir + place.Id + "\\";
+            try
+            {
+                ImageNames = Directory.GetFiles(ImageDirectory);
+            }
+            catch(DirectoryNotFoundException e)
+            {
+                ImageDirectory = curDir;
+                ImageNames = Directory.GetFiles(ImageDirectory);
+            }
+            
             CurrentImageIndex = 0;
             var viewModel = DataContext as StayEatViewModel;
             if (viewModel != null)

@@ -132,7 +132,9 @@
             </Style.Triggers>
         </Style>
     </Window.Resources>
-
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Help" Executed="CommandBinding_Executed"/>
+    </Window.CommandBindings>
     <DockPanel>
 
         <Grid Name="Navbar" Background="#009882" Height="50" DockPanel.Dock="Top">

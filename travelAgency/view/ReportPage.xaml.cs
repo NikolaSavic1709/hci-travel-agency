@@ -100,7 +100,7 @@ namespace travelAgency.view
 
         private void DoFilterPerMonth(int month, int year)
         {
-            cards.Children.Clear();
+            reportCards.Clear();
             List<Arrangement> arrangements = arrangementRepository.GetAll().Where(a => a.DateTime.Month == month && a.DateTime.Year == year).ToList();
             foreach (var arrangement in arrangements)
             {

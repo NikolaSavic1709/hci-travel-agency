@@ -38,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="database\" />
+    <Folder Include="Help\docs\" />
     <Folder Include="Migrations\" />
     <Folder Include="service\" />
     <Folder Include="utils\" />

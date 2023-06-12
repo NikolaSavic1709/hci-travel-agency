@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using travelAgency.components;
 using travelAgency.controls;
 using travelAgency.Dialogs;
+using travelAgency.Help;
 using travelAgency.repository;
 
 namespace travelAgency.view
@@ -111,6 +112,15 @@ namespace travelAgency.view
                 Window loginwindow = new RegistrationWindow();
                 loginwindow.Show();
                 this.Close();
+            }
+        }
+        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            IInputElement focusedControl = FocusManager.GetFocusedElement(System.Windows.Application.Current.Windows[0]);
+            if (focusedControl is DependencyObject)
+            {
+                string str = Help.HelpProvider.GetHelpKey((DependencyObject)focusedControl);
+                Help.HelpProvider.ShowHelp(str, this);
             }
         }
     }
