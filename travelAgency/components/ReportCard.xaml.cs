@@ -30,9 +30,15 @@ namespace travelAgency.components
                 SetValue(ArrangementProperty, value);
                 Arrangement a = ((Arrangement)value);
                 Trip = a.Trip;
+                TotalPrice = a.Trip.Price;
+                TotalCount = a.NumberOfPersons;
             }
         }
         public Trip Trip { get; set; }
+
+        public double TotalPrice { get; set; }
+
+        public int TotalCount { get; set; }
         public ReportCard()
         {
             InitializeComponent();

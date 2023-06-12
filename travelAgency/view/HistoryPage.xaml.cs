@@ -32,6 +32,7 @@ namespace travelAgency.view
         public ArrangementRepository arrangementRepository;
         public List<Arrangement> arrangements;
         public List<ArrangementCard> arrangementCards;
+        public List<ArrangementCard> searchArrangementCards;
         public List<ArrangementCard> filteredArrangementCards;
         public ICommand SearchCommand { get; }
 
@@ -39,6 +40,7 @@ namespace travelAgency.view
         {
             SearchCommand = new CommandImplementationcs(Search);
             arrangementCards = new List<ArrangementCard>();
+            filteredArrangementCards = new List<ArrangementCard>();
             InitializeComponent();
             DataContext = this;
             dbContext = new TravelAgencyContext();
@@ -61,8 +63,10 @@ namespace travelAgency.view
 
                 };
                 arrangementCards.Add(arrangementCard);
+                filteredArrangementCards.Add(arrangementCard);
             }
             RefreshCards(false);
+            
         }
 
         public void RefreshCards(bool isFilter)
@@ -70,13 +74,13 @@ namespace travelAgency.view
             cards.Children.Clear();
             if (isFilter)
             {             
-                foreach (ArrangementCard a in filteredArrangementCards)
+                foreach (ArrangementCard a in searchArrangementCards)
                 {
                     cards.Children.Add(a);
                 }
             } else
             {
-                foreach (ArrangementCard a in arrangementCards)
+                foreach (ArrangementCard a in filteredArrangementCards)
                 {
                     cards.Children.Add(a);
                 }
@@ -163,11 +167,11 @@ namespace travelAgency.view
             var text = obj as string;
             if (string.IsNullOrWhiteSpace(text))
             {
-              filteredArrangementCards = arrangementCards;
+              searchArrangementCards = filteredArrangementCards;
             }
             else
             {
-                filteredArrangementCards = await Task.Run(() => arrangementCards
+                searchArrangementCards = await Task.Run(() => filteredArrangementCards
                     .Where(x => x.Trip.Name.IndexOf(text, StringComparison.CurrentCultureIgnoreCase) >= 0)
                     .ToList());
             }
@@ -176,21 +180,23 @@ namespace travelAgency.view
 
         private void Filter_Click(object sender, RoutedEventArgs e)
         {
-            FilterArrangementDialog filterArrangementDialog = new FilterArrangementDialog();
+            SearchBox.Text = "";
+            FilterArrangementDialog filterArrangementDialog = new FilterArrangementDialog(arrangementCards);
 
             filterArrangementDialog.DialogResultEvent += Filter_DialogResultEvent;
 
             filterArrangementDialog.ShowDialog();
         }
 
-        private void Filter_DialogResultEvent(object sender, DialogResultEventArgs e)
+        private void Filter_DialogResultEvent(object sender, ArrangementCardEventArgs e)
         {
-            bool result = e.Result;
+            List<ArrangementCard> result = e.ArrangementCards;
 
-            if (result)
+            if (result!=null)
             {
-               
+               filteredArrangementCards = result;
             }
+            RefreshCards(false);
         }
     }
 }

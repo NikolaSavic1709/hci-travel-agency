@@ -1,0 +1,5 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <SolidColorBrush x:Key="CustomAquaColor1" Color="#FF00FFFF" />
+    <SolidColorBrush x:Key="CustomAquaColor2" Color="#FF00CED1" />
+</ResourceDictionary>

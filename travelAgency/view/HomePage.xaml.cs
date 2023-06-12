@@ -27,6 +27,7 @@ namespace travelAgency.view
         public PlaceRepository placeRepository;
         public string BingKey { get; set; }
         public List<TripCard> tripCards;
+        public List<TripCard> searchTripCards;
         public List<TripCard> filteredTripCards;
         public ICommand SearchCommand { get; }
         public HomePage(TripRepository tripRepository, PlaceRepository placeRepository)
@@ -34,6 +35,7 @@ namespace travelAgency.view
             BingKey = "";
             SearchCommand = new CommandImplementationcs(Search);
             tripCards = new List<TripCard>();
+            filteredTripCards = new List<TripCard>();
             InitializeComponent();
             DataContext = this;
             this.tripRepository = tripRepository;
@@ -61,6 +63,7 @@ namespace travelAgency.view
             tripCard.TripDelete += TripCard_Remove;
             tripCard.MouseDown += TripCard_MouseDown;
             tripCards.Add(tripCard);
+            filteredTripCards.Add(tripCard);
         }
 
         public void RefreshCards(bool isFilter)
@@ -68,14 +71,14 @@ namespace travelAgency.view
             cards.Children.Clear();
             if (isFilter)
             {
-                foreach (TripCard a in filteredTripCards)
+                foreach (TripCard a in searchTripCards)
                 {
                     cards.Children.Add(a);
                 }
             }
             else
             {
-                foreach (TripCard a in tripCards)
+                foreach (TripCard a in filteredTripCards)
                 {
                     cards.Children.Add(a);
                 }
@@ -121,11 +124,11 @@ namespace travelAgency.view
             var text = obj as string;
             if (string.IsNullOrWhiteSpace(text))
             {
-                filteredTripCards = tripCards;
+                searchTripCards = filteredTripCards;
             }
             else
             {
-                filteredTripCards = await Task.Run(() => tripCards
+                searchTripCards = await Task.Run(() => filteredTripCards
                     .Where(x => x.TripName.IndexOf(text, StringComparison.CurrentCultureIgnoreCase) >= 0)
                     .ToList());
             }
@@ -219,6 +222,27 @@ namespace travelAgency.view
             }
 
             map.ZoomToFit(args.Items);
+        }
+
+        private void Filter_Click(object sender, RoutedEventArgs e)
+        {
+            SearchBox.Text = "";
+            FilterTripDialog filterTripDialog = new FilterTripDialog(tripCards);
+
+            filterTripDialog.DialogResultEvent += Filter_DialogResultEvent;
+
+            filterTripDialog.ShowDialog();
+        }
+
+        private void Filter_DialogResultEvent(object sender, TripCardEventArgs e)
+        {
+            List<TripCard> result = e.TripCards;
+
+            if (result != null)
+            {
+                filteredTripCards = result;
+            }
+            RefreshCards(false);
         }
     }
 }

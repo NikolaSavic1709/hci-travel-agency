@@ -26,6 +26,7 @@ public partial class ClientHomePage : Page
     public TripRepository tripRepository;
     public PlaceRepository placeRepository;
     public List<ClientTripCard> tripCards;
+    public List<ClientTripCard> searchTripCards;
     public List<ClientTripCard> filteredTripCards;
     public ICommand SearchCommand { get; }
     public ClientHomePage()
@@ -33,6 +34,7 @@ public partial class ClientHomePage : Page
         BingKey = "";
         SearchCommand = new CommandImplementationcs(Search);
         tripCards = new List<ClientTripCard>();
+        filteredTripCards = new List<ClientTripCard>();
         InitializeComponent();
         DataContext = this;
         dbContext = new TravelAgencyContext();
@@ -59,20 +61,21 @@ public partial class ClientHomePage : Page
         tripCard.ToTripClicked += TripCard_ToTrip;
         tripCard.MouseDown += TripCard_MouseDown;
         tripCards.Add(tripCard);
+        filteredTripCards.Add(tripCard);
     }
     public void RefreshCards(bool isFilter)
     {
         cards.Children.Clear();
         if (isFilter)
         {
-            foreach (ClientTripCard a in filteredTripCards)
+            foreach (ClientTripCard a in searchTripCards)
             {
                 cards.Children.Add(a);
             }
         }
         else
         {
-            foreach (ClientTripCard a in tripCards)
+            foreach (ClientTripCard a in filteredTripCards)
             {
                 cards.Children.Add(a);
             }
@@ -112,11 +115,11 @@ public partial class ClientHomePage : Page
         var text = obj as string;
         if (string.IsNullOrWhiteSpace(text))
         {
-            filteredTripCards = tripCards;
+            searchTripCards = filteredTripCards;
         }
         else
         {
-            filteredTripCards = await Task.Run(() => tripCards
+            searchTripCards = await Task.Run(() => filteredTripCards
                 .Where(x => x.TripName.IndexOf(text, StringComparison.CurrentCultureIgnoreCase) >= 0)
                 .ToList());
         }
@@ -203,5 +206,26 @@ public partial class ClientHomePage : Page
         }
 
         map.ZoomToFit(args.Items);
+    }
+
+    private void Filter_Click(object sender, RoutedEventArgs e)
+    {
+        SearchBox.Text = "";
+        FilterClientTripDialog filterTripDialog = new FilterClientTripDialog(tripCards);
+
+        filterTripDialog.DialogResultEvent += Filter_DialogResultEvent;
+
+        filterTripDialog.ShowDialog();
+    }
+
+    private void Filter_DialogResultEvent(object sender, ClientTripCardEventArgs e)
+    {
+        List<ClientTripCard> result = e.ClientTripCards;
+
+        if (result != null)
+        {
+            filteredTripCards = result;
+        }
+        RefreshCards(false);
     }
 }
