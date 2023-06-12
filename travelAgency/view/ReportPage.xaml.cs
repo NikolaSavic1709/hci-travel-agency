@@ -29,13 +29,14 @@ namespace travelAgency.view
     {
         public TripRepository tripRepository;
         public ArrangementRepository arrangementRepository;
-        public (int month, int year) lastMonthFilter=(0,0);
+        public (int month, int year) lastMonthFilter = (0, 0);
         public string BingKey { get; set; }
 
         public List<ReportCard> reportCards;
         public List<ReportCard> searchReportCards;
         public List<ReportCard> filteredReportCards;
         public ICommand SearchCommand { get; }
+
         public ReportPage(TripRepository tripRepository, ArrangementRepository arrangementRepository)
         {
             this.tripRepository = tripRepository;
@@ -55,8 +56,8 @@ namespace travelAgency.view
                 args.RoutedEvent = Mouse.MouseDownEvent;
                 label.RaiseEvent(args);
             }
-
         }
+
         private void DecreaseButton_Click(object sender, RoutedEventArgs e)
         {
             int number = int.Parse(YearTb.Text);
@@ -71,7 +72,6 @@ namespace travelAgency.view
 
         private void NumericTextBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
-
             foreach (var c in e.Text)
             {
                 if (!char.IsDigit(c))
@@ -92,7 +92,7 @@ namespace travelAgency.view
             CalendarLabel label = (CalendarLabel)sender;
             int month = MonthNameToNumber(label.Content.ToString());
             int year = Convert.ToInt32(YearTb.Text);
-            if((month,year)!=lastMonthFilter)
+            if ((month, year) != lastMonthFilter)
             {
                 lastMonthFilter = (month, year);
                 SelectMonthLabels(label);
@@ -102,7 +102,7 @@ namespace travelAgency.view
 
         private void DoFilterPerMonth(int month, int year)
         {
-            cards.Children.Clear();
+            reportCards.Clear();
             List<Arrangement> arrangements = arrangementRepository.GetAll().Where(a => a.DateTime.Month == month && a.DateTime.Year == year).ToList();
             foreach (var arrangement in arrangements)
             {
@@ -110,13 +110,13 @@ namespace travelAgency.view
             }
             RefreshCards(false);
         }
+
         private void CreateCard(Arrangement arrangement)
         {
             ReportCard reportCard = new ReportCard
             {
                 Margin = new Thickness(10),
                 Arrangement = arrangement
-
             };
 
             reportCards.Add(reportCard);
@@ -140,36 +140,53 @@ namespace travelAgency.view
                     cards.Children.Add(a);
                 }
             }
-
         }
+
+        private void ReportCard_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            DrawRoute((sender as ReportCard).Arrangement.Trip);
+        }
+
         private int MonthNameToNumber(String month)
         {
             switch (month)
             {
                 case "JAN":
                     return 1;
+
                 case "FEB":
                     return 2;
+
                 case "MAR":
                     return 3;
+
                 case "APR":
                     return 4;
+
                 case "MAY":
                     return 5;
+
                 case "JUN":
                     return 6;
+
                 case "JUL":
                     return 7;
+
                 case "AUG":
                     return 8;
+
                 case "SEP":
                     return 9;
+
                 case "OCT":
                     return 10;
+
                 case "NOV":
                     return 11;
+
                 case "DEC":
                     return 12;
+
                 default:
                     return 6;
             }
@@ -201,9 +218,9 @@ namespace travelAgency.view
             {
                 var child = VisualTreeHelper.GetChild(parent, i);
                 yield return child;
-
             }
         }
+
         private void Search_OnKeyDown(object sender, KeyEventArgs e)
         {
             var textBox = (TextBox)sender;
@@ -226,71 +243,36 @@ namespace travelAgency.view
             }
             RefreshCards(true);
         }
-        private void geocodeProvider_LocationInformationReceived(object sender, LocationInformationReceivedEventArgs e)
+
+        public void routeProvider_LayerItemsGenerating(object sender, LayerItemsGeneratingEventArgs args)
         {
-
-            GeocodeRequestResult result = e.Result;
-            StringBuilder resultList = new StringBuilder("");
-            resultList.Append(String.Format("Status: {0}\n", result.ResultCode));
-            resultList.Append(String.Format("Fault reason: {0}\n", result.FaultReason));
-            resultList.Append(String.Format("______________________________\n"));
-
-            if (result.ResultCode != RequestResultCode.Success)
+            char letter = 'A';
+            foreach (MapItem item in args.Items)
             {
-                tbResults.Text = resultList.ToString();
-                return;
+                MapPushpin pushpin = item as MapPushpin;
+                if (pushpin != null)
+                    pushpin.Text = letter++.ToString();
+                MapPolyline line = item as MapPolyline;
+                if (line != null)
+                {
+                    var converter = new System.Windows.Media.BrushConverter();
+                    var brush = (Brush)converter.ConvertFromString("#009882");
+                    line.Fill = brush;
+                    line.Stroke = brush;
+                }
             }
 
-            int resCounter = 1;
-            foreach (LocationInformation locations in result.Locations)
-            {
-                resultList.Append(String.Format("Request Result {0}:\n", resCounter));
-                resultList.Append(String.Format("Display Name: {0}\n", locations.DisplayName));
-                resultList.Append(String.Format("Entity Type: {0}\n", locations.EntityType));
-                resultList.Append(String.Format("Address: {0}\n", locations.Address));
-                resultList.Append(String.Format("Location: {0}\n", locations.Location));
-                resultList.Append(String.Format("______________________________\n"));
-                resCounter++;
-            }
-
-            tbResults.Text = resultList.ToString();
+            map.ZoomToFit(args.Items);
         }
 
-        private MapPushpin mapItem;
-
-        private void map_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        public void DrawRoute(Trip trip)
         {
-
-
-            var hitInfo = map.CalcHitInfo(e.GetPosition(map));
-            if (hitInfo.InMapPushpin)
+            List<RouteWaypoint> waypoints = new List<RouteWaypoint>();
+            foreach (var schedule in trip.Schedules)
             {
-                map.EnableScrolling = false;
-                mapItem = hitInfo.HitObjects[0] as MapPushpin;
-
+                waypoints.Add(new RouteWaypoint(schedule.Place.Name, new GeoPoint(schedule.Place.lat, schedule.Place.lng)));
             }
-
-        }
-
-        private void map_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (mapItem != null)
-            {
-                var point = map.ScreenPointToCoordPoint(e.GetPosition(map));
-                mapItem.Location = point;
-                map.EnableScrolling = true;
-                mapItem = null;
-            }
-        }
-
-        private void map_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (mapItem != null)
-            {
-                var point = map.ScreenPointToCoordPoint(e.GetPosition(map));
-                mapItem.Location = point;
-
-            }
+            routeProvider.CalculateRoute(waypoints);
         }
 
         private void Filter_Click(object sender, RoutedEventArgs e)

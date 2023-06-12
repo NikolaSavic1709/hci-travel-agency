@@ -81,6 +81,7 @@ public partial class PlacesPage : Page
     private void AttractionCard_NewAttraction(object sender, ToAttractionEventArgs e)
     {
         CreateCard(e.Attraction);
+        RefreshCards(false);
     }
     private void AttractionCard_MouseDown(object sender, MouseButtonEventArgs e)
     {
@@ -139,7 +140,7 @@ public partial class PlacesPage : Page
 
     private void CreatePlace_Click(object sender, RoutedEventArgs e)
     {
-        CreatePlaceDialog window = new CreatePlaceDialog();
+        CreatePlaceDialog window = new CreatePlaceDialog(true);
         window.NewAttraction += AttractionCard_NewAttraction;
         window.ShowDialog();
     }

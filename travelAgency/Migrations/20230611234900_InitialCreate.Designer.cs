@@ -11,7 +11,7 @@ using travelAgency;
 namespace travelAgency.Migrations
 {
     [DbContext(typeof(TravelAgencyContext))]
-    [Migration("20230611153146_InitialCreate")]
+    [Migration("20230611234900_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

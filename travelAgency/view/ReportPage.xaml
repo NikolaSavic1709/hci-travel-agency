@@ -12,34 +12,33 @@
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         d:DesignHeight="700" d:DesignWidth="1000"
-        Title="HomePage" >
+        Title="HomePage">
     <Page.Resources>
         <Style x:Key="IncDecButton" TargetType="Button">
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Background" Value="LightGray"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="Width" Value="30"/>
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Background" Value="LightGray" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Width" Value="30" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Grid>
-                            <Rectangle Fill="{TemplateBinding Background}" Opacity="0.5" RadiusX="7" RadiusY="7"/>
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Rectangle Fill="{TemplateBinding Background}" Opacity="0.5" RadiusX="7" RadiusY="7" />
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="DimGray"/>
+                    <Setter Property="Background" Value="DimGray" />
                 </Trigger>
             </Style.Triggers>
         </Style>
         <DataTemplate x:Key="pushpin">
-            <StackPanel ToolTipService.ToolTip="{Binding Path=MapItem.Information}" Height="NaN" Orientation="Horizontal"  >
-                <Image  Source="pack://application:,,,/pin.png" Width="20" Height="20"  />
-
+            <StackPanel ToolTipService.ToolTip="{Binding Path=MapItem.Information}" Height="NaN" Orientation="Horizontal">
+                <Image  Source="pack://application:,,,/pin.png" Width="20" Height="20" />
             </StackPanel>
         </DataTemplate>
         <clr:String x:Key=" ">""</clr:String>
@@ -66,7 +65,6 @@
                 <RowDefinition Height="10*" />
                 <RowDefinition Height="280*" />
                 <RowDefinition Height="40*" />
-
             </Grid.RowDefinitions>
 
             <Border Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
@@ -105,17 +103,16 @@
                     Grid.Column="5" Grid.Row="1"
                     ToolTip="Filter" Click="Filter_Click" />
 
-
             <Grid Grid.Row="1" Grid.RowSpan="3" Grid.Column="7" Background="#f5f5f5">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="1*" MinHeight="40"/>
-                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="1*" MinHeight="40" />
+                    <RowDefinition Height="4*" />
                 </Grid.RowDefinitions>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="150"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
                     <Button Grid.Column="0" Click="DecreaseButton_Click" Style="{StaticResource IncDecButton}">
@@ -134,7 +131,7 @@
                             <Setter Property="VerticalAlignment" Value="Center" />
                             <!--<Setter Property="Height" Value="50" />-->
                             <Setter Property="VerticalContentAlignment" Value="Center" />
-                            <Setter Property="Padding" Value="5"/>
+                            <Setter Property="Padding" Value="5" />
 
                             <Style.Triggers>
                                 <Trigger Property="controls:CalendarLabel.IsSelected" Value="True">
@@ -143,68 +140,57 @@
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <Setter Property="Background" Value="LightBlue" />
                                 </Trigger>
-
-
                             </Style.Triggers>
                         </Style>
                     </Grid.Resources>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <controls:CalendarLabel Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="JAN" MouseDown="SelectMonth_Click" />
-                    <controls:CalendarLabel Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="FEB" MouseDown="SelectMonth_Click"/>
-                    <controls:CalendarLabel Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="MAR" MouseDown="SelectMonth_Click"/>
-                    <controls:CalendarLabel Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="APR" MouseDown="SelectMonth_Click"/>
-                    <controls:CalendarLabel Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="MAY" MouseDown="SelectMonth_Click"/>
-                    <controls:CalendarLabel Grid.Row="1" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="JUN" MouseDown="SelectMonth_Click"/>
-                    <controls:CalendarLabel Grid.Row="2" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="JUL" MouseDown="SelectMonth_Click"/>
-                    <controls:CalendarLabel Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="AUG" MouseDown="SelectMonth_Click"/>
-                    <controls:CalendarLabel Grid.Row="2" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="SEP" MouseDown="SelectMonth_Click"/>
-                    <controls:CalendarLabel Grid.Row="3" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="OCT" MouseDown="SelectMonth_Click"/>
-                    <controls:CalendarLabel Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="NOV" MouseDown="SelectMonth_Click"/>
-                    <controls:CalendarLabel Grid.Row="3" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="DEC" MouseDown="SelectMonth_Click"/>
-
+                    <controls:CalendarLabel Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="FEB" MouseDown="SelectMonth_Click" />
+                    <controls:CalendarLabel Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="MAR" MouseDown="SelectMonth_Click" />
+                    <controls:CalendarLabel Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="APR" MouseDown="SelectMonth_Click" />
+                    <controls:CalendarLabel Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="MAY" MouseDown="SelectMonth_Click" />
+                    <controls:CalendarLabel Grid.Row="1" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="JUN" MouseDown="SelectMonth_Click" />
+                    <controls:CalendarLabel Grid.Row="2" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="JUL" MouseDown="SelectMonth_Click" />
+                    <controls:CalendarLabel Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="AUG" MouseDown="SelectMonth_Click" />
+                    <controls:CalendarLabel Grid.Row="2" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="SEP" MouseDown="SelectMonth_Click" />
+                    <controls:CalendarLabel Grid.Row="3" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="OCT" MouseDown="SelectMonth_Click" />
+                    <controls:CalendarLabel Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="NOV" MouseDown="SelectMonth_Click" />
+                    <controls:CalendarLabel Grid.Row="3" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="DEC" MouseDown="SelectMonth_Click" />
                 </Grid>
             </Grid>
-            
+
             <Grid Grid.Column="7"  Grid.Row="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                <dxm:MapControl Name="map" HorizontalAlignment="Stretch"  VerticalAlignment="Center" Width="Auto"
-                                MouseLeftButtonDown="map_MouseLeftButtonDown" MouseLeftButtonUp="map_MouseLeftButtonUp" MouseMove="map_MouseMove"  >
+                <dxm:MapControl Name="map" HorizontalAlignment="Stretch"  VerticalAlignment="Center" Width="Auto">
+
                     <dxm:ImageLayer>
-                        <dxm:BingMapDataProvider Kind="RoadLight" BingKey=" "/>
+                        <dxm:ImageLayer.DataProvider>
+                            <dxm:BingMapDataProvider Kind="RoadLight" BingKey="Bobfc3eHAUPXgpeTYjms~m6tD9dbiJz0HFBraHXWR_A~AvjPgt_MJZVhNNdKhscJbncrArt9ydMHTLueaT6sDhboip1smAQSMs7436fWsrtq" />
+                        </dxm:ImageLayer.DataProvider>
                     </dxm:ImageLayer>
-                    <dxm:VectorLayer>
-                        <dxm:MapItemStorage x:Name="mapItems" >
-                            <!--<dxm:MapPushpin  Location="41.88,-87.63" 
-                                     Information="Test Chicago Information"
-                                     MarkerTemplate="{StaticResource pushpin}" />-->
-                        </dxm:MapItemStorage>
-                    </dxm:VectorLayer>
-                    <dxm:InformationLayer>
-                        <dxm:BingSearchDataProvider BingKey=" "/>
-                    </dxm:InformationLayer>
-                    <dxm:InformationLayer>
-                        <dxm:BingGeocodeDataProvider x:Name="geocode"  LocationInformationReceived="geocodeProvider_LocationInformationReceived" BingKey=" "/>
-                    </dxm:InformationLayer>
 
+                    <dxm:InformationLayer EnableHighlighting="False">
+                        <dxm:InformationLayer.DataProvider>
+                            <dxm:BingRouteDataProvider x:Name="routeProvider"
+                                               BingKey="Bobfc3eHAUPXgpeTYjms~m6tD9dbiJz0HFBraHXWR_A~AvjPgt_MJZVhNNdKhscJbncrArt9ydMHTLueaT6sDhboip1smAQSMs7436fWsrtq"
+                                               LayerItemsGenerating="routeProvider_LayerItemsGenerating" />
+                        </dxm:InformationLayer.DataProvider>
+                    </dxm:InformationLayer>
                 </dxm:MapControl>
-                <TextBlock x:Name="tbResults" TextWrapping="Wrap" Text="TextBlock" Margin="0,0,512,0"/>
-
             </Grid>
 
             <controls:FlexWrapPanel HorizontalAlignment="Stretch" RequestedItemWidth="245" Width="Auto" Margin="-10"
                                 Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="3" Grid.RowSpan="3" x:Name="cards">
             </controls:FlexWrapPanel>
-
         </Grid>
     </Grid>
 </Page>
-

@@ -100,7 +100,7 @@ public partial class ClientHomePage : Page
     {
         Trip trip = e.Trip;
 
-        NavigationService?.Navigate(new TripDetailsPage(trip,tripRepository,placeRepository));
+        NavigationService?.Navigate(new ClientTripDetailsPage(trip,tripRepository,placeRepository));
     }
 
     private void Search_OnKeyDown(object sender, KeyEventArgs e)

@@ -89,6 +89,7 @@ public partial class StayEatPage : Page
     private void StayEatCard_NewStayEat(object sender, ToStayEatEventArgs e)
     {
         CreateCard(e.Place);
+        RefreshCards(false);
     }
     private void StayEatCard_MouseDown(object sender, MouseButtonEventArgs e)
     {
@@ -153,7 +154,7 @@ public partial class StayEatPage : Page
 
     private void CreatePlace_Click(object sender, RoutedEventArgs e)
     {
-        CreatePlaceDialog window = new CreatePlaceDialog();
+        CreatePlaceDialog window = new CreatePlaceDialog(false);
         window.NewStayEat += StayEatCard_NewStayEat;
         window.ShowDialog();
     }
