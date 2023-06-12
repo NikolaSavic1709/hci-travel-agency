@@ -28,6 +28,7 @@ public partial class ClientHome : Window
         placeRepository = new PlaceRepository(dbContext);
         HomeButton.IsClicked = "True";
         Main.Content = new ClientHomePage(dbContext, loggedUser);
+        Help.HelpProvider.SetHelpKey((DependencyObject)Main, "client-index");
     }
 
     private IEnumerable<DependencyObject> GetChildren(DependencyObject parent)
