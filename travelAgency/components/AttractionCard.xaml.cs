@@ -25,10 +25,12 @@ public partial class AttractionCard : UserControl
         get { return (Attraction)GetValue(AttractionProperty); }
         set
         {
+            Attraction a = ((Attraction)value);
             SetValue(AttractionProperty, value);
+            AttractionName = a.Name;
         }
     }
-
+    public string AttractionName { get; set; }
     public string Route { get; set; }
 
     public event EventHandler<ToAttractionEventArgs> ToAttractionClicked;

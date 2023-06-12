@@ -37,9 +37,11 @@ public partial class StayEatCard : UserControl
             {
                 Type = "Restaurant";
             }
+            Place p = ((Place)value);
+            StayEatName = p.Name;
         }
     }
-
+    public string StayEatName { get; set; }
     public string Route { get; set; }
 
     public event EventHandler<ToStayEatEventArgs> ToStayEatClicked;

@@ -1,9 +1,13 @@
 ﻿using DevExpress.Pdf.Native.BouncyCastle.Asn1.X509.Qualified;
 using DevExpress.Xpf.Map;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using travelAgency.Commands;
 using travelAgency.components;
 using travelAgency.Dialogs;
 using travelAgency.model;
@@ -21,11 +25,17 @@ public partial class StayEatPage : Page
     public StayRepository stayRepository;
     public string BingKey { get; set; }
     private MapPushpin pin;
-
+    public List<StayEatCard> stayeatCards;
+    public List<StayEatCard> filteredStayeatCards;
+    public ICommand SearchCommand { get; }
     public StayEatPage()
     {
         BingKey = "Bobfc3eHAUPXgpeTYjms~m6tD9dbiJz0HFBraHXWR_A~AvjPgt_MJZVhNNdKhscJbncrArt9ydMHTLueaT6sDhboip1smAQSMs7436fWsrtq";
+        SearchCommand = new CommandImplementationcs(Search);
+        stayeatCards = new List<StayEatCard>();
         InitializeComponent();
+        DataContext = this;
+
         dbContext = new TravelAgencyContext();
         restaurantRepository = new RestaurantRepository(dbContext);
         stayRepository = new StayRepository(dbContext);
@@ -42,6 +52,7 @@ public partial class StayEatPage : Page
             CreateCard(p);
         }
 
+        RefreshCards(false);
     }
     private void CreateCard(Place place)
     {
@@ -53,11 +64,32 @@ public partial class StayEatPage : Page
         placeCard.ToStayEatClicked += StayEatCard_ToStayEat;
         placeCard.StayEatDelete += StayEatCard_Remove;
         placeCard.MouseDown += StayEatCard_MouseDown;
-        cards.Children.Add(placeCard);
+        stayeatCards.Add(placeCard);
+    }
+
+    public void RefreshCards(bool isFilter)
+    {
+        cards.Children.Clear();
+        if (isFilter)
+        {
+            foreach (StayEatCard a in filteredStayeatCards)
+            {
+                cards.Children.Add(a);
+            }
+        }
+        else
+        {
+            foreach (StayEatCard a in stayeatCards)
+            {
+                cards.Children.Add(a);
+            }
+        }
+
     }
     private void StayEatCard_NewStayEat(object sender, ToStayEatEventArgs e)
     {
         CreateCard(e.Place);
+        RefreshCards(false);
     }
     private void StayEatCard_MouseDown(object sender, MouseButtonEventArgs e)
     {
@@ -102,11 +134,27 @@ public partial class StayEatPage : Page
             SearchButton.Command.Execute(textBox.Text);
     }
 
+    private async void Search(object? obj)
+    {
+        var text = obj as string;
+        if (string.IsNullOrWhiteSpace(text))
+        {
+            filteredStayeatCards = stayeatCards;
+        }
+        else
+        {
+            filteredStayeatCards = await Task.Run(() => stayeatCards
+                .Where(x => x.StayEatName.IndexOf(text, StringComparison.CurrentCultureIgnoreCase) >= 0)
+                .ToList());
+        }
+        RefreshCards(true);
+    }
+
     private MapPushpin mapItem;
 
     private void CreatePlace_Click(object sender, RoutedEventArgs e)
     {
-        CreatePlaceDialog window = new CreatePlaceDialog();
+        CreatePlaceDialog window = new CreatePlaceDialog(false);
         window.NewStayEat += StayEatCard_NewStayEat;
         window.ShowDialog();
     }

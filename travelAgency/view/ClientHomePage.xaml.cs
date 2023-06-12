@@ -1,9 +1,14 @@
 ﻿using DevExpress.Xpf.Map;
+using MaterialDesignColors;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using travelAgency.Commands;
 using travelAgency.components;
 using travelAgency.Dialogs;
 using travelAgency.model;
@@ -20,10 +25,16 @@ public partial class ClientHomePage : Page
     public TravelAgencyContext dbContext;
     public TripRepository tripRepository;
     public PlaceRepository placeRepository;
+    public List<ClientTripCard> tripCards;
+    public List<ClientTripCard> filteredTripCards;
+    public ICommand SearchCommand { get; }
     public ClientHomePage()
     {
         BingKey = "";
+        SearchCommand = new CommandImplementationcs(Search);
+        tripCards = new List<ClientTripCard>();
         InitializeComponent();
+        DataContext = this;
         dbContext = new TravelAgencyContext();
         tripRepository = new TripRepository(dbContext);
         placeRepository = new PlaceRepository(dbContext);
@@ -34,6 +45,8 @@ public partial class ClientHomePage : Page
         {
             CreateCard(t);
         }
+
+        RefreshCards(false);
     }
     private void CreateCard(Trip trip)
     {
@@ -45,7 +58,26 @@ public partial class ClientHomePage : Page
         };
         tripCard.ToTripClicked += TripCard_ToTrip;
         tripCard.MouseDown += TripCard_MouseDown;
-        cards.Children.Add(tripCard);
+        tripCards.Add(tripCard);
+    }
+    public void RefreshCards(bool isFilter)
+    {
+        cards.Children.Clear();
+        if (isFilter)
+        {
+            foreach (ClientTripCard a in filteredTripCards)
+            {
+                cards.Children.Add(a);
+            }
+        }
+        else
+        {
+            foreach (ClientTripCard a in tripCards)
+            {
+                cards.Children.Add(a);
+            }
+        }
+
     }
 
     private void TripCard_MouseDown(object sender, MouseButtonEventArgs e)
@@ -65,7 +97,7 @@ public partial class ClientHomePage : Page
     {
         Trip trip = e.Trip;
 
-        NavigationService?.Navigate(new TripDetailsPage(trip,tripRepository,placeRepository));
+        NavigationService?.Navigate(new ClientTripDetailsPage(trip,tripRepository,placeRepository));
     }
 
     private void Search_OnKeyDown(object sender, KeyEventArgs e)
@@ -73,6 +105,22 @@ public partial class ClientHomePage : Page
         var textBox = (TextBox)sender;
         if (e.Key == Key.Enter)
             SearchButton.Command.Execute(textBox.Text);
+    }
+
+    private async void Search(object? obj)
+    {
+        var text = obj as string;
+        if (string.IsNullOrWhiteSpace(text))
+        {
+            filteredTripCards = tripCards;
+        }
+        else
+        {
+            filteredTripCards = await Task.Run(() => tripCards
+                .Where(x => x.TripName.IndexOf(text, StringComparison.CurrentCultureIgnoreCase) >= 0)
+                .ToList());
+        }
+        RefreshCards(true);
     }
 
     private void geocodeProvider_LocationInformationReceived(object sender, LocationInformationReceivedEventArgs e)

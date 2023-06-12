@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using travelAgency.model;
+using travelAgency.view;
 
 namespace travelAgency.components
 {
@@ -27,8 +28,11 @@ namespace travelAgency.components
             set
             {
                 SetValue(ArrangementProperty, value);
+                Arrangement a = ((Arrangement)value);
+                Trip = a.Trip;
             }
         }
+        public Trip Trip { get; set; }
         public ReportCard()
         {
             InitializeComponent();

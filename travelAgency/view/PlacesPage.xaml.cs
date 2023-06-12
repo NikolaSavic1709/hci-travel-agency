@@ -1,8 +1,13 @@
-﻿using DevExpress.Xpf.Map;
+﻿using DevExpress.Map.Kml.Model;
+using DevExpress.Xpf.Map;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using travelAgency.Commands;
 using travelAgency.components;
 using travelAgency.Dialogs;
 using travelAgency.model;
@@ -19,12 +24,16 @@ public partial class PlacesPage : Page
     public AttractionRepository attractionRepository;
     public string BingKey { get; set; }
     private MapPushpin pin;
-
+    public List<AttractionCard> placeCards;
+    public List<AttractionCard> filteredPlaceCards;
+    public ICommand SearchCommand { get; }
     public PlacesPage()
     {
         BingKey = "Bobfc3eHAUPXgpeTYjms~m6tD9dbiJz0HFBraHXWR_A~AvjPgt_MJZVhNNdKhscJbncrArt9ydMHTLueaT6sDhboip1smAQSMs7436fWsrtq";
-
+        SearchCommand = new CommandImplementationcs(Search);
+        placeCards = new List<AttractionCard>();
         InitializeComponent();
+        DataContext = this;
 
         dbContext = new TravelAgencyContext();
         attractionRepository = new AttractionRepository(dbContext);
@@ -35,7 +44,7 @@ public partial class PlacesPage : Page
             CreateCard(a);
         }
 
-        
+        RefreshCards(false);
     }
     private void CreateCard(Attraction attraction)
     {
@@ -47,11 +56,32 @@ public partial class PlacesPage : Page
         placeCard.ToAttractionClicked += AttractionCard_ToPlace;
         placeCard.AttractionDelete += AttractionCard_Remove;
         placeCard.MouseDown += AttractionCard_MouseDown;
-        cards.Children.Add(placeCard);
+        placeCards.Add(placeCard);
+    }
+
+    public void RefreshCards(bool isFilter)
+    {
+        cards.Children.Clear();
+        if (isFilter)
+        {
+            foreach (AttractionCard a in filteredPlaceCards)
+            {
+                cards.Children.Add(a);
+            }
+        }
+        else
+        {
+            foreach (AttractionCard a in placeCards)
+            {
+                cards.Children.Add(a);
+            }
+        }
+
     }
     private void AttractionCard_NewAttraction(object sender, ToAttractionEventArgs e)
     {
         CreateCard(e.Attraction);
+        RefreshCards(false);
     }
     private void AttractionCard_MouseDown(object sender, MouseButtonEventArgs e)
     {
@@ -90,11 +120,27 @@ public partial class PlacesPage : Page
             SearchButton.Command.Execute(textBox.Text);
     }
 
+    private async void Search(object? obj)
+    {
+        var text = obj as string;
+        if (string.IsNullOrWhiteSpace(text))
+        {
+            filteredPlaceCards = placeCards;
+        }
+        else
+        {
+            filteredPlaceCards = await Task.Run(() => placeCards
+                .Where(x => x.AttractionName.IndexOf(text, StringComparison.CurrentCultureIgnoreCase) >= 0)
+                .ToList());
+        }
+        RefreshCards(true);
+    }
+
     private MapPushpin mapItem;
 
     private void CreatePlace_Click(object sender, RoutedEventArgs e)
     {
-        CreatePlaceDialog window = new CreatePlaceDialog();
+        CreatePlaceDialog window = new CreatePlaceDialog(true);
         window.NewAttraction += AttractionCard_NewAttraction;
         window.ShowDialog();
     }

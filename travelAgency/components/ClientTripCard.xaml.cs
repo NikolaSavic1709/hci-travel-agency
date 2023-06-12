@@ -28,9 +28,11 @@ public partial class ClientTripCard : UserControl
         {
             SetValue(TripProperty, value);
             Route = ((Trip)value).Schedules[0].Place.Name.ToString() + " - " + ((Trip)value).Schedules.Last().Place.Name.ToString();
+            Trip t = ((Trip)value);
+            TripName = t.Name;
         }
     }
-
+    public string TripName { get; set; }
     public string Route { get; set; }
 
     public event EventHandler<ToTripEventArgs> ToTripClicked;
