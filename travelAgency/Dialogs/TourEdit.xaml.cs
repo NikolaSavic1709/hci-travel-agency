@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -40,18 +42,20 @@ public partial class TourEdit : Window
             e.CancelCommand();
         }
     }
-
+    public string Name1 { get; set; }
+    public string Description { get; set; }
+    public string Price { get; set; }
     public TourEdit(Trip? trip, TripRepository tripRepository)
     {
         InitializeComponent();
         this.tripRepository = tripRepository;
-        
-        if(trip!=null)
+        DataContext = this;
+        if (trip!=null)
         {
             this.trip = trip;
-            NameTxtBox.Text=trip.Name;
-            DescriptionTxtBox.Text = trip.Description;
-            PriceTxtBox.Text = trip.Price.ToString();
+            Name1=trip.Name;
+            Description = trip.Description;
+            Price = trip.Price.ToString();
         }
     }
 
@@ -73,5 +77,15 @@ public partial class TourEdit : Window
         tripRepository.Save();
         DialogResultEvent?.Invoke(this, new DialogResultEventArgs(true));
         Close();
+    }
+
+
+    private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+    {
+        TextBox textBox = (TextBox)sender;
+        BindingExpression bindingExpr = textBox.GetBindingExpression(TextBox.TextProperty);
+
+        // Manually trigger the validation
+        bindingExpr.UpdateSource();
     }
 }

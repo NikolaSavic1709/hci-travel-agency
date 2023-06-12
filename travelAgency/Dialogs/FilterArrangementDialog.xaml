@@ -82,14 +82,6 @@
                     <RowDefinition Height="1.5*" MinHeight="100"/>
                 </Grid.RowDefinitions>
 
-                <!--<TextBox Grid.Row="0" Grid.ColumnSpan="5" Background="#ececec" FontSize="16" Name="NameTxtBox"
-                  Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Title"
-                 materialDesign:HintAssist.Background="#00000000" materialDesign:HintAssist.FloatingOffset="0,-25"   
-                 Padding="7,0,5,0" VerticalContentAlignment="Center" 
-                  Margin="60,40,60,0" Height="40" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                     BorderBrush="#55000000" BorderThickness="1">
-
-                </TextBox>-->
 
                 <StackPanel Orientation="Vertical"  Grid.Row="0" Grid.ColumnSpan="5"  Margin="60,0,60,0"
                           VerticalAlignment="Center">

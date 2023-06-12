@@ -138,22 +138,45 @@
                 <TextBox Grid.Row="0" Grid.ColumnSpan="5" Background="#ececec" FontSize="16" Name="NameTxtBox"
                   Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Title"
                  materialDesign:HintAssist.Background="#00000000" materialDesign:HintAssist.FloatingOffset="0,-25"
-                 Padding="7,0,5,0" VerticalContentAlignment="Center"
-                  Margin="60,40,60,0" Height="40" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                     BorderBrush="#55000000" BorderThickness="1">
+                 Padding="7,0,5,0" VerticalContentAlignment="Center" materialDesign:ValidationAssist.OnlyShowOnFocus="True"
+                  Margin="60,40,60,10" Height="40" Width="Auto" HorizontalAlignment="Stretch"  LostFocus="TextBox_LostFocus" VerticalAlignment="Stretch"
+                     BorderThickness="1">
+                    <TextBox.Text>
+                        <Binding Path="Trip.Name" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validators:NotEmptyValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
                 </TextBox>
 
                 <TextBox Height="80" Width="Auto" Grid.Row="1" Grid.ColumnSpan="5" AcceptsReturn="True" TextWrapping="Wrap" Name="DescriptionTxtBox"
                        Background="#ececec" FontSize="16"  materialDesign:HintAssist.Hint="Description" Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                 materialDesign:HintAssist.Background="#00000000" Padding="7,0,5,0" VerticalContentAlignment="Center"
-                  Margin="60,0,60,0"  BorderBrush="#55000000" BorderThickness="1"  />
+                 materialDesign:HintAssist.Background="#00000000" Padding="7,0,5,0" LostFocus="TextBox_LostFocus" VerticalContentAlignment="Center"
+                  Margin="60,0,60,10" BorderThickness="1" materialDesign:ValidationAssist.OnlyShowOnFocus="True" >
+                    <TextBox.Text>
+                        <Binding Path="Trip.Description" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validators:NotEmptyValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
 
                 <TextBox Grid.Row="2" Grid.ColumnSpan="5" Background="#ececec" FontSize="16" Name="PriceTxtBox"
                   Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Price"
                  materialDesign:HintAssist.Background="#00000000" materialDesign:HintAssist.FloatingOffset="0,-25"
-                 Padding="7,0,5,0" VerticalContentAlignment="Center"
-                  Margin="60,0,60,0" Height="40" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                     BorderBrush="#55000000" BorderThickness="1" DataObject.Pasting="TextBoxPasting" PreviewTextInput="Price_PreviewTextInput" />
+                 Padding="7,0,5,0" VerticalContentAlignment="Center" materialDesign:ValidationAssist.OnlyShowOnFocus="True"
+                  Margin="60,0,60,10" Height="40" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                      BorderThickness="1" DataObject.Pasting="TextBoxPasting" LostFocus="TextBox_LostFocus" PreviewTextInput="Price_PreviewTextInput" >
+                    <TextBox.Text>
+                        <Binding Path="Trip.Name" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validators:NotEmptyValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
 
                 <Separator Grid.Row="3" Height="1" Grid.ColumnSpan="5" HorizontalAlignment="Stretch" Margin="30,10" BorderBrush="#55000000" BorderThickness="1" />
 
@@ -162,7 +185,7 @@
                     materialDesign:HintAssist.Background="#00000000" materialDesign:HintAssist.FloatingOffset="0,-25"
                     Padding="7,0,5,0" VerticalContentAlignment="Center" VerticalAlignment="Bottom"
                     Margin="60,0,-20,0" Height="40" Width="Auto" HorizontalAlignment="Stretch"
-                    BorderBrush="#55000000" BorderThickness="1"
+                     BorderThickness="1"
                     TextChanged="TextBox_TextChanged" LostFocus="TextBox_OnFocusLost" KeyUp="TextBox_KeyDown" />
 
                 <ListBox Grid.Row="5" Grid.Column="0" Grid.RowSpan="2" Margin="60,3,-20,0"
@@ -177,7 +200,7 @@
 
                 <DatePicker Name="DatePicker"  Grid.Row="4" Grid.Column="2" Height="40" Margin="-60,0,50,0" FontSize="16" Padding="7,0,5,0" Width="Auto"
              Background="#ececec" materialDesign:HintAssist.Hint="Date" VerticalAlignment="Bottom"
-             BorderBrush="#55000000" BorderThickness="1" SelectedDateFormat="Short">
+              BorderThickness="1" SelectedDateFormat="Short">
                     <DatePicker.Resources>
                         <SolidColorBrush x:Key="SecondaryColorBrush" Color="#009882" />
                         <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#009882" />
@@ -211,7 +234,7 @@
                 <Border Background="#ececec" VerticalAlignment="Bottom" Height="40" Grid.Row="4" Grid.Column="3" Margin="-30,0,20,0">
                     <materialDesign:TimePicker Name="TimePicker"  Height="40" FontSize="16" Padding="7,0,5,0" Width="Auto"
                         materialDesign:HintAssist.Hint="Time"
-                        BorderBrush="#55000000" BorderThickness="1"
+                        BorderThickness="1"
                         Is24Hours="True" Style="{StaticResource MaterialDesignOutlinedTimePicker}">
                         <materialDesign:TimePicker.Resources>
                             <SolidColorBrush x:Key="SecondaryColorBrush" Color="#009882" />

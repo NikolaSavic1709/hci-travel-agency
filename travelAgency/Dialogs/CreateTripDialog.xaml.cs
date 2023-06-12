@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using travelAgency.model;
 using travelAgency.repository;
@@ -22,6 +23,7 @@ namespace travelAgency.Dialogs
         CreateTripViewModel ViewModel { get; set; }
         int currentIndexListBox=-1; 
         private static readonly Regex _regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
+
         public CreateTripDialog(TripRepository tripRepository, PlaceRepository placeRepository)
         {
             InitializeComponent();
@@ -198,6 +200,15 @@ namespace travelAgency.Dialogs
         private void Price_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = !IsTextAllowed(e.Text);
+        }
+
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            BindingExpression bindingExpr = textBox.GetBindingExpression(TextBox.TextProperty);
+
+            // Manually trigger the validation
+            bindingExpr.UpdateSource();
         }
     }
 }
