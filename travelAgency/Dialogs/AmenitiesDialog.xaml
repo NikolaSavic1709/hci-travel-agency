@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:travelAgency.Dialogs"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:view="clr-namespace:travelAgency.view"
         xmlns:models="clr-namespace:travelAgency.model"
         xmlns:components="clr-namespace:travelAgency.components"
         xmlns:virtualCollection="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
@@ -68,7 +69,21 @@
             </Style.Triggers>
         </Style>
     </Window.Resources>
+    
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static view:CustomCommands.Save}" Executed="Save_Executed"/>
+        <CommandBinding Command="{x:Static view:CustomCommands.Quit}" Executed="Quit_Executed"/>
+        <CommandBinding Command="{x:Static view:CustomCommands.AddAll}" Executed="AddAll_Executed"/>
+        <CommandBinding Command="{x:Static view:CustomCommands.RemoveAll}" Executed="RemoveAll_Executed"/>
+    </Window.CommandBindings>
 
+    <Window.InputBindings>
+        <KeyBinding Command="{x:Static view:CustomCommands.Save}" Key="S" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static view:CustomCommands.Save}" Key="Enter"/>
+        <KeyBinding Command="{x:Static view:CustomCommands.Quit}" Key="Q" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static view:CustomCommands.AddAll}" Key="A" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static view:CustomCommands.RemoveAll}" Key="R" Modifiers="Ctrl"/>
+    </Window.InputBindings>
     <DockPanel>
 
         <Grid DockPanel.Dock="Bottom" Height="50">

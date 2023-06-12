@@ -52,6 +52,13 @@ namespace travelAgency.view
                 ViewModel.Trip = trip;
             }
             DrawRoute();
+            Loaded += Page_Loaded;
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            FocusManager.SetFocusedElement(this, PurchaseBtn);
+            Keyboard.Focus(this);
         }
 
         private void Purchase_Click(object sender, RoutedEventArgs e)
@@ -101,6 +108,24 @@ namespace travelAgency.view
                 waypoints.Add(new RouteWaypoint(schedule.Place.Name, new GeoPoint(schedule.Place.lat, schedule.Place.lng)));
             }
             routeProvider.CalculateRoute(waypoints);
+        }
+
+        private void Purchase_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Arrangement arrangement = new Arrangement();
+            arrangement.Trip = Trip;
+            arrangement.User = loggedUser;
+            arrangement.IsReservation = false;
+            (new BuyReservation(arrangement, dbContext)).ShowDialog();
+        }
+
+        private void Reserve_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Arrangement arrangement = new Arrangement();
+            arrangement.Trip = Trip;
+            arrangement.User = loggedUser;
+            arrangement.IsReservation = true;
+            (new BuyReservation(arrangement, dbContext)).ShowDialog();
         }
     }
 }

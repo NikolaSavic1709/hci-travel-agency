@@ -7,6 +7,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:validators="clr-namespace:travelAgency.validators"
         mc:Ignorable="d"
+        xmlns:view="clr-namespace:travelAgency.view"
         Title="Edit place"  ResizeMode="NoResize" Height="400" Width="600" WindowStartupLocation="CenterScreen"
        >
 
@@ -51,6 +52,17 @@
         </Style>
     </Window.Resources>
 
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static view:CustomCommands.Save}" Executed="Save_Executed"/>
+        <CommandBinding Command="{x:Static view:CustomCommands.Quit}" Executed="Quit_Executed"/>
+    </Window.CommandBindings>
+
+    <Window.InputBindings>
+        <KeyBinding Command="{x:Static view:CustomCommands.Save}" Key="S" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static view:CustomCommands.Save}" Key="Enter"/>
+        <KeyBinding Command="{x:Static view:CustomCommands.Quit}" Key="Q" Modifiers="Ctrl"/>
+    </Window.InputBindings>
+    
     <Grid>
         <DockPanel>
 

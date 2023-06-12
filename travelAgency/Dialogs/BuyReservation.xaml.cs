@@ -53,6 +53,16 @@ public partial class BuyReservation : Window
 
     private void MinusClick(object sender, RoutedEventArgs e)
     {
+        Minus();
+    }
+
+    private void PlusClick(object sender, RoutedEventArgs e)
+    {
+        Plus();
+    }
+
+    public void Minus()
+    {
         BuyCount--;
         if (BuyCount <= 1)
         {
@@ -65,7 +75,7 @@ public partial class BuyReservation : Window
         PriceLabel.Content = Arrangement.Price.ToString();
     }
 
-    private void PlusClick(object sender, RoutedEventArgs e)
+    public void Plus()
     {
         BuyCount += 1;
         Count = BuyCount.ToString();
@@ -84,6 +94,35 @@ public partial class BuyReservation : Window
         arrangementRepository.Add(Arrangement);
         (new Confirmation(true)).ShowDialog();
         this.Close();
+    }
+    private void Cancel_Click(object sender, RoutedEventArgs e)
+    {
+        this.Close();
+    }
+
+    private void Yes_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+    {
+        Arrangement.DateTime = System.DateTime.Now;
+        Arrangement.TripId = Arrangement.Trip.Id;
+        Arrangement.UserId = Arrangement.User.Id;
+        arrangementRepository.Add(Arrangement);
+        (new Confirmation(true)).ShowDialog();
+        this.Close();
+    }
+
+    private void No_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+    {
+        this.Close();
+    }
+
+    private void Plus_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+    {
+        Plus();
+    }
+
+    private void Minus_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+    {
+        Minus();
     }
 
     private void Button_Click(object sender, RoutedEventArgs e)

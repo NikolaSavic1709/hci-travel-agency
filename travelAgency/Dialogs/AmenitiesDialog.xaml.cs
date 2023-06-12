@@ -60,11 +60,16 @@ namespace travelAgency.Dialogs
 
         private void SaveChanges_Click(object sender, RoutedEventArgs e)
         {
+            Save();
+        }
+
+        private void Save()
+        {
             var viewModel = DataContext as AmenitiesDialogViewModel;
             IEnumerable<IconItemViewModel> todoItemViewModels = viewModel.ActiveIconItemListingViewModel.TodoItemViewModels;
 
             List<Amenity> amenities = new List<Amenity>();
-            
+
             foreach (var itemViewModel in todoItemViewModels)
             {
                 Amenity amenity = new Amenity();
@@ -77,6 +82,27 @@ namespace travelAgency.Dialogs
 
             DialogResultEvent?.Invoke(this, new DialogResultEventArgs(true));
             Close();
+        }
+
+        private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Save();
+        }
+
+        private void Quit_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            DialogResultEvent?.Invoke(this, new DialogResultEventArgs(false));
+            Close();
+        }
+
+        private void AddAll_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            amenitiesDialogViewModel.AddAll();
+        }
+
+        private void RemoveAll_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            amenitiesDialogViewModel.RemoveAll();
         }
     }
 }

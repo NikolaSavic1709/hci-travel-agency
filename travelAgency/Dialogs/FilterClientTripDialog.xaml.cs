@@ -42,6 +42,11 @@ namespace travelAgency.Dialogs
 
         private void Update_Click(object sender, RoutedEventArgs e)
         {
+            Update();
+        }
+
+        public void Update()
+        {
             double maxprice, minprice;
             maxprice = (int)priceSlider.UpperValue;
             minprice = (int)priceSlider.LowerValue;
@@ -65,6 +70,16 @@ namespace travelAgency.Dialogs
             priceSlider.Maximum = maxprice;
             priceSlider.LowerValue = minprice;
             priceSlider.UpperValue = maxprice;
+        }
+
+        private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Update();
+        }
+
+        private void Quit_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Close();
         }
     }
 }
