@@ -22,23 +22,31 @@ namespace travelAgency.components
     /// </summary>
     public partial class ReportCard : UserControl
     {
-        public Arrangement Arrangement
-        {
-            get { return (Arrangement)GetValue(ArrangementProperty); }
+        //public Arrangement Arrangement
+        //{
+        //    get { return (Arrangement)GetValue(ArrangementProperty); }
+        //    set
+        //    {
+        //        SetValue(ArrangementProperty, value);
+        //        Arrangement a = ((Arrangement)value);
+        //        Trip = a.Trip;
+        //    }
+        //}
+        public Trip Trip {
+            get { return (Trip)GetValue(TripProperty); }
             set
             {
-                SetValue(ArrangementProperty, value);
-                Arrangement a = ((Arrangement)value);
-                Trip = a.Trip;
+                SetValue(TripProperty, value);
             }
         }
-        public Trip Trip { get; set; }
+        public double TotalPrice { get; set; }
+        public int TotalCount { get; set; }
         public ReportCard()
         {
             InitializeComponent();
             DataContext = this;
         }
-        public static readonly DependencyProperty ArrangementProperty = DependencyProperty.Register("Arrangement", typeof(Arrangement), typeof(ReportCard), new PropertyMetadata(null));
+        public static readonly DependencyProperty TripProperty = DependencyProperty.Register("Trip", typeof(Trip), typeof(ReportCard), new PropertyMetadata(null));
 
 
 
