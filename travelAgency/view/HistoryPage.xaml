@@ -96,8 +96,8 @@
                     </dxm:InformationLayer>
                 </dxm:MapControl>
             </Grid>
-            <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="-10" Grid.Column="1" Grid.ColumnSpan="5">
-                <controls:FlexWrapPanel HorizontalAlignment="Stretch" RequestedItemWidth="245" Width="Auto"  Grid.Row="3" x:Name="cards">
+            <ScrollViewer VerticalScrollBarVisibility="Auto"  Grid.Row="3" Margin="-10" Grid.Column="1" Grid.ColumnSpan="5">
+                <controls:FlexWrapPanel HorizontalAlignment="Stretch" RequestedItemWidth="245" Width="Auto"  x:Name="cards">
                 </controls:FlexWrapPanel>
             </ScrollViewer>
         </Grid>

@@ -1,9 +1,94 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Start</title>
+    <meta charset="UTF-8">
+    <title>User Manual</title>
+    <style>
+        p {
+            font-size: 18px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Podrazumevana stranica pomoći</h1>
+    <header>
+        <h1>User Manual</h1>
+        <p>Product Name: HCI travle agency</p>
+        <p>Version: v0.01</p>
+        <p>Date:  29-05-1453</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#section1">Navbar</a></li>
+            <li><a href="#section2">General Elements</a></li>
+            <li><a href="#section3">Home page</a></li>
+            <!-- Add more sections as needed -->
+        </ul>
+    </nav>
+
+    <main>
+        <section id="section1">
+            <h2>Navbar</h2>
+            <img src="screenshots/navbar.png" alt="Navbar" />
+            <p>
+                Navigation is done through the navbar on the top of the page. The active page is highlighted white, while other pages are green with white text.
+                Navbar offers these options:
+                <ul>
+                    <li>Home - homepage is the startup page and it host a route overview</li>
+                    <li>Places - this page hosts all available attractions</li>
+                    <li>Stay&Eat - this page hosts all available hotels and restaurants </li>
+                    <li>Report - this page hosts a monthly report for all available routes</li>
+                    <li>History - this page host all history of all transactions</li>
+                    <li>Help - it opens this window (self explanatory unless you got here by pressing <b>F1</b></li>
+                    <li>Logout - logs you out of the app</li>
+                </ul>
+            </p>
+        </section>
+
+        <section id="section2">
+            <h2>General elements of interaction</h2>
+            <p>Here we will go over some general elements of interaction</p>
+            <img src="screenshots/card.png" />
+            <p>
+                The main medium for data display are the cards and all of the Attractions routes and everything will be displayed with cards.
+                On click of the card additional data vill be displayed on map.
+            </p>
+            <img src="screenshots/eye.png" />
+            <img src="screenshots/bin.png" />
+            <p>
+                All cards contain these 2 elements that are shown when the cards are hovered.
+                Eye - on click shows more details
+                Bin - on click deletes item
+            </p>
+            <img src="screenshots/map.png" />
+            <p>Other important element of the interaction is map, this displays location or routes and allows of picking a location when creating an item.</p>
+            <img src="screenshots/add-new.png" />
+            <p>If available this button opens dialog for creating a new item (route/attraction/.. depending on the current page)</p>
+            <img src="screenshots/search-filter.png" />
+            <p>This allows to search items by name or filter them by some cattegory (according on the data that is being filtered)</p>
+            <img src="screenshots/filter.png" />
+            <p>Filter example: here we can search or filter by price or number of people</p>
+        </section>
+
+        <section id="section3">
+            <h2>Home page</h2>
+            <p>By now you should have an idea how to use the system. Now the homepage displays possible routes. The routes are displayed on map then a card is clicked</p>
+            <img src="screenshots/route.png" />
+            <p>
+                When route is displayed it looks like this.
+                It is possible to search items by trips names and filter them by price.
+                It is possible to delete a trip by clicking the bin button whitin a card.
+                When the eye button is clicked you should get a window that looks like this:
+            </p>
+            <img src="screenshots/route-overview.png" />
+            <p>This window is used to view trip with more details, for addtional help refer to help page for this window.</p>
+            <img src="screenshots/new-route.png" />
+            <p>This window is used to add new trip with, for addtional help refer to help page for this window.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>Jastreb &copy; 2023. All rights reserved.</p>
+    </footer>
 </body>
 </html>
