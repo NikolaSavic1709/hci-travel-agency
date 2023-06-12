@@ -27,6 +27,8 @@ namespace travelAgency.model
             }
         }
 
+        public bool IsDeleted { get; set; }
+
         public string Name
         {
             get { return name; }

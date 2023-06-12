@@ -154,7 +154,7 @@ namespace travelAgency.view
         {
             DeselectNavbarButtons();
             ReportButton.IsClicked = "True";
-            Main.Content = new StayEatPage();
+            Main.Content = new ReportPage(tripRepository, arrangementRepository);
         }
 
         private void ToHistory_Executed(object sender, ExecutedRoutedEventArgs e)

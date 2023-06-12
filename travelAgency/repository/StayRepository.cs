@@ -22,16 +22,19 @@ namespace travelAgency.repository
             return dbContext.Stays
                 .AsNoTracking()
                 .Include(s => s.StayAmenities)
-                .FirstOrDefault(u => u.Id == id);
+                .FirstOrDefault(u => u.Id == id && !u.IsDeleted);
         }
 
         public List<Stay> GetAll()
         {
-            return dbContext.Stays.ToList();
+            return dbContext.Stays
+                .Where(t => !t.IsDeleted)
+                .ToList();
         }
 
         public void Add(Stay stay)
         {
+            stay.IsDeleted = false;
             dbContext.Stays.Add(stay);
             dbContext.SaveChanges();
         }
@@ -48,7 +51,8 @@ namespace travelAgency.repository
 
         public void Delete(Stay stay)
         {
-            dbContext.Stays.Remove(stay);
+            stay.IsDeleted = true;
+            dbContext.Stays.Update(stay);
             dbContext.SaveChanges();
         }
     }
