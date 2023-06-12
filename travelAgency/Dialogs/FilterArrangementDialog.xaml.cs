@@ -58,7 +58,7 @@ namespace travelAgency.Dialogs
                 arrangementCards.RemoveAll(card => card.Arrangement.IsReservation);
             }
             arrangementCards.RemoveAll(card => card.Arrangement.NumberOfPersons>maxnp || card.Arrangement.NumberOfPersons < minnp);
-            arrangementCards.RemoveAll(card => card.Arrangement.Trip.Price > maxprice || card.Arrangement.Trip.Price < minprice);
+            arrangementCards.RemoveAll(card => card.Arrangement.Price > maxprice || card.Arrangement.Price < minprice);
             DialogResultEvent?.Invoke(this, new ArrangementCardEventArgs(arrangementCards));
             Close();
         }
