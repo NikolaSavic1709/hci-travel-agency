@@ -53,6 +53,13 @@ public partial class StayEatPage : Page
         }
 
         RefreshCards(false);
+        Loaded += Page_Loaded;
+    }
+
+    private void Page_Loaded(object sender, RoutedEventArgs e)
+    {
+        FocusManager.SetFocusedElement(this, AddBtn);
+        Keyboard.Focus(this);
     }
     private void CreateCard(Place place)
     {
@@ -167,5 +174,17 @@ public partial class StayEatPage : Page
         CreatePlaceDialog window = new CreatePlaceDialog(false);
         window.NewStayEat += StayEatCard_NewStayEat;
         window.ShowDialog();
+    }
+
+    private void NewCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+    {
+        CreatePlaceDialog window = new CreatePlaceDialog(false);
+        window.NewStayEat += StayEatCard_NewStayEat;
+        window.ShowDialog();
+    }
+
+    private void SearchCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+    {
+        SearchBox.Focus();
     }
 }

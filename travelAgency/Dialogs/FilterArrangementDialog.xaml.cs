@@ -43,8 +43,13 @@ namespace travelAgency.Dialogs
 
         private void Update_Click(object sender, RoutedEventArgs e)
         {
+            Update();
+        }
+
+        public void Update()
+        {
             int maxnp, minnp;
-            double maxprice,minprice;
+            double maxprice, minprice;
             maxnp = (int)personsSlider.UpperValue;
             minnp = (int)personsSlider.LowerValue;
             maxprice = (int)priceSlider.UpperValue;
@@ -57,7 +62,7 @@ namespace travelAgency.Dialogs
             {
                 arrangementCards.RemoveAll(card => card.Arrangement.IsReservation);
             }
-            arrangementCards.RemoveAll(card => card.Arrangement.NumberOfPersons>maxnp || card.Arrangement.NumberOfPersons < minnp);
+            arrangementCards.RemoveAll(card => card.Arrangement.NumberOfPersons > maxnp || card.Arrangement.NumberOfPersons < minnp);
             arrangementCards.RemoveAll(card => card.Arrangement.Price > maxprice || card.Arrangement.Price < minprice);
             DialogResultEvent?.Invoke(this, new ArrangementCardEventArgs(arrangementCards));
             Close();
@@ -88,5 +93,14 @@ namespace travelAgency.Dialogs
             priceSlider.UpperValue = maxprice;
         }
 
+        private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Update();
+        }
+
+        private void Quit_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

@@ -23,11 +23,15 @@
         <clr:String x:Key=" ">""</clr:String>
     </Page.Resources>
     <Page.CommandBindings>
-        <CommandBinding Command="ApplicationCommands.Save" Executed="SaveCommandExecuted" />
+        <CommandBinding Command="{x:Static local:CustomCommands.New}" Executed="NewCommandExecuted"/>
+        <CommandBinding Command="{x:Static local:CustomCommands.Search}" Executed="SearchCommandExecuted"/>
+        <CommandBinding Command="{x:Static local:CustomCommands.Filter}" Executed="FilterCommandExecuted"/>
     </Page.CommandBindings>
 
     <Page.InputBindings>
-        <KeyBinding Command="ApplicationCommands.Save" Key="S" Modifiers="Ctrl" />
+        <KeyBinding Command="{x:Static local:CustomCommands.New}" Key="N" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static local:CustomCommands.Search}" Key="S" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static local:CustomCommands.Filter}" Key="F" Modifiers="Ctrl"/>
     </Page.InputBindings>
 
     <Grid>

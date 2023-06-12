@@ -45,13 +45,28 @@ namespace travelAgency.Dialogs
 
         private void Update_Click(object sender, RoutedEventArgs e)
         {
+            Update();
+        }
 
+        public void Update()
+        {
             _place.Name = NameTxtBox.Text;
             _place.Location = LocationTxtBox.Text;
             _place.Description = DescriptionTxtBox.Text;
             placeRepository.Update(_place);
 
             DialogResultEvent?.Invoke(this, new DialogResultEventArgs(true));
+            Close();
+        }
+
+        private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Update();
+        }
+
+        private void Quit_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            DialogResultEvent?.Invoke(this, new DialogResultEventArgs(false));
             Close();
         }
     }

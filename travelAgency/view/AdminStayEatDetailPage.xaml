@@ -14,6 +14,14 @@
       d:DesignHeight="700" d:DesignWidth="1000"
       Title="Stay&amp;Eat">
 
+    <Page.CommandBindings>
+        <CommandBinding Command="{x:Static local:CustomCommands.StayEat}" Executed="Edit_Executed"/>
+    </Page.CommandBindings>
+
+    <Page.InputBindings>
+        <KeyBinding Command="{x:Static local:CustomCommands.StayEat}" Key="E" Modifiers="Ctrl"/>
+    </Page.InputBindings>
+    
     <Page.Resources>
         <materialDesign:SnackbarMessageQueue x:Key="SnackbarMessageQueue" />
 

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using travelAgency.model;
 using travelAgency.repository;
@@ -23,7 +22,6 @@ namespace travelAgency.Dialogs
         CreateTripViewModel ViewModel { get; set; }
         int currentIndexListBox=-1; 
         private static readonly Regex _regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
-
         public CreateTripDialog(TripRepository tripRepository, PlaceRepository placeRepository)
         {
             InitializeComponent();
@@ -83,8 +81,13 @@ namespace travelAgency.Dialogs
 
         private void AddPlace_Click(object sender, RoutedEventArgs e)
         {
+            AddPlace();
+        }
+
+        public void AddPlace()
+        {
             Place? selectedPlace = places.Find(p => p.Name == PlaceTextBox.Text);
-            
+
             if (selectedPlace != null)
             {
                 TripSchedule tripSchedule = new TripSchedule();
@@ -97,19 +100,11 @@ namespace travelAgency.Dialogs
                 PlaceTextBox.Text = string.Empty;
                 DatePicker.SelectedDate = null;
                 TimePicker.SelectedTime = null;
-                if (Snackbar.MessageQueue is { } messageQueue)
-                {
-                    var message = "Schedule added successfully";
-                    messageQueue.Enqueue(message);
-                }
+
             }
             else
             {
-                if (Snackbar.MessageQueue is { } messageQueue)
-                {
-                    var message = "Place doesn't exist";
-                    messageQueue.Enqueue(message);
-                }
+                //handle
             }
         }
 
@@ -118,11 +113,6 @@ namespace travelAgency.Dialogs
             Button removeButton = (Button)sender;
             TripSchedule tripSchedule = (TripSchedule)removeButton.DataContext;
             ViewModel.Trip.Schedules.Remove(tripSchedule);
-            if (Snackbar.MessageQueue is { } messageQueue)
-            {
-                var message = "Schedule removed successfully";
-                messageQueue.Enqueue(message);
-            }
         }
 
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
@@ -170,6 +160,11 @@ namespace travelAgency.Dialogs
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
+            Save();
+        }
+
+        public void Save()
+        {
             ViewModel.Trip.Name = NameTxtBox.Text;
             ViewModel.Trip.Description = DescriptionTxtBox.Text;
             ViewModel.Trip.Price = Convert.ToDouble(PriceTxtBox.Text);
@@ -177,6 +172,7 @@ namespace travelAgency.Dialogs
             NewTrip?.Invoke(this, new ToTripEventArgs(ViewModel.Trip));
             Close();
         }
+
         public event EventHandler<ToTripEventArgs> NewTrip;
         private static bool IsTextAllowed(string text)
         {
@@ -202,13 +198,19 @@ namespace travelAgency.Dialogs
             e.Handled = !IsTextAllowed(e.Text);
         }
 
-        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            TextBox textBox = (TextBox)sender;
-            BindingExpression bindingExpr = textBox.GetBindingExpression(TextBox.TextProperty);
+            Save();
+        }
 
-            // Manually trigger the validation
-            bindingExpr.UpdateSource();
+        private void Quit_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void AddPlace_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            AddPlace();
         }
     }
 }

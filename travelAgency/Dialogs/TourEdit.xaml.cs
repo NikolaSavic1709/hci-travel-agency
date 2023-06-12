@@ -71,11 +71,27 @@ public partial class TourEdit : Window
     public event EventHandler<DialogResultEventArgs> DialogResultEvent;
     private void Button_Click_1(object sender, RoutedEventArgs e)
     {
-        this.trip.Name=NameTxtBox.Text;
-        this.trip.Description=DescriptionTxtBox.Text;
-        this.trip.Price=Convert.ToDouble(PriceTxtBox.Text) ;
+        Update();
+    }
+
+    public void Update()
+    {
+        this.trip.Name = NameTxtBox.Text;
+        this.trip.Description = DescriptionTxtBox.Text;
+        this.trip.Price = Convert.ToDouble(PriceTxtBox.Text);
         tripRepository.Save();
         DialogResultEvent?.Invoke(this, new DialogResultEventArgs(true));
+        Close();
+
+    }
+
+    private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
+    {
+        Update();
+    }
+
+    private void Quit_Executed(object sender, ExecutedRoutedEventArgs e)
+    {
         Close();
     }
 

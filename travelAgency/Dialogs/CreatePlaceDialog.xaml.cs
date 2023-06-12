@@ -28,20 +28,16 @@ namespace travelAgency.Dialogs
         private MapPushpin mapItem;
         private double lat;
         private double lng;
-        public ComboBoxItem SelectedItemProperty { get; set; }
         public CreatePlaceDialog(bool createPlace)
         {
             InitializeComponent();
-            SelectedItemProperty = null;
             dbContext = new TravelAgencyContext();
             attractionRepository = new AttractionRepository(dbContext);
             stayRepository = new StayRepository(dbContext);
             restaurantRepository = new RestaurantRepository(dbContext);
             if (createPlace)
             {
-                
                 OutlinedComboBox.SelectedIndex = 0;
-                SelectedItemProperty = (ComboBoxItem?)OutlinedComboBox.SelectedItem;
                 OutlinedComboBox.IsEnabled = false;
             }
             else
@@ -73,6 +69,11 @@ namespace travelAgency.Dialogs
         public event EventHandler<ToStayEatEventArgs> NewStayEat;
 
         private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            Save();
+        }
+
+        public void Save()
         {
             String selectedOption = ((ComboBoxItem)OutlinedComboBox.SelectedItem).Content.ToString();
             if (selectedOption == "Attraction")
@@ -242,13 +243,24 @@ namespace travelAgency.Dialogs
             }
         }
 
-        private void ComboBox_LostFocus(object sender, RoutedEventArgs e)
+        private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            ComboBox comboBox = (ComboBox)sender;
-            BindingExpression bindingExpr = comboBox.GetBindingExpression(ComboBox.SelectedIndexProperty);
+            Save();
+        }
 
-            // Manually trigger the validation
-            bindingExpr.UpdateSource();
+        private void Quit_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void AddAll_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            AddAll();
+        }
+
+        private void RemoveAll_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            RemoveAll();
         }
     }
 

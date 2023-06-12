@@ -3,48 +3,24 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:view="clr-namespace:travelAgency.view"
         xmlns:local="clr-namespace:travelAgency.view" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="BuyReservation" Height="250" Width="400">
-    <Window.Resources>
-        <Style x:Key="BottomButton" TargetType="Button">
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="Height" Value="35" />
-            <Setter Property="FontSize" Value="13" />
-            <Setter Property="FontWeight" Value="DemiBold" />
-            <Setter Property="Foreground" Value="#E0E0E0" />
-            <Setter Property="Margin" Value="5,0,5,0" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Grid>
-                            <Border Background="{TemplateBinding Background}" Opacity="1" CornerRadius="4,4,4,4">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                            </Border>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="SaveButton" TargetType="Button" BasedOn="{StaticResource BottomButton}">
-            <Setter Property="Background" Value="#009882" />
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#00AF82" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        <Style x:Key="QuitButton" TargetType="Button" BasedOn="{StaticResource BottomButton}">
-            <Setter Property="Background" Value="#E0E0E0" />
-            <Setter Property="Foreground" Value="#980012"/>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#55000000" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static view:CustomCommands.Save}" Executed="Yes_Executed" />
+        <CommandBinding Command="{x:Static view:CustomCommands.Quit}" Executed="No_Executed" />
+        <CommandBinding Command="{x:Static view:CustomCommands.Plus}" Executed="Plus_Executed" />
+        <CommandBinding Command="{x:Static view:CustomCommands.Minus}" Executed="Minus_Executed" />
+    </Window.CommandBindings>
+
+    <Window.InputBindings>
+        <KeyBinding Command="{x:Static view:CustomCommands.Save}" Key="S" Modifiers="Ctrl" />
+        <KeyBinding Command="{x:Static view:CustomCommands.Save}" Key="Enter" />
+        <KeyBinding Command="{x:Static view:CustomCommands.Quit}" Key="Q" Modifiers="Ctrl" />
+        <KeyBinding Command="{x:Static view:CustomCommands.Plus}" Key="OemPlus" Modifiers="Ctrl" />
+        <KeyBinding Command="{x:Static view:CustomCommands.Minus}" Key="OemMinus" Modifiers="Ctrl" />
+    </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
@@ -96,7 +72,7 @@
   ToolTip="Resource name: MaterialDesignRaisedSecondaryButton" Grid.Row="4" Margin="2" Grid.Column="4" Grid.ColumnSpan="2" Click="Button_Click_1" />
         <Button FontSize="15"
   Content="Cancel"
-  Style="{StaticResource QuitButton}"
-  ToolTip="Resource name: MaterialDesignRaisedSecondaryButton"  Grid.Row="4" Margin="2" Grid.Column="2" Grid.ColumnSpan="2" Click="Button_Click" />
+  Style="{StaticResource MaterialDesignRaisedSecondaryButton}"
+  ToolTip="Resource name: MaterialDesignRaisedSecondaryButton" BorderThickness="0" Background="#FF980012" Foreground="#FFFFFFFF" Grid.Row="4" Margin="2" Grid.Column="2" Grid.ColumnSpan="2" Click="Cancel_Click" />
     </Grid>
 </Window>

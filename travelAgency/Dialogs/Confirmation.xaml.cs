@@ -34,6 +34,11 @@ namespace travelAgency.view
         {
             this.Close();
         }
+
+        private void Ok_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 
     internal class DC
