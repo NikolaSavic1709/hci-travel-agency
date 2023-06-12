@@ -1,11 +1,15 @@
 ﻿using DevExpress.Xpf.Map;
+using MaterialDesignColors;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using travelAgency.Commands;
 using travelAgency.components;
 using travelAgency.Dialogs;
 using travelAgency.model;
@@ -22,10 +26,16 @@ namespace travelAgency.view
         public TripRepository tripRepository;
         public PlaceRepository placeRepository;
         public string BingKey { get; set; }
+        public List<TripCard> tripCards;
+        public List<TripCard> filteredTripCards;
+        public ICommand SearchCommand { get; }
         public HomePage(TripRepository tripRepository, PlaceRepository placeRepository)
         {
             BingKey = "";
+            SearchCommand = new CommandImplementationcs(Search);
+            tripCards = new List<TripCard>();
             InitializeComponent();
+            DataContext = this;
             this.tripRepository = tripRepository;
             this.placeRepository = placeRepository;
 
@@ -36,6 +46,8 @@ namespace travelAgency.view
             {
                 CreateCard(t);
             }
+
+            RefreshCards(false);
         }
         private void CreateCard(Trip trip)
         {
@@ -48,7 +60,27 @@ namespace travelAgency.view
             tripCard.ToTripClicked += TripCard_ToTrip;
             tripCard.TripDelete += TripCard_Remove;
             tripCard.MouseDown += TripCard_MouseDown;
-            cards.Children.Add(tripCard);
+            tripCards.Add(tripCard);
+        }
+
+        public void RefreshCards(bool isFilter)
+        {
+            cards.Children.Clear();
+            if (isFilter)
+            {
+                foreach (TripCard a in filteredTripCards)
+                {
+                    cards.Children.Add(a);
+                }
+            }
+            else
+            {
+                foreach (TripCard a in tripCards)
+                {
+                    cards.Children.Add(a);
+                }
+            }
+
         }
         private void TripCard_ToTrip(object sender, ToTripEventArgs e)
         {
@@ -69,6 +101,7 @@ namespace travelAgency.view
         private void TripCard_NewTrip(object sender, ToTripEventArgs e)
         {
             CreateCard(e.Trip);
+            RefreshCards(false);
         }
         private void TripCard_Remove(object sender, ToTripEventArgs e)
         {
@@ -83,6 +116,21 @@ namespace travelAgency.view
             var textBox = (TextBox)sender;
             if (e.Key == Key.Enter)
                 SearchButton.Command.Execute(textBox.Text);
+        }
+        private async void Search(object? obj)
+        {
+            var text = obj as string;
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                filteredTripCards = tripCards;
+            }
+            else
+            {
+                filteredTripCards = await Task.Run(() => tripCards
+                    .Where(x => x.TripName.IndexOf(text, StringComparison.CurrentCultureIgnoreCase) >= 0)
+                    .ToList());
+            }
+            RefreshCards(true);
         }
         private void geocodeProvider_LocationInformationReceived(object sender, LocationInformationReceivedEventArgs e)
         {

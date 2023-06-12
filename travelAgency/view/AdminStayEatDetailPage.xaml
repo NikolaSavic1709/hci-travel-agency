@@ -1,11 +1,11 @@
 ﻿<Page x:Class="travelAgency.view.AdminStayEatDetailPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:travelAgency.view"
       xmlns:controls="clr-namespace:travelAgency.controls"
-      mc:Ignorable="d" 
+      mc:Ignorable="d"
        xmlns:virtualCollection="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
       xmlns:dxm="http://schemas.devexpress.com/winfx/2008/xaml/map"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:clr="clr-namespace:System;assembly=mscorlib"
@@ -17,37 +17,36 @@
     <Page.Resources>
         <controls:MapHeightCoverter x:Key="MapHeightCoverter" />
         <Style x:Key="TransparentCircleButton" TargetType="Button">
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Background" Value="LightGray"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Height" Value="50"/>
-            <Setter Property="Width" Value="50"/>
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Background" Value="LightGray" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Height" Value="50" />
+            <Setter Property="Width" Value="50" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Grid>
-                            <Ellipse Fill="{TemplateBinding Background}" Opacity="0.5"/>
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Ellipse Fill="{TemplateBinding Background}" Opacity="0.5" />
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="DimGray"/>
+                    <Setter Property="Background" Value="DimGray" />
                 </Trigger>
             </Style.Triggers>
         </Style>
-        
-        <DataTemplate x:Key="pushpin">
-            <StackPanel ToolTipService.ToolTip="{Binding Path=MapItem.Information}" Height="NaN" Orientation="Horizontal"  >
-                <Image  Source="pack://application:,,,/pin.png" Width="20" Height="20"  />
 
+        <DataTemplate x:Key="pushpin">
+            <StackPanel ToolTipService.ToolTip="{Binding Path=MapItem.Information}" Height="NaN" Orientation="Horizontal">
+                <Image  Source="pack://application:,,,/pin.png" Width="20" Height="20" />
             </StackPanel>
         </DataTemplate>
         <clr:String x:Key=" ">""</clr:String>
     </Page.Resources>
-    
+
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid>
             <!--<ScrollViewer>-->
@@ -61,14 +60,13 @@
                     <ColumnDefinition Width="20*" />
                 </Grid.ColumnDefinitions>
 
-
                 <Grid Grid.Column="1" VerticalAlignment="Top">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="50*"/>
-                        <RowDefinition Height="280*"/>
-                        <RowDefinition Height="40*"/>
-                        <RowDefinition Height="350*"/>
-                        <RowDefinition Height="45*"/>
+                        <RowDefinition Height="50*" />
+                        <RowDefinition Height="280*" />
+                        <RowDefinition Height="40*" />
+                        <RowDefinition Height="350*" />
+                        <RowDefinition Height="45*" />
                     </Grid.RowDefinitions>
 
                     <Grid Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,40,0,0" Name="Carousel">
@@ -83,12 +81,10 @@
                             <materialDesign:Flipper Name="ImageFlipper" HorizontalAlignment="Center" VerticalAlignment="Center" Canvas.ZIndex="1">
                                 <materialDesign:Flipper.FrontContent>
                                     <Image Source="{Binding FrontImageSource}" Stretch="UniformToFill">
-
                                     </Image>
                                 </materialDesign:Flipper.FrontContent>
                                 <materialDesign:Flipper.BackContent>
                                     <Image Source="{Binding BackImageSource}" Stretch="UniformToFill">
-
                                     </Image>
                                 </materialDesign:Flipper.BackContent>
                             </materialDesign:Flipper>
@@ -97,8 +93,6 @@
                             </Button>
                         </Grid>
                     </Grid>
-
-
 
                     <materialDesign:Card Grid.Row="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="Auto" Margin="0,40,0,40">
                         <Grid Margin="10">
@@ -109,22 +103,21 @@
 
                             <StackPanel Grid.Row="0" Margin="8,7,8,0">
 
-                                <TextBlock FontWeight="Bold" FontSize="16" Margin="0,0,0,5" Text="{Binding Place.Name, StringFormat='{}{0:ToUpper()}' }"/>
+                                <TextBlock FontWeight="Bold" FontSize="16" Margin="0,0,0,5" Text="{Binding Place.Name, StringFormat='{}{0:ToUpper()}' }" />
 
                                 <StackPanel Margin="0,10,0,0" Background="#009882">
-                                    <TextBlock FontWeight="DemiBold" FontSize="14" Foreground="White" Margin="15,1,0,3" Text="Location"/>
+                                    <TextBlock FontWeight="DemiBold" FontSize="14" Foreground="White" Margin="15,1,0,3" Text="Location" />
                                 </StackPanel>
                                 <TextBlock VerticalAlignment="Center" FontSize="12" Margin="10,5,0,5"
                                        Text="{Binding Place.Location}"
                                        TextWrapping="Wrap" />
 
                                 <StackPanel Margin="0,10,0,0" Background="#009882">
-                                    <TextBlock FontWeight="DemiBold" FontSize="14" Foreground="White" Margin="15,1,0,3" Text="General data"/>
+                                    <TextBlock FontWeight="DemiBold" FontSize="14" Foreground="White" Margin="15,1,0,3" Text="General data" />
                                 </StackPanel>
                                 <TextBlock VerticalAlignment="Center" FontSize="12" Margin="10,5,0,5"
                                        Text="{Binding Place.Description}"
                                        TextWrapping="Wrap" />
-
                             </StackPanel>
                             <StackPanel Grid.Row="1" x:Name="buttonStackPanel"
                       Margin="8"
@@ -137,66 +130,54 @@
                             Click="EditData_Click">
                                     <materialDesign:PackIcon Kind="Pencil" />
                                 </Button>
-
-
                             </StackPanel>
-
                         </Grid>
                     </materialDesign:Card>
-
                 </Grid>
 
                 <Grid Grid.Column="3" VerticalAlignment="Top">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="50*"/>
-                        <RowDefinition Height="380*"/>
-                        <RowDefinition Height="30*"/>
-                        <RowDefinition Height="150*"/>
-                        <RowDefinition Height="50*"/>
+                        <RowDefinition Height="50*" />
+                        <RowDefinition Height="380*" />
+                        <RowDefinition Height="30*" />
+                        <RowDefinition Height="150*" />
+                        <RowDefinition Height="50*" />
                     </Grid.RowDefinitions>
-
 
                     <Grid Margin="0,40,0,0"  Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                           MinHeight="{Binding ElementName=Carousel, Path=ActualHeight, Converter={StaticResource MapHeightCoverter}}">
                         <dxm:MapControl Name="map" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Width="Auto"
-                                MouseLeftButtonDown="map_MouseLeftButtonDown" MouseLeftButtonUp="map_MouseLeftButtonUp" MouseMove="map_MouseMove"  >
+                                MouseLeftButtonDown="map_MouseLeftButtonDown" MouseLeftButtonUp="map_MouseLeftButtonUp" MouseMove="map_MouseMove">
                             <dxm:ImageLayer>
-                                <dxm:BingMapDataProvider Kind="RoadLight" BingKey=" "/>
+                                <dxm:BingMapDataProvider Kind="RoadLight" BingKey="Bobfc3eHAUPXgpeTYjms~m6tD9dbiJz0HFBraHXWR_A~AvjPgt_MJZVhNNdKhscJbncrArt9ydMHTLueaT6sDhboip1smAQSMs7436fWsrtq" />
                             </dxm:ImageLayer>
                             <dxm:VectorLayer>
-                                <dxm:MapItemStorage x:Name="mapItems" >
-                                    <!--<dxm:MapPushpin  Location="41.88,-87.63" 
+                                <dxm:MapItemStorage x:Name="mapItems">
+                                    <!--<dxm:MapPushpin  Location="41.88,-87.63"
                                      Information="Test Chicago Information"
                                      MarkerTemplate="{StaticResource pushpin}" />-->
                                 </dxm:MapItemStorage>
                             </dxm:VectorLayer>
                             <dxm:InformationLayer>
-                                <dxm:BingSearchDataProvider BingKey=" "/>
+                                <dxm:BingSearchDataProvider BingKey="Bobfc3eHAUPXgpeTYjms~m6tD9dbiJz0HFBraHXWR_A~AvjPgt_MJZVhNNdKhscJbncrArt9ydMHTLueaT6sDhboip1smAQSMs7436fWsrtq" />
                             </dxm:InformationLayer>
-                            <dxm:InformationLayer>
-                                <dxm:BingGeocodeDataProvider x:Name="geocode"  LocationInformationReceived="geocodeProvider_LocationInformationReceived" BingKey=" "/>
-                            </dxm:InformationLayer>
-
                         </dxm:MapControl>
-                        <TextBlock x:Name="tbResults" TextWrapping="Wrap" Text="TextBlock" Margin="0,0,512,0"/>
-
                     </Grid>
-
 
                     <Grid Margin="0,40,0,0" Grid.Row="3" Name="AmenitiesSegment">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="30*"/>
-                            <RowDefinition Height="5*"/>
-                            <RowDefinition Height="80*"/>
+                            <RowDefinition Height="30*" />
+                            <RowDefinition Height="5*" />
+                            <RowDefinition Height="80*" />
                         </Grid.RowDefinitions>
 
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="60*"/>
-                            <ColumnDefinition Width="200*"/>
+                            <ColumnDefinition Width="60*" />
+                            <ColumnDefinition Width="200*" />
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Left" Width="404">
-                            <TextBlock  FontWeight="Bold" FontSize="16" Margin="0,0,0,5" Text="AMENITIES" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                            <TextBlock  FontWeight="Bold" FontSize="16" Margin="0,0,0,5" Text="AMENITIES" VerticalAlignment="Center" HorizontalAlignment="Stretch" />
 
                             <Button HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Center"
                         Width="50" Height="30" x:Name="editAmenitiesButton"
@@ -206,9 +187,8 @@
                                 <materialDesign:PackIcon Kind="Pencil" />
                             </Button>
                         </StackPanel>
-                        
 
-                        <ListBox 
+                        <ListBox
                         Grid.Row="2" Grid.ColumnSpan="2"
                         x:Name="lvItems"
                         ItemsSource="{Binding TodoItemViewModels}"
@@ -220,7 +200,6 @@
                                     <virtualCollection:VirtualizingWrapPanel />
                                 </ItemsPanelTemplate>
                             </ListBox.ItemsPanel>
-
 
                             <ListBox.ItemTemplate>
                                 <DataTemplate DataType="viewModels:IconItemViewModel">
@@ -238,10 +217,8 @@
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
-
                     </Grid>
                 </Grid>
-
             </Grid>
             <!--</ScrollViewer>-->
         </Grid>

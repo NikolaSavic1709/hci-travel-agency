@@ -95,7 +95,6 @@
                             </dxm:MapItemStorage>
                         </dxm:VectorLayer>
                     </dxm:MapControl>
-                    <TextBlock x:Name="tbResults" TextWrapping="Wrap" Text="TextBlock" Margin="0,0,512,0" />
                 </Grid>
 
                 <controls:FlexWrapPanel HorizontalAlignment="Stretch" RequestedItemWidth="245" Width="Auto" Margin="-10"

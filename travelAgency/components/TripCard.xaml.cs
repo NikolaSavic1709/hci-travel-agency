@@ -22,10 +22,16 @@ namespace travelAgency.components
             set
             {
                 SetValue(TripProperty, value);
-                Route = ((Trip)value).Schedules[0].Place.Name.ToString() + " - " + ((Trip)value).Schedules.Last().Place.Name.ToString();
+                if (((Trip)value).Schedules.Count != 0)
+                {
+                    Route = ((Trip)value).Schedules[0].Place.Name.ToString() + " - " + ((Trip)value).Schedules.Last().Place.Name.ToString();
+                    Trip t = ((Trip)value);
+                    TripName = t.Name;
+                }
             }
         }
 
+        public string TripName { get; set; }
         public string Route { get; set; }
 
         public TripCard()
@@ -35,7 +41,9 @@ namespace travelAgency.components
         }
 
         public event EventHandler<ToTripEventArgs> ToTripClicked;
+
         public event EventHandler<ToTripEventArgs> TripDelete;
+
         private void OpenButton_click(object sender, RoutedEventArgs e)
         {
             ToTripClicked?.Invoke(this, new ToTripEventArgs(Trip));

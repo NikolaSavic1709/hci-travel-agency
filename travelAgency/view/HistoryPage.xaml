@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:travelAgency.view"
       xmlns:controls="clr-namespace:travelAgency.controls"
       xmlns:dxm="http://schemas.devexpress.com/winfx/2008/xaml/map"
-      mc:Ignorable="d" 
+      mc:Ignorable="d"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:clr="clr-namespace:System;assembly=mscorlib"
       Background="{DynamicResource MaterialDesignPaper}"
       TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -14,9 +14,8 @@
       Title="HistoryPage">
     <Page.Resources>
         <DataTemplate x:Key="pushpin">
-            <StackPanel ToolTipService.ToolTip="{Binding Path=MapItem.Information}" Height="NaN" Orientation="Horizontal"  >
-                <Image  Source="pack://application:,,,/pin.png" Width="20" Height="20"  />
-
+            <StackPanel ToolTipService.ToolTip="{Binding Path=MapItem.Information}" Height="NaN" Orientation="Horizontal">
+                <Image  Source="pack://application:,,,/pin.png" Width="20" Height="20" />
             </StackPanel>
         </DataTemplate>
         <clr:String x:Key=" ">""</clr:String>
@@ -41,7 +40,6 @@
                 <RowDefinition Height="17*" />
                 <RowDefinition Height="410*" />
                 <RowDefinition Height="40*" />
-
             </Grid.RowDefinitions>
 
             <Border Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
@@ -80,38 +78,28 @@
                     Grid.Column="5" Grid.Row="1"
                     ToolTip="Filter" Click="Filter_Click" />
 
-
-
             <Grid Grid.Column="7"  Grid.Row="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                <dxm:MapControl Name="map" HorizontalAlignment="Stretch"  VerticalAlignment="Center" Width="Auto"
-                                MouseLeftButtonDown="map_MouseLeftButtonDown" MouseLeftButtonUp="map_MouseLeftButtonUp" MouseMove="map_MouseMove"  >
+                <dxm:MapControl Name="map" HorizontalAlignment="Stretch"  VerticalAlignment="Center" Width="Auto">
+
                     <dxm:ImageLayer>
-                        <dxm:BingMapDataProvider Kind="RoadLight" BingKey=" "/>
+                        <dxm:ImageLayer.DataProvider>
+                            <dxm:BingMapDataProvider Kind="RoadLight" BingKey="Bobfc3eHAUPXgpeTYjms~m6tD9dbiJz0HFBraHXWR_A~AvjPgt_MJZVhNNdKhscJbncrArt9ydMHTLueaT6sDhboip1smAQSMs7436fWsrtq" />
+                        </dxm:ImageLayer.DataProvider>
                     </dxm:ImageLayer>
-                    <dxm:VectorLayer>
-                        <dxm:MapItemStorage x:Name="mapItems" >
-                            <!--<dxm:MapPushpin  Location="41.88,-87.63" 
-                                     Information="Test Chicago Information"
-                                     MarkerTemplate="{StaticResource pushpin}" />-->
-                        </dxm:MapItemStorage>
-                    </dxm:VectorLayer>
-                    <dxm:InformationLayer>
-                        <dxm:BingSearchDataProvider BingKey=" "/>
-                    </dxm:InformationLayer>
-                    <dxm:InformationLayer>
-                        <dxm:BingGeocodeDataProvider x:Name="geocode"  LocationInformationReceived="geocodeProvider_LocationInformationReceived" BingKey=" "/>
-                    </dxm:InformationLayer>
 
+                    <dxm:InformationLayer EnableHighlighting="False">
+                        <dxm:InformationLayer.DataProvider>
+                            <dxm:BingRouteDataProvider x:Name="routeProvider"
+                                               BingKey="Bobfc3eHAUPXgpeTYjms~m6tD9dbiJz0HFBraHXWR_A~AvjPgt_MJZVhNNdKhscJbncrArt9ydMHTLueaT6sDhboip1smAQSMs7436fWsrtq"
+                                               LayerItemsGenerating="routeProvider_LayerItemsGenerating" />
+                        </dxm:InformationLayer.DataProvider>
+                    </dxm:InformationLayer>
                 </dxm:MapControl>
-                <TextBlock x:Name="tbResults" TextWrapping="Wrap" Text="TextBlock" Margin="0,0,512,0"/>
-
             </Grid>
 
             <controls:FlexWrapPanel HorizontalAlignment="Stretch" RequestedItemWidth="245" Width="Auto" Margin="-10"
                                 Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="3" x:Name="cards">
-                
             </controls:FlexWrapPanel>
-
         </Grid>
     </Grid>
 </Page>
