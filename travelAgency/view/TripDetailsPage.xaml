@@ -10,6 +10,7 @@
       d:DesignHeight="750" d:DesignWidth="1000" Background="#C7C7C7"
       Title="TripDetailsPage">
     <Page.Resources>
+        <materialDesign:SnackbarMessageQueue x:Key="SnackbarMessageQueue" />
         <CollectionViewSource x:Key="SortedSchedules" Source="{Binding Trip.Schedules}">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="DateTime" />
@@ -144,6 +145,8 @@
                     <ColumnDefinition Width="3*" />
                     <ColumnDefinition Width="0.5*" />
                 </Grid.ColumnDefinitions>
+                <materialDesign:Snackbar Panel.ZIndex="999" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="9" x:Name="Snackbar" Background="#78000000" Padding="0" Height="40" MessageQueue="{StaticResource SnackbarMessageQueue}" />
+
                 <ItemsControl ItemsSource="{Binding Source={StaticResource SortedSchedules}}" Margin="0,30,0,0" Grid.Column="1">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -200,7 +203,7 @@
                     <Button Grid.Column="2" Click="AddButton_Click" Style="{StaticResource AddButton}" />
                 </StackPanel>
 
-                <dxm:MapControl Margin="5" Name="map" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Width="Auto" Grid.Column="3">
+                <dxm:MapControl Margin="0,20,0,20" Name="map" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Width="Auto" Grid.Column="3">
                     <dxm:ImageLayer>
                         <dxm:ImageLayer.DataProvider>
                             <dxm:BingMapDataProvider Kind="RoadLight" BingKey="Bobfc3eHAUPXgpeTYjms~m6tD9dbiJz0HFBraHXWR_A~AvjPgt_MJZVhNNdKhscJbncrArt9ydMHTLueaT6sDhboip1smAQSMs7436fWsrtq" />

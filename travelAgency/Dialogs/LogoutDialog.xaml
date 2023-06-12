@@ -50,8 +50,8 @@
 
         <Grid DockPanel.Dock="Bottom" Height="50">
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                <Button Content="NO" Width="80" Style="{StaticResource SaveButton}" Click="No_Click" />
-                <Button Content="YES" Width="80" Style="{StaticResource SaveButton}" Click="Yes_Click" />
+                <Button Content="No" FontSize="15" Width="80" Style="{StaticResource SaveButton}" Click="No_Click" />
+                <Button Content="Yes" FontSize="15" Width="80" Style="{StaticResource SaveButton}" Click="Yes_Click" />
             </StackPanel>
         </Grid>
 

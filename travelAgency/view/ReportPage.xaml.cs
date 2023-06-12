@@ -1,4 +1,5 @@
 ﻿using DevExpress.Xpf.Map;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -97,27 +98,37 @@ namespace travelAgency.view
                 lastMonthFilter = (month, year);
                 SelectMonthLabels(label);
                 DoFilterPerMonth(month, year);
+                if (Snackbar.MessageQueue is { } messageQueue)
+                {
+                    var message = "Report refreshed";
+                    messageQueue.Enqueue(message);
+                }
             }
         }
 
         private void DoFilterPerMonth(int month, int year)
         {
             reportCards.Clear();
-            filteredReportCards.Clear();
-            List<Arrangement> arrangements = arrangementRepository.GetAll().Where(a => a.DateTime.Month == month && a.DateTime.Year == year).ToList();
-            foreach (var arrangement in arrangements)
+            List<Trip> trips = tripRepository.GetAll();
+            foreach(Trip trip in trips)
             {
-                CreateCard(arrangement);
+                List<Arrangement> arrangements = arrangementRepository.GetAll().Where(a => a.DateTime.Month == month && a.DateTime.Year == year && a.Trip==trip).ToList();
+                int totalCount= arrangements.Sum(arrangement => arrangement.NumberOfPersons);
+                double totalPrice = arrangements.Sum(arrangements => arrangements.Price);
+                if(totalCount>0)
+                    CreateCard(trip, totalCount, totalPrice);
             }
             RefreshCards(false);
         }
 
-        private void CreateCard(Arrangement arrangement)
+        private void CreateCard(Trip trip, int totalCount, double totalPrice)
         {
             ReportCard reportCard = new ReportCard
             {
                 Margin = new Thickness(10),
-                Arrangement = arrangement
+                Trip = trip,
+                TotalCount = totalCount,
+                TotalPrice = totalPrice
             };
 
             reportCards.Add(reportCard);
@@ -146,7 +157,7 @@ namespace travelAgency.view
 
         private void ReportCard_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            DrawRoute((sender as ReportCard).Arrangement.Trip);
+            DrawRoute((sender as ReportCard).Trip);
         }
 
         private int MonthNameToNumber(String month)
