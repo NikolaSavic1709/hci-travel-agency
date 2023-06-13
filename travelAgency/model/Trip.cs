@@ -11,7 +11,7 @@ namespace travelAgency.model
         private int id;
         private string name;
         private string description;
-        private double price;
+        private double? price;
         private ObservableCollection<TripSchedule> schedules;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -47,7 +47,7 @@ namespace travelAgency.model
             }
         }
 
-        public double Price
+        public double? Price
         {
             get { return price; }
             set

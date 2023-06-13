@@ -20,6 +20,7 @@
         <KeyBinding Command="{x:Static view:CustomCommands.Quit}" Key="Q" Modifiers="Ctrl"/>
     </Window.InputBindings>
     <Window.Resources>
+        <local:MultiTextBoxValidationConverter x:Key="MultiTextBoxValidationConverter" />
         <Style x:Key="BottomButton" TargetType="Button">
             <Setter Property="Cursor" Value="Hand" />
             <Setter Property="BorderThickness" Value="0" />
@@ -46,6 +47,9 @@
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#00AF82" />
                 </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="#AA00AF82"/>
+                </Trigger>
             </Style.Triggers>
         </Style>
         <Style x:Key="QuitButton" TargetType="Button" BasedOn="{StaticResource BottomButton}">
@@ -63,8 +67,18 @@
 
         <Grid DockPanel.Dock="Bottom" Height="50">
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                <Button Content="Quit" FontSize="15" Width="80" Style="{StaticResource QuitButton}" Click="Button_Click_1"/>
-                <Button Content="Save changes" FontSize="15" Width="130" Style="{StaticResource SaveButton}" Click="Button_Click" />
+                <Button Content="Quit" FontSize="15" Width="80" Style="{StaticResource QuitButton}" Click="Button_Click"/>
+                <Button Content="Save changes" FontSize="15" Width="130" Style="{StaticResource SaveButton}"
+                        Click="Button_Click_1">
+                    <Button.IsEnabled>
+                        <MultiBinding Converter="{StaticResource MultiTextBoxValidationConverter}">
+                            <Binding ElementName="NameTxtBox" Path="(Validation.HasError)" />
+                            <Binding ElementName="DescriptionTxtBox" Path="(Validation.HasError)" />
+                            <Binding ElementName="PriceTxtBox" Path="(Validation.HasError)" />
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                    
+                </Button>
 
             </StackPanel>
         </Grid>
@@ -86,7 +100,7 @@
                  materialDesign:HintAssist.Background="#E0E0E0"   
                 VerticalContentAlignment="Center" 
                  Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" LostFocus="TextBox_LostFocus"
-                     materialDesign:ValidationAssist.OnlyShowOnFocus="True">
+                     materialDesign:ValidationAssist.OnlyShowOnFocus="True" >
                 <TextBox.Text>
                     <Binding Path="Name1" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>

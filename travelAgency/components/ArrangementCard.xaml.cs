@@ -39,7 +39,7 @@ namespace travelAgency.components
                 {
                     IsReservation = "Purchase";
                 }
-                TotalPrice = (int)Math.Round(a.NumberOfPersons * a.Trip.Price);
+                TotalPrice = (int)Math.Round((double)(a.NumberOfPersons * a.Trip.Price));
                 Trip = a.Trip;
             }
         }

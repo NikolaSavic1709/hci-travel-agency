@@ -20,8 +20,8 @@ namespace travelAgency.Dialogs
     /// </summary>
     public partial class FilterTripDialog : Window
     {
+        private List<TripCard> tripCards;
 
-        List<TripCard> tripCards;
         public FilterTripDialog(List<TripCard> tripCardss)
         {
             this.tripCards = new List<TripCard>();
@@ -34,9 +34,10 @@ namespace travelAgency.Dialogs
         }
 
         public event EventHandler<TripCardEventArgs> DialogResultEvent;
+
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
-           // DialogResultEvent?.Invoke(this, new TripCardEventArgs(tripCards));
+            // DialogResultEvent?.Invoke(this, new TripCardEventArgs(tripCards));
             Close();
         }
 
@@ -62,7 +63,7 @@ namespace travelAgency.Dialogs
             double minprice = 100000000000000;
             foreach (TripCard a in tripCards)
             {
-                double price = a.Trip.Price;
+                double price = (double)a.Trip.Price;
                 maxprice = Math.Max(price, maxprice);
                 minprice = Math.Min(price, minprice);
             }

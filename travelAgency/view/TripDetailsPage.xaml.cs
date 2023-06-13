@@ -74,7 +74,7 @@ namespace travelAgency.view
             TripSchedule tripSchedule = (TripSchedule)removeButton.DataContext;
             if (ViewModel != null)
             {
-                if (ViewModel.Trip.Schedules.Count > 0)
+                if (ViewModel.Trip.Schedules.Count > 1)
                 {
                     ViewModel.Trip.Schedules.Remove(tripSchedule);
                     Trip.Schedules.Remove(tripSchedule);
