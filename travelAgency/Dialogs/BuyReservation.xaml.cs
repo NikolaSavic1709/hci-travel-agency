@@ -46,7 +46,7 @@ public partial class BuyReservation : Window
         }
         Text = Text + " for: " + Arrangement.Trip.Name;
         this.DataContext = this;
-        Arrangement.Price = Arrangement.Trip.Price * BuyCount;
+        Arrangement.Price = (double)(Arrangement.Trip.Price * BuyCount);
         Arrangement.NumberOfPersons = BuyCount;
         PriceLabel.Content = Arrangement.Price.ToString();
     }
@@ -70,7 +70,7 @@ public partial class BuyReservation : Window
         }
         Count = BuyCount.ToString();
         CountLabel.Content = Count;
-        Arrangement.Price = Arrangement.Trip.Price * BuyCount;
+        Arrangement.Price = (double)(Arrangement.Trip.Price * BuyCount);
         Arrangement.NumberOfPersons = BuyCount;
         PriceLabel.Content = Arrangement.Price.ToString();
     }
@@ -81,7 +81,7 @@ public partial class BuyReservation : Window
         Count = BuyCount.ToString();
         CountLabel.Content = Count;
         Arrangement.NumberOfPersons = BuyCount;
-        Arrangement.Price = Arrangement.Trip.Price * BuyCount;
+        Arrangement.Price = (double)(Arrangement.Trip.Price * BuyCount);
 
         PriceLabel.Content = Arrangement.Price.ToString();
     }
@@ -95,6 +95,7 @@ public partial class BuyReservation : Window
         (new Confirmation(true)).ShowDialog();
         this.Close();
     }
+
     private void Cancel_Click(object sender, RoutedEventArgs e)
     {
         this.Close();

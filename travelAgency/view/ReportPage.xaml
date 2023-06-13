@@ -92,7 +92,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Button x:Name="SearchButton"
-                    Width="24"
+                    Width="24" ToolTip="Search"
                     Height="24"
                     Command="{Binding SearchCommand}"
                     CommandParameter="{Binding ElementName=SearchBox, Path=Text}"
@@ -101,7 +101,7 @@
                     </Button>
 
                     <TextBox x:Name="SearchBox"
-                     Grid.Column="1"
+                     Grid.Column="1" MaxLength="50" materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
                      MinWidth="200"
                      Margin="5,0,0,0"
                      VerticalAlignment="Center"
@@ -128,11 +128,11 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <Button Grid.Column="0" Click="DecreaseButton_Click" Style="{StaticResource IncDecButton}">
+                    <Button Grid.Column="0" Click="DecreaseButton_Click" Style="{StaticResource IncDecButton}" ToolTip="Previous year">
                         <materialDesign:PackIcon Kind="Minus" Height="20" Width="20" Foreground="Black" />
                     </Button>
                     <TextBox BorderThickness="0" Name="YearTb" Grid.Column="1" Text="2023" Width="150" Height="50" VerticalContentAlignment="Center" FontSize="15" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" PreviewTextInput="NumericTextBox_PreviewTextInput" />
-                    <Button Grid.Column="2" Click="IncreaseButton_Click" Style="{StaticResource IncDecButton}">
+                    <Button Grid.Column="2" Click="IncreaseButton_Click" Style="{StaticResource IncDecButton}" ToolTip="Next year">
                         <materialDesign:PackIcon Kind="Plus" Height="20" Width="20" Foreground="Black" />
                     </Button>
                 </Grid>

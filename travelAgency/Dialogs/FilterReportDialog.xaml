@@ -9,6 +9,7 @@
         mc:Ignorable="d"
         xmlns:view="clr-namespace:travelAgency.view"
          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Icon="{StaticResource AppIcon}"
         Title="Report filter" ResizeMode="NoResize" Height="400" Width="600" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <controls:DoubleToIntConverter x:Key="DoubleToIntConverter" />

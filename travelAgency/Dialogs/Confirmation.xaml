@@ -6,6 +6,8 @@
         xmlns:local="clr-namespace:travelAgency.view"
         mc:Ignorable="d"
         xmlns:view="clr-namespace:travelAgency.view"
+        Icon="{StaticResource AppIcon}"
+        WindowStartupLocation="CenterScreen"
         Title="Confirmation" Height="150" Width="300" Name="ConfirmationWindow">
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static view:CustomCommands.Save}" Executed="Ok_Executed"/>

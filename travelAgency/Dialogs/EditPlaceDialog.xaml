@@ -4,14 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:travelAgency.Dialogs"
+        xmlns:localView="clr-namespace:travelAgency.view"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:validators="clr-namespace:travelAgency.validators"
         mc:Ignorable="d"
+        Icon="{StaticResource AppIcon}"
         xmlns:view="clr-namespace:travelAgency.view"
         Title="Edit place"  ResizeMode="NoResize" Height="400" Width="600" WindowStartupLocation="CenterScreen"
        >
 
     <Window.Resources>
+        <localView:MultiTextBoxValidationConverter x:Key="MultiTextBoxValidationConverter" />
         <local:VisibilityToGridHeightConverter x:Key="VisibilityToGridHeightConverter" />
         <Style x:Key="BottomButton" TargetType="Button">
             <Setter Property="Cursor" Value="Hand"/>
@@ -38,6 +41,9 @@
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#00AF82" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="#AA00AF82"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -69,7 +75,15 @@
             <Grid DockPanel.Dock="Bottom" Height="50">
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                     <Button Content="Quit" FontSize="15" Width="80" Style="{StaticResource QuitButton}" Click="Cancel_Click"/>
-                    <Button Content="Save changes" FontSize="15" Width="130" Style="{StaticResource SaveButton}" Click="Update_Click" />
+                    <Button Content="Save changes" FontSize="15" Width="130" Style="{StaticResource SaveButton}" Click="Update_Click" >
+                        <Button.IsEnabled>
+                            <MultiBinding Converter="{StaticResource MultiTextBoxValidationConverter}">
+                                <Binding ElementName="NameTxtBox" Path="(Validation.HasError)" />
+                                <Binding ElementName="DescriptionTxtBox" Path="(Validation.HasError)" />
+                                <Binding ElementName="LocationTxtBox" Path="(Validation.HasError)" />
+                            </MultiBinding>
+                        </Button.IsEnabled>
+                    </Button>
 
                 </StackPanel>
             </Grid>
@@ -98,14 +112,15 @@
                     <RowDefinition Height="1.5*" MinHeight="100"/>
                 </Grid.RowDefinitions>
 
-                <TextBox Grid.Row="0" Grid.ColumnSpan="5" Background="#ececec" FontSize="16" Name="NameTxtBox"
+                <TextBox Grid.Row="0" Grid.ColumnSpan="5" Background="#ececec" FontSize="16" Name="NameTxtBox"  MaxLength="50" materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
                   Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Title"
                  materialDesign:HintAssist.Background="#00000000" materialDesign:HintAssist.FloatingOffset="0,-25"   
                  Padding="7,0,5,0" VerticalContentAlignment="Center" 
                   Margin="60,40,60,0" Height="40" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                     BorderThickness="1">
+                     BorderThickness="1" materialDesign:ValidationAssist.OnlyShowOnFocus="True" 
+                 LostFocus="TextBox_LostFocus">
                     <TextBox.Text>
-                        <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                        <Binding Path="Name1" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
                                 <validators:NotEmptyValidationRule/>
                             </Binding.ValidationRules>
@@ -113,12 +128,13 @@
                     </TextBox.Text>
                 </TextBox>
 
-                <TextBox Height="80" Width="Auto" Grid.Row="1" Grid.ColumnSpan="5" AcceptsReturn="True" TextWrapping="Wrap" Name="LocationTxtBox"
+                <TextBox Height="80" Width="Auto" Grid.Row="1" Grid.ColumnSpan="5" AcceptsReturn="True" TextWrapping="Wrap" Name="LocationTxtBox"  MaxLength="1000" materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
                        Background="#ececec" FontSize="16"  materialDesign:HintAssist.Hint="Location" Style="{StaticResource MaterialDesignOutlinedTextBox}"
                  materialDesign:HintAssist.Background="#00000000" Padding="7,0,5,0" VerticalContentAlignment="Center" 
-                  Margin="60,0,60,0"  BorderThickness="1">
+                  Margin="60,20,60,0"  materialDesign:ValidationAssist.OnlyShowOnFocus="True" 
+                 LostFocus="TextBox_LostFocus" BorderThickness="1">
                     <TextBox.Text>
-                        <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                        <Binding Path="Location" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
                                 <validators:NotEmptyValidationRule/>
                             </Binding.ValidationRules>
@@ -126,12 +142,13 @@
                     </TextBox.Text>
                 </TextBox>
 
-                <TextBox Height="80" Width="Auto" Grid.Row="2" Grid.ColumnSpan="5" AcceptsReturn="True" TextWrapping="Wrap" Name="DescriptionTxtBox"
+                <TextBox Height="80" Width="Auto" Grid.Row="2" Grid.ColumnSpan="5" AcceptsReturn="True" TextWrapping="Wrap" Name="DescriptionTxtBox"  MaxLength="1000" materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
                        Background="#ececec" FontSize="16"  materialDesign:HintAssist.Hint="Description" Style="{StaticResource MaterialDesignOutlinedTextBox}"
                  materialDesign:HintAssist.Background="#00000000" Padding="7,0,5,0" VerticalContentAlignment="Center" 
-                  Margin="60,0,60,0" BorderThickness="1">
+                  Margin="60,0,60,0" BorderThickness="1"  materialDesign:ValidationAssist.OnlyShowOnFocus="True" 
+                 LostFocus="TextBox_LostFocus">
                     <TextBox.Text>
-                        <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                        <Binding Path="Description" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
                                 <validators:NotEmptyValidationRule/>
                             </Binding.ValidationRules>

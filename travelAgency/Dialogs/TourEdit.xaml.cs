@@ -1,4 +1,8 @@
-﻿using System;
+﻿using DevExpress.Xpf.Editors.Helpers;
+using DevExpress.XtraRichEdit.Model;
+using System;
+using System.Globalization;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,58 +15,59 @@ using travelAgency.Dialogs;
 using travelAgency.model;
 using travelAgency.repository;
 
-namespace travelAgency.view;
-
-/// <summary>
-/// Interaction logic for Window1.xaml
-/// </summary>
-public partial class TourEdit : Window
+namespace travelAgency.view
 {
-    private static readonly Regex _regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
-
-    TripRepository tripRepository;
-    private Trip trip;
-    private static bool IsTextAllowed(string text)
+    /// <summary>
+    /// Interaction logic for Window1.xaml
+    /// </summary>
+    public partial class TourEdit : Window
     {
-        return !_regex.IsMatch(text);
-    }
+        private static readonly Regex _regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
 
-    private void TextBoxPasting(object sender, DataObjectPastingEventArgs e)
-    {
-        if (e.DataObject.GetDataPresent(typeof(String)))
+        TripRepository tripRepository;
+        private Trip trip;
+        private static bool IsTextAllowed(string text)
         {
-            String text = (String)e.DataObject.GetData(typeof(String));
-            if (!IsTextAllowed(text))
+            return !_regex.IsMatch(text);
+        }
+
+        private void TextBoxPasting(object sender, DataObjectPastingEventArgs e)
+        {
+            if (e.DataObject.GetDataPresent(typeof(String)))
+            {
+                String text = (String)e.DataObject.GetData(typeof(String));
+                if (!IsTextAllowed(text))
+                {
+                    e.CancelCommand();
+                }
+            }
+            else
             {
                 e.CancelCommand();
             }
         }
-        else
+        public string Name1 { get; set; }
+        public string Description { get; set; }
+        public string Price { get; set; }
+        public TourEdit(Trip? trip, TripRepository tripRepository)
         {
-            e.CancelCommand();
+            InitializeComponent();
+            this.tripRepository = tripRepository;
+            DataContext = this;
+            if (trip != null)
+            {
+                this.trip = trip;
+                Name1 = trip.Name;
+                Description = trip.Description;
+                Price = trip.Price.ToString();
+            }
+            NameTxtBox.Focus();
         }
-    }
-    public string Name1 { get; set; }
-    public string Description { get; set; }
-    public string Price { get; set; }
-    public TourEdit(Trip? trip, TripRepository tripRepository)
-    {
-        InitializeComponent();
-        this.tripRepository = tripRepository;
-        DataContext = this;
-        if (trip!=null)
-        {
-            this.trip = trip;
-            Name1=trip.Name;
-            Description = trip.Description;
-            Price = trip.Price.ToString();
-        }
-    }
 
-    private void Price_PreviewTextInput(object sender, TextCompositionEventArgs e)
-    {
-        e.Handled = !IsTextAllowed(e.Text);
-    }
+        private void Price_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !IsTextAllowed(e.Text);
+        }
 
     private void Button_Click(object sender, RoutedEventArgs e)
     {
@@ -96,12 +101,40 @@ public partial class TourEdit : Window
     }
 
 
-    private void TextBox_LostFocus(object sender, RoutedEventArgs e)
-    {
-        TextBox textBox = (TextBox)sender;
-        BindingExpression bindingExpr = textBox.GetBindingExpression(TextBox.TextProperty);
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            BindingExpression bindingExpr = textBox.GetBindingExpression(TextBox.TextProperty);
 
-        // Manually trigger the validation
-        bindingExpr.UpdateSource();
+            // Manually trigger the validation
+            bindingExpr.UpdateSource();
+        }
+    }
+
+    public class MultiTextBoxValidationConverter : IMultiValueConverter
+    {
+        int Counter { get; set; }
+        public MultiTextBoxValidationConverter()
+        {
+            Counter = 0;
+        }
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            //if (Counter == 0) {
+            //    Counter = 1;
+            //    return false;
+                
+            //}
+            bool hasErrors = values.OfType<bool>().Any(value => value);
+
+            return !hasErrors;
+        }
+
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotSupportedException();
+        }
     }
 }
+

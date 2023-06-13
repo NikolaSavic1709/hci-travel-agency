@@ -7,11 +7,14 @@
         xmlns:validators="clr-namespace:travelAgency.validators"
         xmlns:view="clr-namespace:travelAgency.view"
         xmlns:local="clr-namespace:travelAgency.Dialogs"
+        xmlns:localView="clr-namespace:travelAgency.view"
         xmlns:components="clr-namespace:travelAgency.components"
         xmlns:virtualCollection="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel" xmlns:dxm="http://schemas.devexpress.com/winfx/2008/xaml/map"
         mc:Ignorable="d"
+        Icon="{StaticResource AppIcon}"
         Title="Create new place"  ResizeMode="NoResize" Height="800" Width="600" WindowStartupLocation="CenterScreen">
     <Window.Resources>
+        <localView:MultiTextBoxValidationConverter x:Key="MultiTextBoxValidationConverter" />
         <virtualCollection:VirtualizingWrapPanel x:Key="VirtualizingWrapPanel" />
         <local:VisibilityToGridHeightConverter x:Key="VisibilityToGridHeightConverter" />
         <Style x:Key="RoundedButtonStyle" TargetType="Button">
@@ -54,6 +57,9 @@
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#00AF82" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="#AA00AF82"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -126,7 +132,16 @@
         <Grid DockPanel.Dock="Bottom" Height="50">
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                 <Button Content="Quit" FontSize="15" Width="80" Style="{StaticResource QuitButton}" Click="Button_Click" />
-                <Button Content="Save changes" FontSize="15" Width="130" Style="{StaticResource SaveButton}" Click="Save_Click" />
+                <Button Content="Save changes" Name="SaveBtn" FontSize="15" Width="130" Style="{StaticResource SaveButton}" Click="Save_Click" >
+                    <Button.IsEnabled>
+                        <MultiBinding Converter="{StaticResource MultiTextBoxValidationConverter}">
+                            <Binding ElementName="NameTxtBox" Path="(Validation.HasError)" />
+                            <Binding ElementName="DescriptionTxtBox" Path="(Validation.HasError)" />
+                            <Binding ElementName="LocationTxtBox" Path="(Validation.HasError)" />
+                            <Binding ElementName="OutlinedComboBox" Path="(Validation.HasError)" />
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
             </StackPanel>
         </Grid>
         <ScrollViewer>
@@ -150,23 +165,24 @@
                     <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="1.5*" MinHeight="100" />
-                    <RowDefinition Height="1*" MinHeight="70" />
-                    <RowDefinition Height="1.5*" MinHeight="100" />
-                    <RowDefinition Height="1.5*" MinHeight="100" />
+                    <RowDefinition Height="1.5*" MinHeight="120" />
+                    <RowDefinition Height="1*" MinHeight="90" />
+                    <RowDefinition Height="1.5*" MinHeight="120" />
+                    <RowDefinition Height="1.5*" MinHeight="120" />
                     <RowDefinition Height="0.5*" MinHeight="20" />
                     <RowDefinition Height="{Binding ElementName=AmenitiesFragment, Path=Visibility, Converter={StaticResource VisibilityToGridHeightConverter}}" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <TextBox Grid.Row="0" Grid.ColumnSpan="5" Background="#ececec" FontSize="16" Name="NameTxtBox"
+                <TextBox Grid.Row="0" Grid.ColumnSpan="5" Background="#ececec" FontSize="16" Name="NameTxtBox"  MaxLength="50" materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
                   Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Title"
                  materialDesign:HintAssist.Background="#00000000" materialDesign:HintAssist.FloatingOffset="0,-25"
-                 Padding="7,0,5,0" VerticalContentAlignment="Center"
+                 Padding="7,0,5,0" VerticalContentAlignment="Center"  materialDesign:ValidationAssist.OnlyShowOnFocus="True" 
+                 LostFocus="TextBox_LostFocus"
                   Margin="60,40,60,0" Height="40" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                       BorderThickness="1">
                     <TextBox.Text>
-                        <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                        <Binding Path="Name1" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
                                 <validators:NotEmptyValidationRule/>
                             </Binding.ValidationRules>
@@ -192,25 +208,31 @@
                         </Binding>
                     </ComboBox.SelectedItem>
                 </ComboBox>
-                
-                <TextBox Height="80" Width="Auto" Grid.Row="2" Grid.ColumnSpan="5" AcceptsReturn="True" TextWrapping="Wrap" Name="LocationTxtBox"
+                <!--<TextBox Grid.Row="0" Grid.ColumnSpan="5" Background="#ececec" FontSize="16" Name="NameTxtBox"
+                  Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Title"
+                 materialDesign:HintAssist.Background="#00000000" materialDesign:HintAssist.FloatingOffset="0,-25"
+                 Padding="7,0,5,0" VerticalContentAlignment="Center" Margin="60,40,60,0" Height="40" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                     BorderBrush="#55000000" BorderThickness="1" />-->
+                <TextBox Height="80" Width="Auto" Grid.Row="2" Grid.ColumnSpan="5" AcceptsReturn="True" TextWrapping="Wrap" Name="LocationTxtBox"  MaxLength="1000" materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
                        Background="#ececec" FontSize="16"  materialDesign:HintAssist.Hint="Location" Style="{StaticResource MaterialDesignOutlinedTextBox}"
                  materialDesign:HintAssist.Background="#00000000" Padding="7,0,5,0" VerticalContentAlignment="Center"
-                  Margin="60,0,60,0"  BorderThickness="1" >
+                  Margin="60,0,60,0"  BorderThickness="1"  materialDesign:ValidationAssist.OnlyShowOnFocus="True" 
+                 LostFocus="TextBox_LostFocus">
                     <TextBox.Text>
-                        <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                        <Binding Path="Location" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
                                 <validators:NotEmptyValidationRule/>
                             </Binding.ValidationRules>
                         </Binding>
                     </TextBox.Text>
                 </TextBox>
-                <TextBox Height="80" Width="Auto" Grid.Row="3" Grid.ColumnSpan="5" AcceptsReturn="True" TextWrapping="Wrap" Name="DescriptionTxtBox"
+                <TextBox Height="80" Width="Auto" Grid.Row="3" Grid.ColumnSpan="5" AcceptsReturn="True" TextWrapping="Wrap" Name="DescriptionTxtBox"  MaxLength="1000" materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
                        Background="#ececec" FontSize="16"  materialDesign:HintAssist.Hint="Description" Style="{StaticResource MaterialDesignOutlinedTextBox}"
                  materialDesign:HintAssist.Background="#00000000" Padding="7,0,5,0" VerticalContentAlignment="Center"
-                  Margin="60,0,60,0"  BorderThickness="1" >
+                  Margin="60,0,60,0"  BorderThickness="1"  materialDesign:ValidationAssist.OnlyShowOnFocus="True" 
+                 LostFocus="TextBox_LostFocus" >
                     <TextBox.Text>
-                        <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                        <Binding Path="Description" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
                                 <validators:NotEmptyValidationRule/>
                             </Binding.ValidationRules>
