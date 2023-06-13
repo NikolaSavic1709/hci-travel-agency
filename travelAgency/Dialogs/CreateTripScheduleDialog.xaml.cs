@@ -156,26 +156,37 @@ namespace travelAgency.Dialogs
 
             if (selectedPlace != null)
             {
-                DateTime? date = DatePicker.SelectedDate.Value;
-                DateTime? time = TimePicker.SelectedTime.Value;
-
-                if (TripSchedule != null)
+                
+                if(DatePicker.SelectedDate != null && TimePicker.SelectedTime != null)
                 {
-                    TripSchedule.DateTime = new DateTime(date.Value.Year, date.Value.Month, date.Value.Day, time.Value.Hour, time.Value.Minute, 0);
-                    Trip.Schedules.Remove(TripSchedule);
-                    Trip.Schedules.Add(TripSchedule);
+                    DateTime? date = DatePicker.SelectedDate.Value;
+                    DateTime? time = TimePicker.SelectedTime.Value;
+                    if (TripSchedule != null)
+                    {
+                        TripSchedule.DateTime = new DateTime(date.Value.Year, date.Value.Month, date.Value.Day, time.Value.Hour, time.Value.Minute, 0);
+                        Trip.Schedules.Remove(TripSchedule);
+                        Trip.Schedules.Add(TripSchedule);
+                    }
+                    else
+                    {
+                        TripSchedule tripSchedule = new TripSchedule();
+                        tripSchedule.Place = selectedPlace;
+
+                        tripSchedule.DateTime = new DateTime(date.Value.Year, date.Value.Month, date.Value.Day, time.Value.Hour, time.Value.Minute, 0);
+                        Trip.Schedules.Add(tripSchedule);
+                    }
+                    DialogResultEvent?.Invoke(this, new DialogResultEventArgs(true));
+                    tripRepository.Save();
+                    Close();
                 }
                 else
                 {
-                    TripSchedule tripSchedule = new TripSchedule();
-                    tripSchedule.Place = selectedPlace;
-
-                    tripSchedule.DateTime = new DateTime(date.Value.Year, date.Value.Month, date.Value.Day, time.Value.Hour, time.Value.Minute, 0);
-                    Trip.Schedules.Add(tripSchedule);
+                    if (Snackbar.MessageQueue is { } messageQueue)
+                    {
+                        var message = "Choose date and time";
+                        messageQueue.Enqueue(message);
+                    }
                 }
-                DialogResultEvent?.Invoke(this, new DialogResultEventArgs(true));
-                tripRepository.Save();
-                Close();
             }
             else
             {

@@ -37,7 +37,7 @@ namespace travelAgency.Dialogs
             Name1 = place.Name;
             Location = place.Location;
             Description = place.Description;
-            NameTxtBox.Focus();
+            //NameTxtBox.Focus();
         }
 
         public event EventHandler<DialogResultEventArgs> DialogResultEvent;

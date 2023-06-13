@@ -61,7 +61,7 @@ namespace travelAgency.view
                 Description = trip.Description;
                 Price = trip.Price.ToString();
             }
-            NameTxtBox.Focus();
+            //NameTxtBox.Focus();
         }
 
         private void Price_PreviewTextInput(object sender, TextCompositionEventArgs e)

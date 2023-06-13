@@ -104,48 +104,59 @@ namespace travelAgency.Dialogs
             {
                 TripSchedule tripSchedule = new TripSchedule();
                 tripSchedule.Place = selectedPlace;
-                DateTime? date = DatePicker.SelectedDate.Value;
-                DateTime? time = TimePicker.SelectedTime.Value;
-
-                tripSchedule.DateTime = new DateTime(date.Value.Year, date.Value.Month, date.Value.Day, time.Value.Hour, time.Value.Minute, 0);
-                ViewModel.Trip.Schedules.Add(tripSchedule);
-
-                BindingOperations.ClearBinding(PlaceTextBox, TextBox.TextProperty);
-                BindingOperations.ClearBinding(DatePicker, DatePicker.SelectedDateProperty);
-                BindingOperations.ClearBinding(TimePicker, TimePicker.SelectedTimeProperty);
-
-
-                ViewModel.PlaceName = string.Empty;
-                ViewModel.Date = null;
-                ViewModel.Time = null;
-
-
-                BindingOperations.SetBinding(PlaceTextBox, TextBox.TextProperty, new Binding
+                
+                if(DatePicker.SelectedDate != null && TimePicker.SelectedTime != null)
                 {
-                    Path = new PropertyPath("PlaceName"),
-                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
-                    ValidationRules = { new NotEmptyValidationRule() }
-                });
+                    DateTime? date = DatePicker.SelectedDate.Value;
+                    DateTime? time = TimePicker.SelectedTime.Value;
+                    tripSchedule.DateTime = new DateTime(date.Value.Year, date.Value.Month, date.Value.Day, time.Value.Hour, time.Value.Minute, 0);
+                    ViewModel.Trip.Schedules.Add(tripSchedule);
 
-                BindingOperations.SetBinding(DatePicker, DatePicker.SelectedDateProperty, new Binding
+                    BindingOperations.ClearBinding(PlaceTextBox, TextBox.TextProperty);
+                    BindingOperations.ClearBinding(DatePicker, DatePicker.SelectedDateProperty);
+                    BindingOperations.ClearBinding(TimePicker, TimePicker.SelectedTimeProperty);
+
+
+                    ViewModel.PlaceName = string.Empty;
+                    ViewModel.Date = null;
+                    ViewModel.Time = null;
+
+
+                    BindingOperations.SetBinding(PlaceTextBox, TextBox.TextProperty, new Binding
+                    {
+                        Path = new PropertyPath("PlaceName"),
+                        UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                        ValidationRules = { new NotEmptyValidationRule() }
+                    });
+
+                    BindingOperations.SetBinding(DatePicker, DatePicker.SelectedDateProperty, new Binding
+                    {
+                        Path = new PropertyPath("Date"),
+                        UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                        ValidationRules = { new NotEmptyValidationRule() }
+                    });
+
+                    BindingOperations.SetBinding(TimePicker, TimePicker.SelectedTimeProperty, new Binding
+                    {
+                        Path = new PropertyPath("Time"),
+                        UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                        ValidationRules = { new NotEmptyValidationRule() }
+                    });
+
+
+                    if (Snackbar.MessageQueue is { } messageQueue)
+                    {
+                        var message = "Schedule added successfully";
+                        messageQueue.Enqueue(message);
+                    }
+                }
+                else
                 {
-                    Path = new PropertyPath("Date"),
-                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
-                    ValidationRules = { new NotEmptyValidationRule() }
-                });
-
-                BindingOperations.SetBinding(TimePicker, TimePicker.SelectedTimeProperty, new Binding
-                {
-                    Path = new PropertyPath("Time"),
-                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
-                    ValidationRules = { new NotEmptyValidationRule() }
-                });
-
-
-                if (Snackbar.MessageQueue is { } messageQueue)
-                {
-                    var message = "Schedule added successfully";
-                    messageQueue.Enqueue(message);
+                    if (Snackbar.MessageQueue is { } messageQueue)
+                    {
+                        var message = "Choose date and time";
+                        messageQueue.Enqueue(message);
+                    }
                 }
             }
             else
