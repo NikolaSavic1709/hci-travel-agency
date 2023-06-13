@@ -53,6 +53,13 @@ public partial class StayEatPage : Page
         }
 
         RefreshCards(false);
+        Loaded += Page_Loaded;
+    }
+
+    private void Page_Loaded(object sender, RoutedEventArgs e)
+    {
+        FocusManager.SetFocusedElement(this, AddBtn);
+        Keyboard.Focus(this);
     }
     private void CreateCard(Place place)
     {
@@ -126,6 +133,7 @@ public partial class StayEatPage : Page
         
         StayEatCard card = (StayEatCard)sender;
         cards.Children.Remove(card);
+        RemoveIfExists(card);
         if (place is Restaurant)
             restaurantRepository.Delete((Restaurant)place);
         else
@@ -135,6 +143,20 @@ public partial class StayEatPage : Page
             var message = "Place deleted successfully";
             messageQueue.Enqueue(message);
         }
+
+    }
+
+    public void RemoveIfExists(StayEatCard card)
+    {
+        if (stayeatCards.Contains(card))
+        {
+            stayeatCards.Remove(card);
+        }
+        if (filteredStayeatCards != null)
+            if (filteredStayeatCards.Contains(card))
+            {
+                filteredStayeatCards.Remove(card);
+            }
 
     }
     private void Search_OnKeyDown(object sender, KeyEventArgs e)
@@ -167,5 +189,17 @@ public partial class StayEatPage : Page
         CreatePlaceDialog window = new CreatePlaceDialog(false);
         window.NewStayEat += StayEatCard_NewStayEat;
         window.ShowDialog();
+    }
+
+    private void NewCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+    {
+        CreatePlaceDialog window = new CreatePlaceDialog(false);
+        window.NewStayEat += StayEatCard_NewStayEat;
+        window.ShowDialog();
+    }
+
+    private void SearchCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+    {
+        SearchBox.Focus();
     }
 }

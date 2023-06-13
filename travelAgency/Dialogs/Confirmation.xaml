@@ -5,7 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:travelAgency.view"
         mc:Ignorable="d"
+        xmlns:view="clr-namespace:travelAgency.view"
+        Icon="{StaticResource AppIcon}"
+        WindowStartupLocation="CenterScreen"
         Title="Confirmation" Height="150" Width="300" Name="ConfirmationWindow">
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static view:CustomCommands.Save}" Executed="Ok_Executed"/>
+    </Window.CommandBindings>
+
+    <Window.InputBindings>
+        <KeyBinding Command="{x:Static view:CustomCommands.Save}" Key="S" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static view:CustomCommands.Save}" Key="Enter"/>
+        <KeyBinding Command="{x:Static view:CustomCommands.Save}" Key="Q" Modifiers="Ctrl"/>
+    </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />

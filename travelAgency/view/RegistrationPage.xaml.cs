@@ -34,6 +34,13 @@ namespace travelAgency.view
             Email = "";
             //PhoneNumber = "";
             Error = "";
+            Loaded += Page_Loaded;
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            FocusManager.SetFocusedElement(this, NameTxtBox);
+            Keyboard.Focus(this);
         }
 
         public string Error { get; set; }
@@ -265,6 +272,11 @@ namespace travelAgency.view
         public event EventHandler ToLoginClicked;
 
         private void To_Login(object sender, MouseButtonEventArgs e)
+        {
+            ToLoginClicked?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void ToLogin_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             ToLoginClicked?.Invoke(this, EventArgs.Empty);
         }

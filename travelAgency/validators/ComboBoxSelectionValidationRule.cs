@@ -7,12 +7,13 @@ namespace travelAgency.validators
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-            if (value is ComboBox comboBox && comboBox.SelectedItem == null)
+            if (value == null)
             {
                 return new ValidationResult(false, "Item selection is required.");
             }
 
             return ValidationResult.ValidResult;
         }
+
     }
 }

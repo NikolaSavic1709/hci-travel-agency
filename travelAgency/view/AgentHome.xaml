@@ -133,8 +133,24 @@
         </Style>
     </Window.Resources>
     <Window.CommandBindings>
-        <CommandBinding Command="ApplicationCommands.Help" Executed="CommandBinding_Executed" />
+        <CommandBinding Command="ApplicationCommands.Help" Executed="CommandBinding_Executed"/>
+        <CommandBinding Command="{x:Static local:CustomCommands.Home}" Executed="ToHome_Executed"/>
+        <CommandBinding Command="{x:Static local:CustomCommands.Places}" Executed="ToPlaces_Executed"/>
+        <CommandBinding Command="{x:Static local:CustomCommands.StayEat}" Executed="ToStayEat_Executed"/>
+        <CommandBinding Command="{x:Static local:CustomCommands.Report}" Executed="ToReport_Executed"/>
+        <CommandBinding Command="{x:Static local:CustomCommands.History}" Executed="ToHistory_Executed"/>
+        <CommandBinding Command="{x:Static local:CustomCommands.Logout}" Executed="Logout_Executed"/>
     </Window.CommandBindings>
+
+    <Window.InputBindings>
+        <KeyBinding Command="{x:Static local:CustomCommands.Home}" Key="D1" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static local:CustomCommands.Places}" Key="D2" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static local:CustomCommands.StayEat}" Key="D3" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static local:CustomCommands.Report}" Key="D4" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static local:CustomCommands.History}" Key="D5" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static local:CustomCommands.Logout}" Key="L" Modifiers="Ctrl"/>
+    </Window.InputBindings>
+    
     <DockPanel>
 
         <Grid Name="Navbar" Background="#009882" Height="50" DockPanel.Dock="Top">
@@ -152,7 +168,7 @@
                 <controls:NavbarButton x:Name="HistoryButton" Style="{StaticResource RightNavbarButton}" Content="HISTORY" Click="NavbarButton_Click" />
             </StackPanel>
             <StackPanel HorizontalAlignment="Center" Grid.Column="2" Orientation="Horizontal">
-                <controls:NavbarButton Style="{StaticResource SingleNavbarButton}" Width="40" Margin="0,0,10,0" Command="ApplicationCommands.Help">
+                <controls:NavbarButton Style="{StaticResource SingleNavbarButton}" Width="40" Margin="0,0,10,0" Command="ApplicationCommands.Help" ToolTip="Help">
                     <materialDesign:PackIcon Kind="QuestionMark" Height="30" Width="30" />
                 </controls:NavbarButton>
                 <controls:NavbarButton Style="{StaticResource SingleNavbarButton}" Click="LogoutButton_Click" Content="LOG OUT">

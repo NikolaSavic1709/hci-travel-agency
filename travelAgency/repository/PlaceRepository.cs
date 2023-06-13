@@ -19,16 +19,19 @@ namespace travelAgency.repository
 
         public Place GetById(int id)
         {
-            return dbContext.Places.FirstOrDefault(u => u.Id == id);
+            return dbContext.Places.FirstOrDefault(u => u.Id == id && !u.IsDeleted);
         }
 
         public List<Place> GetAll()
         {
-            return dbContext.Places.ToList();
+            return dbContext.Places
+                 .Where(t => !t.IsDeleted)
+                 .ToList();
         }
 
         public void Add(Place place)
         {
+            place.IsDeleted = false;
             dbContext.Places.Add(place);
             dbContext.SaveChanges();
         }
@@ -41,7 +44,8 @@ namespace travelAgency.repository
 
         public void Delete(Place place)
         {
-            dbContext.Places.Remove(place);
+            place.IsDeleted = true;
+            dbContext.Places.Update(place);
             dbContext.SaveChanges();
         }
         public void Save()

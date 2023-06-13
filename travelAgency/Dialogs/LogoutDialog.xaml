@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:travelAgency.Dialogs"
+        xmlns:view="clr-namespace:travelAgency.view"
         mc:Ignorable="d"  WindowStartupLocation="CenterScreen"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
          ResizeMode="NoResize" Height="200" Width="400" Icon="{StaticResource AppIcon}"
@@ -46,6 +47,16 @@
             </Style.Triggers>
         </Style>
     </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static view:CustomCommands.Save}" Executed="Yes_Executed"/>
+        <CommandBinding Command="{x:Static view:CustomCommands.Quit}" Executed="No_Executed"/>
+    </Window.CommandBindings>
+
+    <Window.InputBindings>
+        <KeyBinding Command="{x:Static view:CustomCommands.Save}" Key="S" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static view:CustomCommands.Save}" Key="Enter"/>
+        <KeyBinding Command="{x:Static view:CustomCommands.Quit}" Key="Q" Modifiers="Ctrl"/>
+    </Window.InputBindings>
     <DockPanel>
 
         <Grid DockPanel.Dock="Bottom" Height="50">

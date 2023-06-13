@@ -28,29 +28,34 @@ namespace travelAgency.Dialogs
         private MapPushpin mapItem;
         private double lat;
         private double lng;
-        public ComboBoxItem SelectedItemProperty { get; set; }
+
+        public string Name1 { get; set; }
+        public string Description { get; set; }
+        public string Location { get; set; }
+        public string? SelectedItemProperty { get; set; }
+
         public CreatePlaceDialog(bool createPlace)
         {
             InitializeComponent();
             SelectedItemProperty = null;
+
             dbContext = new TravelAgencyContext();
             attractionRepository = new AttractionRepository(dbContext);
             stayRepository = new StayRepository(dbContext);
             restaurantRepository = new RestaurantRepository(dbContext);
             if (createPlace)
             {
-                
                 OutlinedComboBox.SelectedIndex = 0;
-                SelectedItemProperty = (ComboBoxItem?)OutlinedComboBox.SelectedItem;
+                SelectedItemProperty = ((ComboBoxItem)OutlinedComboBox.SelectedItem).Content.ToString();
                 OutlinedComboBox.IsEnabled = false;
             }
             else
             {
                 OutlinedComboBox.Items.RemoveAt(0);
             }
-
             DataContext = this;
             SetAmenities();
+            NameTxtBox.Focus();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -74,8 +79,13 @@ namespace travelAgency.Dialogs
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            String selectedOption = ((ComboBoxItem)OutlinedComboBox.SelectedItem).Content.ToString();
-            if (selectedOption == "Attraction")
+            Save();
+        }
+
+        public void Save()
+        {
+            String selectedOption = OutlinedComboBox.SelectedItem as string;
+            if (selectedOption.Contains("Attraction"))
             {
                 Attraction place = new Attraction();
                 place.Name = NameTxtBox.Text;
@@ -86,7 +96,7 @@ namespace travelAgency.Dialogs
                 attractionRepository.Add(place);
                 NewAttraction?.Invoke(this, new ToAttractionEventArgs((Attraction)place));
             }
-            else if (selectedOption == "Accomodation")
+            else if (selectedOption.Contains("Accomodation"))
             {
                 Stay place = new Stay();
                 place.Name = NameTxtBox.Text;
@@ -111,7 +121,7 @@ namespace travelAgency.Dialogs
                 stayRepository.Add(place);
                 NewStayEat?.Invoke(this, new ToStayEatEventArgs(place));
             }
-            else if (selectedOption == "Restaurant")
+            else if (selectedOption.Contains("Restaurant"))
             {
                 Restaurant place = new Restaurant();
                 place.Name = NameTxtBox.Text;
@@ -242,10 +252,39 @@ namespace travelAgency.Dialogs
             }
         }
 
+        private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Save();
+        }
+
+        private void Quit_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void AddAll_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            AddAll();
+        }
+
+        private void RemoveAll_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            RemoveAll();
+        }
+
         private void ComboBox_LostFocus(object sender, RoutedEventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            BindingExpression bindingExpr = comboBox.GetBindingExpression(ComboBox.SelectedIndexProperty);
+            BindingExpression bindingExpr = comboBox.GetBindingExpression(ComboBox.SelectedItemProperty);
+
+            // Manually trigger the validation
+            bindingExpr.UpdateSource();
+        }
+
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            BindingExpression bindingExpr = textBox.GetBindingExpression(TextBox.TextProperty);
 
             // Manually trigger the validation
             bindingExpr.UpdateSource();

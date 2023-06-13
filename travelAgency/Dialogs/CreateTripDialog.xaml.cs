@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -8,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using travelAgency.model;
 using travelAgency.repository;
+using travelAgency.validators;
 using travelAgency.ViewModel;
 
 namespace travelAgency.Dialogs
@@ -17,11 +19,11 @@ namespace travelAgency.Dialogs
     /// </summary>
     public partial class CreateTripDialog : Window
     {
-        List<Place> places;
+        private List<Place> places;
         private TripRepository tripRepository;
 
-        CreateTripViewModel ViewModel { get; set; }
-        int currentIndexListBox=-1; 
+        private CreateTripViewModel ViewModel { get; set; }
+        private int currentIndexListBox = -1;
         private static readonly Regex _regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
 
         public CreateTripDialog(TripRepository tripRepository, PlaceRepository placeRepository)
@@ -29,6 +31,7 @@ namespace travelAgency.Dialogs
             InitializeComponent();
             DataContext = new CreateTripViewModel();
             var viewModel = DataContext as CreateTripViewModel;
+
             if (viewModel != null)
             {
                 ViewModel = viewModel;
@@ -37,6 +40,8 @@ namespace travelAgency.Dialogs
             }
             places = placeRepository.GetAll();
             this.tripRepository = tripRepository;
+            Help.HelpProvider.SetHelpKey((DependencyObject)this, "index");
+            NameTxtBox.Focus();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -61,6 +66,11 @@ namespace travelAgency.Dialogs
         {
             AutocompleteListBox.Visibility = Visibility.Hidden;
             currentIndexListBox = -1;
+            TextBox textBox = (TextBox)sender;
+            BindingExpression bindingExpr = textBox.GetBindingExpression(TextBox.TextProperty);
+
+            // Manually trigger the validation
+            bindingExpr.UpdateSource();
         }
 
         private void AutocompleteListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -83,24 +93,67 @@ namespace travelAgency.Dialogs
 
         private void AddPlace_Click(object sender, RoutedEventArgs e)
         {
+            AddPlace();
+        }
+
+        public void AddPlace()
+        {
             Place? selectedPlace = places.Find(p => p.Name == PlaceTextBox.Text);
-            
+
             if (selectedPlace != null)
             {
                 TripSchedule tripSchedule = new TripSchedule();
                 tripSchedule.Place = selectedPlace;
-                DateTime? date = DatePicker.SelectedDate.Value;
-                DateTime? time = TimePicker.SelectedTime.Value;
 
-                tripSchedule.DateTime = new DateTime(date.Value.Year, date.Value.Month, date.Value.Day, time.Value.Hour, time.Value.Minute, 0);
-                ViewModel.Trip.Schedules.Add(tripSchedule);
-                PlaceTextBox.Text = string.Empty;
-                DatePicker.SelectedDate = null;
-                TimePicker.SelectedTime = null;
-                if (Snackbar.MessageQueue is { } messageQueue)
+                if (DatePicker.SelectedDate != null && TimePicker.SelectedTime != null)
                 {
-                    var message = "Schedule added successfully";
-                    messageQueue.Enqueue(message);
+                    DateTime? date = DatePicker.SelectedDate.Value;
+                    DateTime? time = TimePicker.SelectedTime.Value;
+                    tripSchedule.DateTime = new DateTime(date.Value.Year, date.Value.Month, date.Value.Day, time.Value.Hour, time.Value.Minute, 0);
+                    ViewModel.Trip.Schedules.Add(tripSchedule);
+
+                    BindingOperations.ClearBinding(PlaceTextBox, TextBox.TextProperty);
+                    BindingOperations.ClearBinding(DatePicker, DatePicker.SelectedDateProperty);
+                    BindingOperations.ClearBinding(TimePicker, TimePicker.SelectedTimeProperty);
+
+                    ViewModel.PlaceName = string.Empty;
+                    ViewModel.Date = null;
+                    ViewModel.Time = null;
+
+                    BindingOperations.SetBinding(PlaceTextBox, TextBox.TextProperty, new Binding
+                    {
+                        Path = new PropertyPath("PlaceName"),
+                        UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                        ValidationRules = { new NotEmptyValidationRule() }
+                    });
+
+                    BindingOperations.SetBinding(DatePicker, DatePicker.SelectedDateProperty, new Binding
+                    {
+                        Path = new PropertyPath("Date"),
+                        UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                        ValidationRules = { new NotEmptyValidationRule() }
+                    });
+
+                    BindingOperations.SetBinding(TimePicker, TimePicker.SelectedTimeProperty, new Binding
+                    {
+                        Path = new PropertyPath("Time"),
+                        UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                        ValidationRules = { new NotEmptyValidationRule() }
+                    });
+
+                    if (Snackbar.MessageQueue is { } messageQueue)
+                    {
+                        var message = "Schedule added successfully";
+                        messageQueue.Enqueue(message);
+                    }
+                }
+                else
+                {
+                    if (Snackbar.MessageQueue is { } messageQueue)
+                    {
+                        var message = "Choose date and time";
+                        messageQueue.Enqueue(message);
+                    }
                 }
             }
             else
@@ -170,18 +223,35 @@ namespace travelAgency.Dialogs
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
+            Save();
+        }
+
+        public void Save()
+        {
             ViewModel.Trip.Name = NameTxtBox.Text;
             ViewModel.Trip.Description = DescriptionTxtBox.Text;
             ViewModel.Trip.Price = Convert.ToDouble(PriceTxtBox.Text);
-            tripRepository.Add(ViewModel.Trip);
-            NewTrip?.Invoke(this, new ToTripEventArgs(ViewModel.Trip));
-            Close();
+            if (ViewModel.Trip.Schedules.Count > 0)
+            {
+                tripRepository.Add(ViewModel.Trip);
+                NewTrip?.Invoke(this, new ToTripEventArgs(ViewModel.Trip));
+                Close();
+            }
+            else
+                if (Snackbar.MessageQueue is { } messageQueue)
+            {
+                var message = "Tour must have at least one place";
+                messageQueue.Enqueue(message);
+            }
         }
+
         public event EventHandler<ToTripEventArgs> NewTrip;
+
         private static bool IsTextAllowed(string text)
         {
             return !_regex.IsMatch(text);
         }
+
         private void TextBoxPasting(object sender, DataObjectPastingEventArgs e)
         {
             if (e.DataObject.GetDataPresent(typeof(String)))
@@ -197,6 +267,7 @@ namespace travelAgency.Dialogs
                 e.CancelCommand();
             }
         }
+
         private void Price_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = !IsTextAllowed(e.Text);
@@ -209,6 +280,49 @@ namespace travelAgency.Dialogs
 
             // Manually trigger the validation
             bindingExpr.UpdateSource();
+        }
+
+        private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Save();
+        }
+
+        private void Quit_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void AddPlace_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            AddPlace();
+        }
+
+        private void DatePicker_LostFocus(object sender, RoutedEventArgs e)
+        {
+            DatePicker datePicker = (DatePicker)sender;
+            BindingExpression bindingExpr = datePicker.GetBindingExpression(DatePicker.SelectedDateProperty);
+
+            // Manually trigger the validation
+            bindingExpr.UpdateSource();
+        }
+
+        private void TimePicker_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TimePicker timePicker = (TimePicker)sender;
+            BindingExpression bindingExpr = timePicker.GetBindingExpression(TimePicker.SelectedTimeProperty);
+
+            // Manually trigger the validation
+            bindingExpr.UpdateSource();
+        }
+
+        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            IInputElement focusedControl = FocusManager.GetFocusedElement(System.Windows.Application.Current.Windows[0]);
+            if (focusedControl is DependencyObject)
+            {
+                string str = Help.HelpProvider.GetHelpKey((DependencyObject)this);
+                Help.HelpProvider.ShowHelp(str, this);
+            }
         }
     }
 }

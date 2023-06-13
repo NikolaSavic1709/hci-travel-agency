@@ -45,6 +45,13 @@ public partial class PlacesPage : Page
         }
 
         RefreshCards(false);
+        Loaded += Page_Loaded;
+    }
+
+    private void Page_Loaded(object sender, RoutedEventArgs e)
+    {
+        FocusManager.SetFocusedElement(this, AddBtn);
+        Keyboard.Focus(this);
     }
     private void CreateCard(Attraction attraction)
     {
@@ -104,6 +111,7 @@ public partial class PlacesPage : Page
         mapItems.Items.Add(pin);
     }
 
+
     private void AttractionCard_ToPlace(object sender, ToAttractionEventArgs e)
     {
         Attraction attraction = e.Attraction;
@@ -115,6 +123,7 @@ public partial class PlacesPage : Page
         Attraction attraction = e.Attraction;
         AttractionCard card = (AttractionCard)sender;
         cards.Children.Remove(card);
+        RemoveIfExists(card);
         attractionRepository.Delete(attraction);
         if (Snackbar.MessageQueue is { } messageQueue)
         {
@@ -123,6 +132,21 @@ public partial class PlacesPage : Page
         }
 
     }
+
+    public void RemoveIfExists(AttractionCard card)
+    {
+        if (placeCards.Contains(card))
+        {
+            placeCards.Remove(card);
+        }
+        if (filteredPlaceCards!=null)
+            if (filteredPlaceCards.Contains(card))
+            {
+                filteredPlaceCards.Remove(card);
+            }
+        
+    }
+
     private void Search_OnKeyDown(object sender, KeyEventArgs e)
     {
         var textBox = (TextBox)sender;
@@ -155,4 +179,15 @@ public partial class PlacesPage : Page
         window.ShowDialog();
     }
 
+    private void NewCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+    {
+        CreatePlaceDialog window = new CreatePlaceDialog(true);
+        window.NewAttraction += AttractionCard_NewAttraction;
+        window.ShowDialog();
+    }
+
+    private void SearchCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+    {
+        SearchBox.Focus();
+    }
 }

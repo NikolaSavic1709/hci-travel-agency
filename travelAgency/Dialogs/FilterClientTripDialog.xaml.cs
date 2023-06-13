@@ -20,8 +20,8 @@ namespace travelAgency.Dialogs
     /// </summary>
     public partial class FilterClientTripDialog : Window
     {
+        private List<ClientTripCard> tripCards;
 
-        List<ClientTripCard> tripCards;
         public FilterClientTripDialog(List<ClientTripCard> tripCardss)
         {
             this.tripCards = new List<ClientTripCard>();
@@ -34,6 +34,7 @@ namespace travelAgency.Dialogs
         }
 
         public event EventHandler<ClientTripCardEventArgs> DialogResultEvent;
+
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             // DialogResultEvent?.Invoke(this, new TripCardEventArgs(tripCards));
@@ -41,6 +42,11 @@ namespace travelAgency.Dialogs
         }
 
         private void Update_Click(object sender, RoutedEventArgs e)
+        {
+            Update();
+        }
+
+        public void Update()
         {
             double maxprice, minprice;
             maxprice = (int)priceSlider.UpperValue;
@@ -57,7 +63,7 @@ namespace travelAgency.Dialogs
             double minprice = 100000000000000;
             foreach (ClientTripCard a in tripCards)
             {
-                double price = a.Trip.Price;
+                double price = (double)a.Trip.Price;
                 maxprice = Math.Max(price, maxprice);
                 minprice = Math.Min(price, minprice);
             }
@@ -65,6 +71,16 @@ namespace travelAgency.Dialogs
             priceSlider.Maximum = maxprice;
             priceSlider.LowerValue = minprice;
             priceSlider.UpperValue = maxprice;
+        }
+
+        private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Update();
+        }
+
+        private void Quit_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

@@ -3,9 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:view="clr-namespace:travelAgency.view"
         xmlns:local="clr-namespace:travelAgency.view" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="BuyReservation" Height="250" Width="400">
+        Icon="{StaticResource AppIcon}"
+        WindowStartupLocation="CenterScreen"
+        Title="Buy Reservation" Height="250" Width="400">
     <Window.Resources>
         <Style x:Key="BottomButton" TargetType="Button">
             <Setter Property="Cursor" Value="Hand" />
@@ -33,11 +36,14 @@
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#00AF82" />
                 </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="#AA00AF82" />
+                </Trigger>
             </Style.Triggers>
         </Style>
         <Style x:Key="QuitButton" TargetType="Button" BasedOn="{StaticResource BottomButton}">
             <Setter Property="Background" Value="#E0E0E0" />
-            <Setter Property="Foreground" Value="#980012"/>
+            <Setter Property="Foreground" Value="#980012" />
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#55000000" />
@@ -45,58 +51,75 @@
             </Style.Triggers>
         </Style>
     </Window.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="1*" />
-            <RowDefinition Height="1*" />
-            <RowDefinition Height="1*" />
-            <RowDefinition Height="1*" />
-            <RowDefinition Height="1*" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" />
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="1*" />
-        </Grid.ColumnDefinitions>
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static view:CustomCommands.Save}" Executed="Yes_Executed" />
+        <CommandBinding Command="{x:Static view:CustomCommands.Quit}" Executed="No_Executed" />
+        <CommandBinding Command="{x:Static view:CustomCommands.Plus}" Executed="Plus_Executed" />
+        <CommandBinding Command="{x:Static view:CustomCommands.Minus}" Executed="Minus_Executed" />
+    </Window.CommandBindings>
 
-        <Grid Name="Navbar" Grid.ColumnSpan="6" Background="#009882">
-            <Label Grid.Column="1" Content="{Binding TitleText}" Padding="5" Foreground="White" VerticalAlignment="Center" BorderThickness="0" />
-        </Grid>
-        <Label Grid.ColumnSpan="6" Content="{Binding Text}" Grid.Column="0" Grid.Row="1" BorderThickness="0"></Label>
-        <Label  Grid.ColumnSpan="6" VerticalAlignment="Center" Content="People:" Grid.Column="0" Grid.Row="2" BorderThickness="0"></Label>
-        <Label Name="CountLabel" Grid.ColumnSpan="1" Content="{Binding Count, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="3" Grid.Row="2" BorderThickness="0" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
-        <Button Grid.ColumnSpan="1" Grid.Column="4" Grid.Row="2"
-  Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryButton}"
-  ToolTip="MaterialDesignFloatingActionMiniLightButton" Foreground="#FFFFFFFF"  Click="PlusClick" BorderBrush="#002C2C2C">
-            <materialDesign:PackIcon Kind="Plus" />
-        </Button>
-        <Button Grid.ColumnSpan="1" Grid.Column="2" Grid.Row="2"
-  Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryButton}"
-  ToolTip="MaterialDesignFloatingActionMiniLightButton" Foreground="#FFFFFFFF" Click="MinusClick" BorderBrush="#002C2C2C">
-            <materialDesign:PackIcon Kind="Minus" />
-        </Button>
-        <Grid Grid.ColumnSpan="6" Grid.Row="3">
+    <Window.InputBindings>
+        <KeyBinding Command="{x:Static view:CustomCommands.Save}" Key="S" Modifiers="Ctrl" />
+        <KeyBinding Command="{x:Static view:CustomCommands.Save}" Key="Enter" />
+        <KeyBinding Command="{x:Static view:CustomCommands.Quit}" Key="Q" Modifiers="Ctrl" />
+        <KeyBinding Command="{x:Static view:CustomCommands.Plus}" Key="OemPlus" Modifiers="Ctrl" />
+        <KeyBinding Command="{x:Static view:CustomCommands.Minus}" Key="OemMinus" Modifiers="Ctrl" />
+    </Window.InputBindings>
+
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
 
-            <materialDesign:PackIcon Kind="CurrencyUsd" HorizontalAlignment="Center" Grid.Column="1" VerticalAlignment="Center" BorderThickness="0" />
-            <Label  Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Price:" BorderThickness="0" ></Label>
-            <Label  Grid.Column="2" VerticalAlignment="Center" BorderThickness="0" Name="PriceLabel"  ></Label>
-        </Grid>
-        <Button FontSize="15"
+            <Grid Name="Navbar" Grid.ColumnSpan="6" Background="#009882">
+                <Label Grid.Column="1" Content="{Binding TitleText}" Padding="5" Foreground="White" VerticalAlignment="Center" BorderThickness="0" />
+            </Grid>
+            <Label Grid.ColumnSpan="6" Content="{Binding Text}" Grid.Column="0" Grid.Row="1" BorderThickness="0"></Label>
+            <Label  Grid.ColumnSpan="6" VerticalAlignment="Center" Content="People:" Grid.Column="0" Grid.Row="2" BorderThickness="0"></Label>
+            <Label Name="CountLabel" Grid.ColumnSpan="1" Content="{Binding Count, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="3" Grid.Row="2" BorderThickness="0" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+            <Button Grid.ColumnSpan="1" Grid.Column="4" Grid.Row="2"
+  Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryButton}"
+  ToolTip="Add person" Foreground="#FFFFFFFF"  Click="PlusClick" BorderBrush="#002C2C2C">
+                <materialDesign:PackIcon Kind="Plus" />
+            </Button>
+            <Button Grid.ColumnSpan="1" Grid.Column="2" Grid.Row="2"
+  Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryButton}"
+  ToolTip="Reduce number of people" Foreground="#FFFFFFFF" Click="MinusClick" BorderBrush="#002C2C2C">
+                <materialDesign:PackIcon Kind="Minus" />
+            </Button>
+            <Grid Grid.ColumnSpan="6" Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+
+                <materialDesign:PackIcon Kind="CurrencyUsd" HorizontalAlignment="Center" Grid.Column="1" VerticalAlignment="Center" BorderThickness="0" />
+                <Label  Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Price:" BorderThickness="0" ></Label>
+                <Label  Grid.Column="2" VerticalAlignment="Center" BorderThickness="0" Name="PriceLabel"  ></Label>
+            </Grid>
+            <Button FontSize="15"
   Content="{Binding Action}"
   Style="{StaticResource SaveButton}"
   ToolTip="Resource name: MaterialDesignRaisedSecondaryButton" Grid.Row="4" Margin="2" Grid.Column="4" Grid.ColumnSpan="2" Click="Button_Click_1" />
-        <Button FontSize="15"
+            <Button FontSize="15"
   Content="Cancel"
   Style="{StaticResource QuitButton}"
   ToolTip="Resource name: MaterialDesignRaisedSecondaryButton"  Grid.Row="4" Margin="2" Grid.Column="2" Grid.ColumnSpan="2" Click="Button_Click" />
+        </Grid>
     </Grid>
 </Window>

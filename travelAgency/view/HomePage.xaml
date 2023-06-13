@@ -23,11 +23,15 @@
         <clr:String x:Key=" ">""</clr:String>
     </Page.Resources>
     <Page.CommandBindings>
-        <CommandBinding Command="ApplicationCommands.Save" Executed="SaveCommandExecuted" />
+        <CommandBinding Command="{x:Static local:CustomCommands.New}" Executed="NewCommandExecuted"/>
+        <CommandBinding Command="{x:Static local:CustomCommands.Search}" Executed="SearchCommandExecuted"/>
+        <CommandBinding Command="{x:Static local:CustomCommands.Filter}" Executed="FilterCommandExecuted"/>
     </Page.CommandBindings>
 
     <Page.InputBindings>
-        <KeyBinding Command="ApplicationCommands.Save" Key="S" Modifiers="Ctrl" />
+        <KeyBinding Command="{x:Static local:CustomCommands.New}" Key="N" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static local:CustomCommands.Search}" Key="S" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static local:CustomCommands.Filter}" Key="F" Modifiers="Ctrl"/>
     </Page.InputBindings>
 
     <Grid>
@@ -65,7 +69,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Button x:Name="SearchButton"
-                    Width="24"
+                    Width="24" ToolTip="Search"
                     Height="24"
                     Command="{Binding SearchCommand}"
                     CommandParameter="{Binding ElementName=SearchBox, Path=Text}"
@@ -74,7 +78,7 @@
                     </Button>
 
                     <TextBox x:Name="SearchBox"
-                     Grid.Column="1"
+                     Grid.Column="1"  MaxLength="50" materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
                      MinWidth="200"
                      Margin="5,0,0,0"
                      VerticalAlignment="Center"

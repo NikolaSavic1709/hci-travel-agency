@@ -21,6 +21,7 @@ namespace travelAgency.repository
         {
             return dbContext.Arrangements
                 .AsNoTracking()
+                .Include(a => a.Trip)
                 .FirstOrDefault(u => u.Id == id);
         }
 
@@ -33,6 +34,7 @@ namespace travelAgency.repository
         public List<Arrangement> GetArrangementsForUser(int userId)
         {
             return dbContext.Arrangements
+                .Include(a => a.Trip)
                 .Where(a => a.UserId == userId)
                 .ToList();
         }

@@ -20,8 +20,8 @@ namespace travelAgency.Dialogs
     /// </summary>
     public partial class FilterTripDialog : Window
     {
+        private List<TripCard> tripCards;
 
-        List<TripCard> tripCards;
         public FilterTripDialog(List<TripCard> tripCardss)
         {
             this.tripCards = new List<TripCard>();
@@ -34,18 +34,24 @@ namespace travelAgency.Dialogs
         }
 
         public event EventHandler<TripCardEventArgs> DialogResultEvent;
+
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
-           // DialogResultEvent?.Invoke(this, new TripCardEventArgs(tripCards));
+            // DialogResultEvent?.Invoke(this, new TripCardEventArgs(tripCards));
             Close();
         }
 
         private void Update_Click(object sender, RoutedEventArgs e)
         {
-            double maxprice, minprice;            
+            Update();
+        }
+
+        public void Update()
+        {
+            double maxprice, minprice;
             maxprice = (int)priceSlider.UpperValue;
             minprice = (int)priceSlider.LowerValue;
-            
+
             tripCards.RemoveAll(card => card.Trip.Price > maxprice || card.Trip.Price < minprice);
             DialogResultEvent?.Invoke(this, new TripCardEventArgs(tripCards));
             Close();
@@ -57,7 +63,7 @@ namespace travelAgency.Dialogs
             double minprice = 100000000000000;
             foreach (TripCard a in tripCards)
             {
-                double price = a.Trip.Price;
+                double price = (double)a.Trip.Price;
                 maxprice = Math.Max(price, maxprice);
                 minprice = Math.Min(price, minprice);
             }
@@ -67,5 +73,14 @@ namespace travelAgency.Dialogs
             priceSlider.UpperValue = maxprice;
         }
 
+        private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Update();
+        }
+
+        private void Quit_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

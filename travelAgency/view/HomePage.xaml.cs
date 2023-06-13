@@ -23,7 +23,6 @@ namespace travelAgency.view
     /// </summary>
     public partial class HomePage : Page
     {
-        //public static RoutedCommand MyCommand = new RoutedCommand();
         public TripRepository tripRepository;
         public PlaceRepository placeRepository;
         public string BingKey { get; set; }
@@ -51,8 +50,6 @@ namespace travelAgency.view
             }
 
             RefreshCards(false);
-
-            //MyCommand.InputGestures.Add(new KeyGesture(Key.S, ModifierKeys.Control));
             
             Loaded += Page_Loaded;
         }
@@ -62,12 +59,28 @@ namespace travelAgency.view
             FocusManager.SetFocusedElement(this, Filter_Btn);
             Keyboard.Focus(this);
         }
-        private void SaveCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        private void NewCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             CreateTripDialog window = new CreateTripDialog(tripRepository, placeRepository);
             window.NewTrip += TripCard_NewTrip;
             window.ShowDialog();
         }
+
+        private void SearchCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            SearchBox.Focus();
+        }
+
+        private void FilterCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            SearchBox.Text = "";
+            FilterTripDialog filterTripDialog = new FilterTripDialog(tripCards);
+
+            filterTripDialog.DialogResultEvent += Filter_DialogResultEvent;
+
+            filterTripDialog.ShowDialog();
+        }
+
         private void CreateCard(Trip trip)
         {
             TripCard tripCard = new TripCard
@@ -133,12 +146,33 @@ namespace travelAgency.view
             Trip trip = e.Trip;
             TripCard card = (TripCard)sender;
             cards.Children.Remove(card);
+
+            RemoveIfExists(card);
+
             tripRepository.Delete(trip);
             if (Snackbar.MessageQueue is { } messageQueue)
             {
                 var message = "Trip deleted successfully";
                 messageQueue.Enqueue(message);
             }
+        }
+
+        public void RemoveIfExists(TripCard card)
+        {
+            if (tripCards.Contains(card))
+            {
+                tripCards.Remove(card);
+            }
+            if (filteredTripCards!=null)
+                if (filteredTripCards.Contains(card))
+                {
+                    filteredTripCards.Remove(card);
+                }
+            if (searchTripCards != null)
+                if (searchTripCards.Contains(card))
+                {
+                    searchTripCards.Remove(card);
+                }
         }
         private void Search_OnKeyDown(object sender, KeyEventArgs e)
         {
@@ -271,5 +305,7 @@ namespace travelAgency.view
             }
             RefreshCards(false);
         }
+
+       
     }
 }

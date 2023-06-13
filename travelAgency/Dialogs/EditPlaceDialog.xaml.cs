@@ -21,22 +21,30 @@ namespace travelAgency.Dialogs
     /// </summary>
     public partial class EditPlaceDialog : Window
     {
-        Place _place;
+        private Place _place;
         public TravelAgencyContext dbContext;
         public PlaceRepository placeRepository;
+        public string Name1 { get; set; }
+        public string Description { get; set; }
+        public string Location { get; set; }
+
         public EditPlaceDialog(Place place)
         {
             InitializeComponent();
             dbContext = new TravelAgencyContext();
             placeRepository = new PlaceRepository(dbContext);
-
+            DataContext = this;
             _place = place;
-            NameTxtBox.Text = place.Name;
-            LocationTxtBox.Text = place.Location;
-            DescriptionTxtBox.Text = place.Description;
+            Name1 = place.Name;
+            Location = place.Location;
+            Description = place.Description;
+
+            Help.HelpProvider.SetHelpKey((DependencyObject)this, "place");
+            //NameTxtBox.Focus();
         }
 
         public event EventHandler<DialogResultEventArgs> DialogResultEvent;
+
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             DialogResultEvent?.Invoke(this, new DialogResultEventArgs(false));
@@ -45,7 +53,11 @@ namespace travelAgency.Dialogs
 
         private void Update_Click(object sender, RoutedEventArgs e)
         {
+            Update();
+        }
 
+        public void Update()
+        {
             _place.Name = NameTxtBox.Text;
             _place.Location = LocationTxtBox.Text;
             _place.Description = DescriptionTxtBox.Text;
@@ -53,6 +65,36 @@ namespace travelAgency.Dialogs
 
             DialogResultEvent?.Invoke(this, new DialogResultEventArgs(true));
             Close();
+        }
+
+        private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Update();
+        }
+
+        private void Quit_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            DialogResultEvent?.Invoke(this, new DialogResultEventArgs(false));
+            Close();
+        }
+
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            BindingExpression bindingExpr = textBox.GetBindingExpression(TextBox.TextProperty);
+
+            // Manually trigger the validation
+            bindingExpr.UpdateSource();
+        }
+
+        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            IInputElement focusedControl = FocusManager.GetFocusedElement(System.Windows.Application.Current.Windows[0]);
+            if (focusedControl is DependencyObject)
+            {
+                string str = Help.HelpProvider.GetHelpKey((DependencyObject)this);
+                Help.HelpProvider.ShowHelp(str, this);
+            }
         }
     }
 }

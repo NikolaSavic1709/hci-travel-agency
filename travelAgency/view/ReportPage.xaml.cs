@@ -57,6 +57,13 @@ namespace travelAgency.view
                 args.RoutedEvent = Mouse.MouseDownEvent;
                 label.RaiseEvent(args);
             }
+            Loaded += Page_Loaded;
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            FocusManager.SetFocusedElement(this, Filter_Btn);
+            Keyboard.Focus(this);
         }
 
         private void DecreaseButton_Click(object sender, RoutedEventArgs e)
@@ -109,13 +116,14 @@ namespace travelAgency.view
         private void DoFilterPerMonth(int month, int year)
         {
             reportCards.Clear();
-            List<Trip> trips = tripRepository.GetAll();
-            foreach(Trip trip in trips)
+            filteredReportCards.Clear();
+            List<Trip> trips = tripRepository.GetAllReports();
+            foreach (Trip trip in trips)
             {
-                List<Arrangement> arrangements = arrangementRepository.GetAll().Where(a => a.DateTime.Month == month && a.DateTime.Year == year && a.Trip==trip).ToList();
-                int totalCount= arrangements.Sum(arrangement => arrangement.NumberOfPersons);
+                List<Arrangement> arrangements = arrangementRepository.GetAll().Where(a => a.DateTime.Month == month && a.DateTime.Year == year && a.Trip == trip).ToList();
+                int totalCount = arrangements.Sum(arrangement => arrangement.NumberOfPersons);
                 double totalPrice = arrangements.Sum(arrangements => arrangements.Price);
-                if(totalCount>0)
+                if (totalCount > 0)
                     CreateCard(trip, totalCount, totalPrice);
             }
             RefreshCards(false);
@@ -307,6 +315,21 @@ namespace travelAgency.view
                 filteredReportCards = result;
             }
             RefreshCards(false);
+        }
+
+        private void SearchCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            SearchBox.Focus();
+        }
+
+        private void FilterCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            SearchBox.Text = "";
+            FilterReportDialog filterReportDialog = new FilterReportDialog(reportCards);
+
+            filterReportDialog.DialogResultEvent += Filter_DialogResultEvent;
+
+            filterReportDialog.ShowDialog();
         }
     }
 }

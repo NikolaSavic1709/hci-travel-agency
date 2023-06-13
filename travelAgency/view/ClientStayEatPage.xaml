@@ -1,27 +1,13 @@
-﻿<Page x:Class="travelAgency.view.AdminStayEatDetailPage"
+﻿<Page x:Class="travelAgency.view.ClientStayEatPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="clr-namespace:travelAgency.view"
-      xmlns:controls="clr-namespace:travelAgency.controls"
+      xmlns:local="clr-namespace:travelAgency.view" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:controls="clr-namespace:travelAgency.controls" xmlns:dxm="http://schemas.devexpress.com/winfx/2008/xaml/map" xmlns:virtualCollection="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
       mc:Ignorable="d"
-       xmlns:virtualCollection="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
-      xmlns:dxm="http://schemas.devexpress.com/winfx/2008/xaml/map"
-      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:clr="clr-namespace:System;assembly=mscorlib"
-      Background="{DynamicResource MaterialDesignPaper}"
-      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
       d:DesignHeight="700" d:DesignWidth="1000"
-      Title="Stay&amp;Eat">
+      Title="ClientStayEatPage">
 
-    <Page.CommandBindings>
-        <CommandBinding Command="{x:Static local:CustomCommands.StayEat}" Executed="Edit_Executed"/>
-    </Page.CommandBindings>
-
-    <Page.InputBindings>
-        <KeyBinding Command="{x:Static local:CustomCommands.StayEat}" Key="E" Modifiers="Ctrl"/>
-    </Page.InputBindings>
-    
     <Page.Resources>
         <materialDesign:SnackbarMessageQueue x:Key="SnackbarMessageQueue" />
 
@@ -54,7 +40,6 @@
                 <Image  Source="pack://application:,,,/pin.png" Width="20" Height="20" />
             </StackPanel>
         </DataTemplate>
-        <clr:String x:Key=" ">""</clr:String>
     </Page.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -79,7 +64,7 @@
                         <RowDefinition Height="350*" />
                         <RowDefinition Height="45*" />
                     </Grid.RowDefinitions>
-                    
+
                     <Grid Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,40,0,0" Name="Carousel">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="350" />
@@ -119,7 +104,7 @@
                                 <StackPanel Margin="0,10,0,0" Background="#009882">
                                     <TextBlock FontWeight="DemiBold" FontSize="14" Foreground="White" Margin="15,1,0,3" Text="Location" />
                                 </StackPanel>
-                                <TextBlock VerticalAlignment="Center" FontSize="12" Margin="10,5,0,5"
+                                <TextBlock VerticalAlignment="Center" FontSize="12" Margin="10,5,0,5" Name="LocationText"
                                        Text="{Binding Place.Location}"
                                        TextWrapping="Wrap" />
 
@@ -129,18 +114,6 @@
                                 <TextBlock VerticalAlignment="Center" FontSize="12" Margin="10,5,0,5"
                                        Text="{Binding Place.Description}"
                                        TextWrapping="Wrap" />
-                            </StackPanel>
-                            <StackPanel Grid.Row="1" x:Name="buttonStackPanel"
-                      Margin="8"
-                      HorizontalAlignment="Right"
-                      Orientation="Horizontal">
-
-                                <Button Width="50" Height="30" x:Name="editButton"
-                            Padding="2,0,2,0" Background="#009882" Foreground="White"
-                            materialDesign:RippleAssist.IsCentered="True" ToolTip="Edit data"
-                            Click="EditData_Click">
-                                    <materialDesign:PackIcon Kind="Pencil" />
-                                </Button>
                             </StackPanel>
                         </Grid>
                     </materialDesign:Card>
@@ -157,8 +130,8 @@
 
                     <Grid Margin="0,40,0,0"  Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                           MinHeight="{Binding ElementName=Carousel, Path=ActualHeight, Converter={StaticResource MapHeightCoverter}}">
-                        <dxm:MapControl Name="map" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Width="Auto"
-                                MouseLeftButtonDown="map_MouseLeftButtonDown" MouseLeftButtonUp="map_MouseLeftButtonUp" MouseMove="map_MouseMove">
+                        <dxm:MapControl Name="map" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Width="Auto">
+
                             <dxm:ImageLayer>
                                 <dxm:BingMapDataProvider Kind="RoadLight" BingKey="Bobfc3eHAUPXgpeTYjms~m6tD9dbiJz0HFBraHXWR_A~AvjPgt_MJZVhNNdKhscJbncrArt9ydMHTLueaT6sDhboip1smAQSMs7436fWsrtq" />
                             </dxm:ImageLayer>
@@ -170,7 +143,6 @@
                                 </dxm:MapItemStorage>
                             </dxm:VectorLayer>
                             <dxm:InformationLayer>
-                                <dxm:BingSearchDataProvider BingKey="Bobfc3eHAUPXgpeTYjms~m6tD9dbiJz0HFBraHXWR_A~AvjPgt_MJZVhNNdKhscJbncrArt9ydMHTLueaT6sDhboip1smAQSMs7436fWsrtq" />
                             </dxm:InformationLayer>
                         </dxm:MapControl>
                     </Grid>
@@ -189,14 +161,6 @@
 
                         <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Left" Width="404">
                             <TextBlock  FontWeight="Bold" FontSize="16" Margin="0,0,0,5" Text="AMENITIES" VerticalAlignment="Center" HorizontalAlignment="Stretch" />
-
-                            <Button HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Center"
-                        Width="50" Height="30" x:Name="editAmenitiesButton"
-                            Padding="2,0,2,0" Background="#009882" Foreground="White"
-                            materialDesign:RippleAssist.IsCentered="True" ToolTip="Edit amenities"
-                            Click="EditAmenities_Click">
-                                <materialDesign:PackIcon Kind="Pencil" />
-                            </Button>
                         </StackPanel>
 
                         <ListBox

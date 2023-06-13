@@ -1,7 +1,4 @@
-﻿using DevExpress.Xpf.Core;
-using DevExpress.Xpf.Map;
-using DevExpress.XtraRichEdit.Model;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using DevExpress.Xpf.Map;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,9 +23,9 @@ using travelAgency.ViewModel;
 namespace travelAgency.view
 {
     /// <summary>
-    /// Interaction logic for StayEatPage.xaml
+    /// Interaction logic for ClientStayEatPage.xaml
     /// </summary>
-    public partial class AdminStayEatDetailPage : Page
+    public partial class ClientStayEatPage : Page
     {
         private string ImageDirectory { get; set; }
         private string[] ImageNames { get; set; }
@@ -41,8 +38,10 @@ namespace travelAgency.view
         public StayRepository stayRepository;
         public PlaceRepository placeRepository;
 
-        public AdminStayEatDetailPage(Place place, bool isStay)
+        public ClientStayEatPage(Place place, bool isStay)
         {
+            InitializeComponent();
+
             InitializeComponent();
             Place = place;
             DataContext = new StayEatViewModel(place);
@@ -66,30 +65,29 @@ namespace travelAgency.view
             {
                 ImageNames = Directory.GetFiles(ImageDirectory);
             }
-            catch(DirectoryNotFoundException e)
+            catch (DirectoryNotFoundException e)
             {
                 ImageDirectory = curDir;
                 ImageNames = Directory.GetFiles(ImageDirectory);
             }
-            
+
             CurrentImageIndex = 0;
             var viewModel = DataContext as StayEatViewModel;
             if (viewModel != null)
             {
                 viewModel.FrontImageSource = ImageNames[CurrentImageIndex];
                 viewModel.BackImageSource = ImageNames[CurrentImageIndex];
-                
+
                 if (isStay)
                 {
                     AmenitiesSegment.Visibility = Visibility.Visible;
                     Place = stayRepository.GetById(Place.Id);
                     RefreshAmenities();
-                } else
+                }
+                else
                 {
                     AmenitiesSegment.Visibility = Visibility.Collapsed;
                 }
-                
-                
             }
 
             DrawPin();
@@ -98,7 +96,7 @@ namespace travelAgency.view
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            FocusManager.SetFocusedElement(this, editButton);
+            FocusManager.SetFocusedElement(this, LocationText);
             Keyboard.Focus(this);
         }
 
@@ -157,66 +155,6 @@ namespace travelAgency.view
 
         private MapPushpin mapItem;
 
-        private void map_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            var hitInfo = map.CalcHitInfo(e.GetPosition(map));
-            if (hitInfo.InMapPushpin)
-            {
-                map.EnableScrolling = false;
-                mapItem = hitInfo.HitObjects[0] as MapPushpin;
-            }
-        }
-
-        private void map_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (mapItem != null)
-            {
-                var point = map.ScreenPointToCoordPoint(e.GetPosition(map));
-                mapItem.Location = point;
-                map.EnableScrolling = true;
-                mapItem = null;
-                Place.lng = point.GetX();
-                Place.lat = point.GetY();
-
-                placeRepository.Update(Place);
-            }
-        }
-
-        private void map_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (mapItem != null)
-            {
-                var point = map.ScreenPointToCoordPoint(e.GetPosition(map));
-                mapItem.Location = point;
-            }
-        }
-
-        private void EditData_Click(object sender, RoutedEventArgs e)
-        {
-            EditPlaceDialog editPlaceDialog = new EditPlaceDialog(Place);
-
-            editPlaceDialog.DialogResultEvent += EditPlace_DialogResultEvent;
-
-            editPlaceDialog.ShowDialog();
-        }
-
-        private void EditPlace_DialogResultEvent(object sender, DialogResultEventArgs e)
-        {
-            bool result = e.Result;
-
-            if (result)
-            {
-                int id = Place.Id;
-                Place = placeRepository.GetById(id);
-                RefreshPlaceData();
-                if (Snackbar.MessageQueue is { } messageQueue)
-                {
-                    var message = "Place edited successfully";
-                    messageQueue.Enqueue(message);
-                }
-            }
-        }
-
         private void RefreshPlaceData()
         {
             var viewModel = DataContext as StayEatViewModel;
@@ -264,15 +202,6 @@ namespace travelAgency.view
             pin.LocationChangedAnimation = new PushpinLocationAnimation();
             pin.CanMove = false;
             mapItems.Items.Add(pin);
-        }
-
-        private void Edit_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            EditPlaceDialog editPlaceDialog = new EditPlaceDialog(Place);
-
-            editPlaceDialog.DialogResultEvent += EditPlace_DialogResultEvent;
-
-            editPlaceDialog.ShowDialog();
         }
     }
 }

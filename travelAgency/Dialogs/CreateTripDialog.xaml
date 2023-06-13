@@ -4,12 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:view="clr-namespace:travelAgency.view"
         xmlns:validators="clr-namespace:travelAgency.validators"
-        xmlns:local="clr-namespace:travelAgency.Dialogs" xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        xmlns:local="clr-namespace:travelAgency.view" xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         mc:Ignorable="d"
+        Icon="{StaticResource AppIcon}"
         Title="Create new trip"  ResizeMode="NoResize" Height="800" Width="600"
         MouseDown="window_MouseDown" WindowStartupLocation="CenterScreen">
+
     <Window.Resources>
+        <local:MultiTextBoxValidationConverter x:Key="MultiTextBoxValidationConverter" />
         <materialDesign:SnackbarMessageQueue x:Key="SnackbarMessageQueue" />
         <CollectionViewSource x:Key="SortedSchedules" Source="{Binding Trip.Schedules}">
             <CollectionViewSource.SortDescriptions>
@@ -42,11 +46,14 @@
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#00AF82" />
                 </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="#AA00AF82" />
+                </Trigger>
             </Style.Triggers>
         </Style>
         <Style x:Key="QuitButton" TargetType="Button" BasedOn="{StaticResource BottomButton}">
             <Setter Property="Background" Value="#E0E0E0" />
-            <Setter Property="Foreground" Value="#980012"/>
+            <Setter Property="Foreground" Value="#980012" />
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#55000000" />
@@ -94,16 +101,35 @@
             </Style.Triggers>
         </Style>
     </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Help" Executed="CommandBinding_Executed" />
+        <CommandBinding Command="{x:Static view:CustomCommands.Save}" Executed="Save_Executed" />
+        <CommandBinding Command="{x:Static view:CustomCommands.Quit}" Executed="Quit_Executed" />
+        <CommandBinding Command="{x:Static view:CustomCommands.TripSchedule}" Executed="AddPlace_Executed" />
+    </Window.CommandBindings>
+
+    <Window.InputBindings>
+        <KeyBinding Command="{x:Static view:CustomCommands.Save}" Key="S" Modifiers="Ctrl" />
+        <KeyBinding Command="{x:Static view:CustomCommands.Save}" Key="Enter" />
+        <KeyBinding Command="{x:Static view:CustomCommands.Quit}" Key="Q" Modifiers="Ctrl" />
+        <KeyBinding Command="{x:Static view:CustomCommands.TripSchedule}" Key="A" Modifiers="Ctrl" />
+    </Window.InputBindings>
     <DockPanel>
 
         <Grid DockPanel.Dock="Bottom" Height="50">
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                <Button Content="Quit" Width="80" FontSize="15" Style="{StaticResource QuitButton}" Click="Button_Click"/>
-                <Button Content="Save changes" FontSize="15" Width="130" Style="{StaticResource SaveButton}" Click="Save_Click" />
-                
+                <Button Content="Quit" Width="80" FontSize="15" Style="{StaticResource QuitButton}" Click="Button_Click" />
+                <Button Content="Save changes" FontSize="15" Width="130" Style="{StaticResource SaveButton}" Click="Save_Click">
+                    <Button.IsEnabled>
+                        <MultiBinding Converter="{StaticResource MultiTextBoxValidationConverter}">
+                            <Binding ElementName="NameTxtBox" Path="(Validation.HasError)" />
+                            <Binding ElementName="DescriptionTxtBox" Path="(Validation.HasError)" />
+                            <Binding ElementName="PriceTxtBox" Path="(Validation.HasError)" />
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
             </StackPanel>
             <materialDesign:Snackbar Panel.ZIndex="999" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="9" x:Name="Snackbar" Background="#78000000" Padding="0" Height="40" MessageQueue="{StaticResource SnackbarMessageQueue}" />
-
         </Grid>
         <ScrollViewer>
             <Grid>
@@ -126,16 +152,16 @@
                     <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="1.5*" MinHeight="100" />
-                    <RowDefinition Height="1.5*" MinHeight="100" />
-                    <RowDefinition Height="1*" MinHeight="70" />
+                    <RowDefinition Height="1.6*" MinHeight="100" />
+                    <RowDefinition Height="1.6*" MinHeight="100" />
+                    <RowDefinition Height="1.2*" MinHeight="70" />
                     <RowDefinition Height="0.5*" MinHeight="20" />
                     <RowDefinition Height="0.7*" MinHeight="50" />
                     <RowDefinition Height="1*" MinHeight="70" />
                     <RowDefinition Height="4*" />
                 </Grid.RowDefinitions>
 
-                <TextBox Grid.Row="0" Grid.ColumnSpan="5" Background="#ececec" FontSize="16" Name="NameTxtBox"
+                <TextBox Grid.Row="0" Grid.ColumnSpan="5" Background="#ececec" FontSize="16" Name="NameTxtBox"  MaxLength="50" materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
                   Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Title"
                  materialDesign:HintAssist.Background="#00000000" materialDesign:HintAssist.FloatingOffset="0,-25"
                  Padding="7,0,5,0" VerticalContentAlignment="Center" materialDesign:ValidationAssist.OnlyShowOnFocus="True"
@@ -144,35 +170,35 @@
                     <TextBox.Text>
                         <Binding Path="Trip.Name" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
-                                <validators:NotEmptyValidationRule/>
+                                <validators:NotEmptyValidationRule />
                             </Binding.ValidationRules>
                         </Binding>
                     </TextBox.Text>
                 </TextBox>
 
-                <TextBox Height="80" Width="Auto" Grid.Row="1" Grid.ColumnSpan="5" AcceptsReturn="True" TextWrapping="Wrap" Name="DescriptionTxtBox"
+                <TextBox Height="80" Width="Auto" Grid.Row="1" Grid.ColumnSpan="5" AcceptsReturn="True" TextWrapping="Wrap" Name="DescriptionTxtBox"  MaxLength="1000" materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
                        Background="#ececec" FontSize="16"  materialDesign:HintAssist.Hint="Description" Style="{StaticResource MaterialDesignOutlinedTextBox}"
                  materialDesign:HintAssist.Background="#00000000" Padding="7,0,5,0" LostFocus="TextBox_LostFocus" VerticalContentAlignment="Center"
-                  Margin="60,0,60,10" BorderThickness="1" materialDesign:ValidationAssist.OnlyShowOnFocus="True" >
+                  Margin="60,0,60,10" BorderThickness="1" materialDesign:ValidationAssist.OnlyShowOnFocus="True">
                     <TextBox.Text>
                         <Binding Path="Trip.Description" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
-                                <validators:NotEmptyValidationRule/>
+                                <validators:NotEmptyValidationRule />
                             </Binding.ValidationRules>
                         </Binding>
                     </TextBox.Text>
                 </TextBox>
 
-                <TextBox Grid.Row="2" Grid.ColumnSpan="5" Background="#ececec" FontSize="16" Name="PriceTxtBox"
+                <TextBox Grid.Row="2" Grid.ColumnSpan="5" Background="#ececec" FontSize="16" Name="PriceTxtBox"  MaxLength="10" materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
                   Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Price"
                  materialDesign:HintAssist.Background="#00000000" materialDesign:HintAssist.FloatingOffset="0,-25"
                  Padding="7,0,5,0" VerticalContentAlignment="Center" materialDesign:ValidationAssist.OnlyShowOnFocus="True"
                   Margin="60,0,60,10" Height="40" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                      BorderThickness="1" DataObject.Pasting="TextBoxPasting" LostFocus="TextBox_LostFocus" PreviewTextInput="Price_PreviewTextInput" >
+                      BorderThickness="1" DataObject.Pasting="TextBoxPasting" LostFocus="TextBox_LostFocus" PreviewTextInput="Price_PreviewTextInput">
                     <TextBox.Text>
-                        <Binding Path="Trip.Name" UpdateSourceTrigger="PropertyChanged">
+                        <Binding Path="Trip.Price" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
-                                <validators:NotEmptyValidationRule/>
+                                <validators:NotEmptyValidationRule />
                             </Binding.ValidationRules>
                         </Binding>
                     </TextBox.Text>
@@ -180,13 +206,21 @@
 
                 <Separator Grid.Row="3" Height="1" Grid.ColumnSpan="5" HorizontalAlignment="Stretch" Margin="30,10" BorderBrush="#55000000" BorderThickness="1" />
 
-                <TextBox Grid.Row="4" Background="#ececec" FontSize="16" Name="PlaceTextBox"
+                <TextBox Grid.Row="4" Background="#ececec" FontSize="16" Name="PlaceTextBox"  MaxLength="50" materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
                     Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Place"
                     materialDesign:HintAssist.Background="#00000000" materialDesign:HintAssist.FloatingOffset="0,-25"
                     Padding="7,0,5,0" VerticalContentAlignment="Center" VerticalAlignment="Bottom"
                     Margin="60,0,-20,0" Height="40" Width="Auto" HorizontalAlignment="Stretch"
-                     BorderThickness="1"
-                    TextChanged="TextBox_TextChanged" LostFocus="TextBox_OnFocusLost" KeyUp="TextBox_KeyDown" />
+                     BorderThickness="1" materialDesign:ValidationAssist.OnlyShowOnFocus="True"
+                    TextChanged="TextBox_TextChanged" LostFocus="TextBox_OnFocusLost" KeyUp="TextBox_KeyDown">
+                    <TextBox.Text>
+                        <Binding Path="PlaceName" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validators:NotEmptyValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
 
                 <ListBox Grid.Row="5" Grid.Column="0" Grid.RowSpan="2" Margin="60,3,-20,0"
                      Name="AutocompleteListBox" FontSize="16"  HorizontalAlignment="Stretch" VerticalAlignment="Top"
@@ -200,7 +234,8 @@
 
                 <DatePicker Name="DatePicker"  Grid.Row="4" Grid.Column="2" Height="40" Margin="-60,0,50,0" FontSize="16" Padding="7,0,5,0" Width="Auto"
              Background="#ececec" materialDesign:HintAssist.Hint="Date" VerticalAlignment="Bottom"
-              BorderThickness="1" SelectedDateFormat="Short">
+              BorderThickness="1" SelectedDateFormat="Short" LostFocus="DatePicker_LostFocus"
+                     materialDesign:ValidationAssist.OnlyShowOnFocus="True">
                     <DatePicker.Resources>
                         <SolidColorBrush x:Key="SecondaryColorBrush" Color="#009882" />
                         <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#009882" />
@@ -229,12 +264,20 @@
                             <Setter Property="CalendarStyle" Value="{StaticResource CustomCalendar}" />
                         </Style>
                     </DatePicker.Resources>
+                    <DatePicker.SelectedDate>
+                        <Binding Path="Date" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validators:NotEmptyValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </DatePicker.SelectedDate>
                 </DatePicker>
 
                 <Border Background="#ececec" VerticalAlignment="Bottom" Height="40" Grid.Row="4" Grid.Column="3" Margin="-30,0,20,0">
                     <materialDesign:TimePicker Name="TimePicker"  Height="40" FontSize="16" Padding="7,0,5,0" Width="Auto"
                         materialDesign:HintAssist.Hint="Time"
-                        BorderThickness="1"
+                        BorderThickness="1" LostFocus="TimePicker_LostFocus"
+                     materialDesign:ValidationAssist.OnlyShowOnFocus="True"
                         Is24Hours="True" Style="{StaticResource MaterialDesignOutlinedTimePicker}">
                         <materialDesign:TimePicker.Resources>
                             <SolidColorBrush x:Key="SecondaryColorBrush" Color="#009882" />
@@ -243,10 +286,17 @@
                             <SolidColorBrush x:Key="SecondaryHueMidForegroundBrush" Color="Black" />
                             <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="Black" />
                         </materialDesign:TimePicker.Resources>
+                        <materialDesign:TimePicker.SelectedTime>
+                            <Binding Path="Time" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <validators:NotEmptyValidationRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </materialDesign:TimePicker.SelectedTime>
                     </materialDesign:TimePicker>
                 </Border>
 
-                <Button Grid.Row="4" Grid.Column="4" Style="{StaticResource AddPlaceButton}" Height="40" Margin="0,0,60,0" VerticalAlignment="Bottom" Click="AddPlace_Click">
+                <Button Grid.Row="4" Grid.Column="4" Style="{StaticResource AddPlaceButton}" ToolTip="Add place" Height="40" Margin="0,0,60,0" VerticalAlignment="Bottom" Click="AddPlace_Click">
                     <materialDesign:PackIcon Kind="Plus" Height="25" Width="25" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" />
                 </Button>
 
@@ -275,7 +325,7 @@
                                         <Label Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="0" FontSize="18" VerticalAlignment="Center" Margin="0,0,0,0" HorizontalAlignment="Left" Content="{Binding Place.Name}"></Label>
                                         <materialDesign:PackIcon Grid.Row="1" Grid.Column="1" Kind="Calendar" Height="20" Width="20" VerticalAlignment="Center" HorizontalAlignment="Right" />
                                         <TextBlock Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" FontSize="14" VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding DateTime, StringFormat={}{0:dd.MM.yyyy}}"></TextBlock>
-                                        <materialDesign:PackIcon Grid.Row="1" Grid.Column="4" Kind="Clock" Height="20" Width="20" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                                        <materialDesign:PackIcon Grid.Row="1" Grid.Column="4" Kind="Clock" Height="20" Width="20" VerticalAlignment="Center" HorizontalAlignment="Right" />
                                         <TextBlock Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="1" FontSize="14" VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding DateTime, StringFormat={}{0:HH:mm}}"></TextBlock>
                                         <Button Grid.Row="0" Grid.Column="7" Style="{StaticResource RemovePlaceButton}" Height="30" Width="30" VerticalAlignment="Center" Click="RemovePlace_Click">
                                             <materialDesign:PackIcon Kind="Bin" Height="20" Width="20" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" />

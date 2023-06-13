@@ -46,12 +46,22 @@ public partial class BuyReservation : Window
         }
         Text = Text + " for: " + Arrangement.Trip.Name;
         this.DataContext = this;
-        Arrangement.Price = Arrangement.Trip.Price * BuyCount;
+        Arrangement.Price = (double)(Arrangement.Trip.Price * BuyCount);
         Arrangement.NumberOfPersons = BuyCount;
         PriceLabel.Content = Arrangement.Price.ToString();
     }
 
     private void MinusClick(object sender, RoutedEventArgs e)
+    {
+        Minus();
+    }
+
+    private void PlusClick(object sender, RoutedEventArgs e)
+    {
+        Plus();
+    }
+
+    public void Minus()
     {
         BuyCount--;
         if (BuyCount <= 1)
@@ -60,18 +70,18 @@ public partial class BuyReservation : Window
         }
         Count = BuyCount.ToString();
         CountLabel.Content = Count;
-        Arrangement.Price = Arrangement.Trip.Price * BuyCount;
+        Arrangement.Price = (double)(Arrangement.Trip.Price * BuyCount);
         Arrangement.NumberOfPersons = BuyCount;
         PriceLabel.Content = Arrangement.Price.ToString();
     }
 
-    private void PlusClick(object sender, RoutedEventArgs e)
+    public void Plus()
     {
         BuyCount += 1;
         Count = BuyCount.ToString();
         CountLabel.Content = Count;
         Arrangement.NumberOfPersons = BuyCount;
-        Arrangement.Price = Arrangement.Trip.Price * BuyCount;
+        Arrangement.Price = (double)(Arrangement.Trip.Price * BuyCount);
 
         PriceLabel.Content = Arrangement.Price.ToString();
     }
@@ -84,6 +94,36 @@ public partial class BuyReservation : Window
         arrangementRepository.Add(Arrangement);
         (new Confirmation(true)).ShowDialog();
         this.Close();
+    }
+
+    private void Cancel_Click(object sender, RoutedEventArgs e)
+    {
+        this.Close();
+    }
+
+    private void Yes_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+    {
+        Arrangement.DateTime = System.DateTime.Now;
+        Arrangement.TripId = Arrangement.Trip.Id;
+        Arrangement.UserId = Arrangement.User.Id;
+        arrangementRepository.Add(Arrangement);
+        (new Confirmation(true)).ShowDialog();
+        this.Close();
+    }
+
+    private void No_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+    {
+        this.Close();
+    }
+
+    private void Plus_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+    {
+        Plus();
+    }
+
+    private void Minus_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+    {
+        Minus();
     }
 
     private void Button_Click(object sender, RoutedEventArgs e)
