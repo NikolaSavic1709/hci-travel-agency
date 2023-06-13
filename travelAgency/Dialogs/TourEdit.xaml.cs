@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DevExpress.Xpf.Editors.Helpers;
+using DevExpress.XtraRichEdit.Model;
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -59,6 +61,7 @@ namespace travelAgency.view
                 Description = trip.Description;
                 Price = trip.Price.ToString();
             }
+            NameTxtBox.Focus();
         }
 
         private void Price_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -94,14 +97,20 @@ namespace travelAgency.view
 
     public class MultiTextBoxValidationConverter : IMultiValueConverter
     {
-        //public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        //{
-        //   bool hasErrors = values.OfType<ValidationError>().Any(error => error.ErrorContent != null);
-        //    return !hasErrors;
-        //}
+        int Counter { get; set; }
+        public MultiTextBoxValidationConverter()
+        {
+            Counter = 0;
+        }
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
+            //if (Counter == 0) {
+            //    Counter = 1;
+            //    return false;
+                
+            //}
             bool hasErrors = values.OfType<bool>().Any(value => value);
+
             return !hasErrors;
         }
 

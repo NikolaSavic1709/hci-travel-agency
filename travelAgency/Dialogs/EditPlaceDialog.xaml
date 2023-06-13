@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:travelAgency.Dialogs"
+        xmlns:localView="clr-namespace:travelAgency.view"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:validators="clr-namespace:travelAgency.validators"
         mc:Ignorable="d"
@@ -11,6 +12,7 @@
        >
 
     <Window.Resources>
+        <localView:MultiTextBoxValidationConverter x:Key="MultiTextBoxValidationConverter" />
         <local:VisibilityToGridHeightConverter x:Key="VisibilityToGridHeightConverter" />
         <Style x:Key="BottomButton" TargetType="Button">
             <Setter Property="Cursor" Value="Hand"/>
@@ -38,6 +40,9 @@
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#00AF82" />
                 </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="#AA00AF82"/>
+                </Trigger>
             </Style.Triggers>
         </Style>
         <Style x:Key="QuitButton" TargetType="Button" BasedOn="{StaticResource BottomButton}">
@@ -57,7 +62,15 @@
             <Grid DockPanel.Dock="Bottom" Height="50">
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                     <Button Content="Quit" FontSize="15" Width="80" Style="{StaticResource QuitButton}" Click="Cancel_Click"/>
-                    <Button Content="Save changes" FontSize="15" Width="130" Style="{StaticResource SaveButton}" Click="Update_Click" />
+                    <Button Content="Save changes" FontSize="15" Width="130" Style="{StaticResource SaveButton}" Click="Update_Click" >
+                        <Button.IsEnabled>
+                            <MultiBinding Converter="{StaticResource MultiTextBoxValidationConverter}">
+                                <Binding ElementName="NameTxtBox" Path="(Validation.HasError)" />
+                                <Binding ElementName="DescriptionTxtBox" Path="(Validation.HasError)" />
+                                <Binding ElementName="LocationTxtBox" Path="(Validation.HasError)" />
+                            </MultiBinding>
+                        </Button.IsEnabled>
+                    </Button>
 
                 </StackPanel>
             </Grid>

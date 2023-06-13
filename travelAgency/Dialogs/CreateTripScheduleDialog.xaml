@@ -5,11 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:validators="clr-namespace:travelAgency.validators"
-        xmlns:local="clr-namespace:travelAgency.Dialogs"
+        xmlns:local="clr-namespace:travelAgency.view"
         mc:Ignorable="d"
         Title="Add place to trip"  ResizeMode="NoResize" Height="250" Width="600"
         MouseDown="window_MouseDown" WindowStartupLocation="CenterScreen">
     <Window.Resources>
+        <local:MultiTextBoxValidationConverter x:Key="MultiTextBoxValidationConverter" />
         <materialDesign:SnackbarMessageQueue x:Key="SnackbarMessageQueue" />
         <Style x:Key="BottomButton" TargetType="Button">
             <Setter Property="Cursor" Value="Hand" />
@@ -37,6 +38,9 @@
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#00AF82" />
                 </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="#AA00AF82"/>
+                </Trigger>
             </Style.Triggers>
         </Style>
         <Style x:Key="QuitButton" TargetType="Button" BasedOn="{StaticResource BottomButton}">
@@ -54,7 +58,15 @@
         <Grid DockPanel.Dock="Bottom" Height="50">
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                 <Button Content="Quit" FontSize="15" Width="80" Style="{StaticResource QuitButton}" Click="Button_Click" />
-                <Button Content="Save changes" FontSize="15" Width="130" Style="{StaticResource SaveButton}" Click="SaveButton_Click" />
+                <Button Content="Save changes" FontSize="15" Width="130" Style="{StaticResource SaveButton}" Click="SaveButton_Click" >
+                    <Button.IsEnabled>
+                        <MultiBinding Converter="{StaticResource MultiTextBoxValidationConverter}">
+                            <Binding ElementName="DatePicker" Path="(Validation.HasError)" />
+                            <Binding ElementName="TimePicker" Path="(Validation.HasError)" />
+                            <Binding ElementName="PlaceTxtBox" Path="(Validation.HasError)" />
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
             </StackPanel>
             <materialDesign:Snackbar Panel.ZIndex="999" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="9" x:Name="Snackbar" Background="#78000000" Padding="0" Height="40" MessageQueue="{StaticResource SnackbarMessageQueue}" />
 

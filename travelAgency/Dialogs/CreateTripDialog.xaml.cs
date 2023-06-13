@@ -40,6 +40,8 @@ namespace travelAgency.Dialogs
             }
             places = placeRepository.GetAll();
             this.tripRepository = tripRepository;
+            NameTxtBox.Focus();
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -211,9 +213,20 @@ namespace travelAgency.Dialogs
             ViewModel.Trip.Name = NameTxtBox.Text;
             ViewModel.Trip.Description = DescriptionTxtBox.Text;
             ViewModel.Trip.Price = Convert.ToDouble(PriceTxtBox.Text);
-            tripRepository.Add(ViewModel.Trip);
-            NewTrip?.Invoke(this, new ToTripEventArgs(ViewModel.Trip));
-            Close();
+            if (ViewModel.Trip.Schedules.Count > 0)
+            {
+                tripRepository.Add(ViewModel.Trip);
+                NewTrip?.Invoke(this, new ToTripEventArgs(ViewModel.Trip));
+                Close();
+
+            }    
+            else
+                if (Snackbar.MessageQueue is { } messageQueue)
+                {
+                    var message = "Tour must have at least one place";
+                    messageQueue.Enqueue(message);
+                }
+           
         }
         public event EventHandler<ToTripEventArgs> NewTrip;
         private static bool IsTextAllowed(string text)

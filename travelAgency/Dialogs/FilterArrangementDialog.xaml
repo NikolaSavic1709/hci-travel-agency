@@ -34,6 +34,9 @@
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#00AF82" />
                 </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="#AA00AF82"/>
+                </Trigger>
             </Style.Triggers>
         </Style>
         <Style x:Key="QuitButton" TargetType="Button" BasedOn="{StaticResource BottomButton}">

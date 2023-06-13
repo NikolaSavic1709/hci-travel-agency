@@ -36,18 +36,22 @@ namespace travelAgency.Dialogs
 
             DataContext = this;
 
-            
-            if(tripScheduleForEdit!=null)
+
+            if (tripScheduleForEdit != null)
             {
                 TripSchedule = tripScheduleForEdit;
                 PlaceTextBox.IsEnabled = false;
                 PlaceName = TripSchedule.Place.Name;
                 AutocompleteListBox.Visibility = Visibility.Hidden;
-                Date=TripSchedule.DateTime;
-                Time=TripSchedule.DateTime;
+                Date = TripSchedule.DateTime;
+                Time = TripSchedule.DateTime;
             }
             else
+            {
                 PlaceName = "";
+                PlaceTextBox.Focus();
+            }
+
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)

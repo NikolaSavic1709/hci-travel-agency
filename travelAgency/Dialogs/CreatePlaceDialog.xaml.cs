@@ -53,9 +53,9 @@ namespace travelAgency.Dialogs
             {
                 OutlinedComboBox.Items.RemoveAt(0);
             }
-
             DataContext = this;
             SetAmenities();
+            NameTxtBox.Focus();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

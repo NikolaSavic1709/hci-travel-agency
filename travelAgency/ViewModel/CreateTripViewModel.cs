@@ -7,7 +7,6 @@ namespace travelAgency.ViewModel
     public class CreateTripViewModel : INotifyPropertyChanged
     {
         private Trip _trip;
-
         public Trip Trip
         {
             get { return _trip; }
