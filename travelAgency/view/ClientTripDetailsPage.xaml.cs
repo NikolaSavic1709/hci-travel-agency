@@ -127,5 +127,12 @@ namespace travelAgency.view
             arrangement.IsReservation = true;
             (new BuyReservation(arrangement, dbContext)).ShowDialog();
         }
+
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Grid card = (Grid)sender;
+            TripSchedule tripSchedule = (TripSchedule)card.DataContext;
+            (new ClientPlaceDetails(tripSchedule.Place)).Show();
+        }
     }
 }

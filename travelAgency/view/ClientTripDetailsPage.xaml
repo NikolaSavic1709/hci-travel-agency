@@ -38,15 +38,15 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     </Page.Resources>
 
     <Page.CommandBindings>
-        <CommandBinding Command="{x:Static local:CustomCommands.Purchase}" Executed="Purchase_Executed"/>
-        <CommandBinding Command="{x:Static local:CustomCommands.Reserve}" Executed="Reserve_Executed"/>
+        <CommandBinding Command="{x:Static local:CustomCommands.Purchase}" Executed="Purchase_Executed" />
+        <CommandBinding Command="{x:Static local:CustomCommands.Reserve}" Executed="Reserve_Executed" />
     </Page.CommandBindings>
 
     <Page.InputBindings>
-        <KeyBinding Command="{x:Static local:CustomCommands.Purchase}" Key="P" Modifiers="Ctrl"/>
-        <KeyBinding Command="{x:Static local:CustomCommands.Reserve}" Key="R" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static local:CustomCommands.Purchase}" Key="P" Modifiers="Ctrl" />
+        <KeyBinding Command="{x:Static local:CustomCommands.Reserve}" Key="R" Modifiers="Ctrl" />
     </Page.InputBindings>
-    
+
     <ScrollViewer>
         <Grid>
             <Grid.RowDefinitions>
@@ -106,7 +106,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 
                             <StackPanel>
                                 <Border BorderBrush="#aa000000" BorderThickness="0.4" Height="100">
-                                    <Grid Background="#ececec">
+                                    <Grid Background="#ececec" MouseDown="Grid_MouseDown">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="1*" />
                                             <RowDefinition Height="1*" />
