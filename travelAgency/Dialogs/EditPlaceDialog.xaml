@@ -97,7 +97,7 @@
                     <RowDefinition Height="1.5*" MinHeight="100"/>
                 </Grid.RowDefinitions>
 
-                <TextBox Grid.Row="0" Grid.ColumnSpan="5" Background="#ececec" FontSize="16" Name="NameTxtBox"
+                <TextBox Grid.Row="0" Grid.ColumnSpan="5" Background="#ececec" FontSize="16" Name="NameTxtBox"  MaxLength="50" materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
                   Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Title"
                  materialDesign:HintAssist.Background="#00000000" materialDesign:HintAssist.FloatingOffset="0,-25"   
                  Padding="7,0,5,0" VerticalContentAlignment="Center" 
@@ -106,12 +106,12 @@
 
                 </TextBox>
 
-                <TextBox Height="80" Width="Auto" Grid.Row="1" Grid.ColumnSpan="5" AcceptsReturn="True" TextWrapping="Wrap" Name="LocationTxtBox"
+                <TextBox Height="80" Width="Auto" Grid.Row="1" Grid.ColumnSpan="5" AcceptsReturn="True" TextWrapping="Wrap" Name="LocationTxtBox"  MaxLength="1000" materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
                        Background="#ececec" FontSize="16"  materialDesign:HintAssist.Hint="Location" Style="{StaticResource MaterialDesignOutlinedTextBox}"
                  materialDesign:HintAssist.Background="#00000000" Padding="7,0,5,0" VerticalContentAlignment="Center" 
                   Margin="60,0,60,0"  BorderBrush="#55000000" BorderThickness="1"/>
 
-                <TextBox Height="80" Width="Auto" Grid.Row="2" Grid.ColumnSpan="5" AcceptsReturn="True" TextWrapping="Wrap" Name="DescriptionTxtBox"
+                <TextBox Height="80" Width="Auto" Grid.Row="2" Grid.ColumnSpan="5" AcceptsReturn="True" TextWrapping="Wrap" Name="DescriptionTxtBox"  MaxLength="1000" materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
                        Background="#ececec" FontSize="16"  materialDesign:HintAssist.Hint="Description" Style="{StaticResource MaterialDesignOutlinedTextBox}"
                  materialDesign:HintAssist.Background="#00000000" Padding="7,0,5,0" VerticalContentAlignment="Center" 
                   Margin="60,0,60,0"  BorderBrush="#55000000" BorderThickness="1"/>

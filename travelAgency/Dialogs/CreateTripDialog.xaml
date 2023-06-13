@@ -145,7 +145,7 @@
                     <RowDefinition Height="4*" />
                 </Grid.RowDefinitions>
 
-                <TextBox Grid.Row="0" Grid.ColumnSpan="5" Background="#ececec" FontSize="16" Name="NameTxtBox"
+                <TextBox Grid.Row="0" Grid.ColumnSpan="5" Background="#ececec" FontSize="16" Name="NameTxtBox"  MaxLength="50" materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
                   Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Title"
                  materialDesign:HintAssist.Background="#00000000" materialDesign:HintAssist.FloatingOffset="0,-25"
                  Padding="7,0,5,0" VerticalContentAlignment="Center"
@@ -153,12 +153,12 @@
                      BorderBrush="#55000000" BorderThickness="1">
                 </TextBox>
 
-                <TextBox Height="80" Width="Auto" Grid.Row="1" Grid.ColumnSpan="5" AcceptsReturn="True" TextWrapping="Wrap" Name="DescriptionTxtBox"
+                <TextBox Height="80" Width="Auto" Grid.Row="1" Grid.ColumnSpan="5" AcceptsReturn="True" TextWrapping="Wrap" Name="DescriptionTxtBox"  MaxLength="1000" materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
                        Background="#ececec" FontSize="16"  materialDesign:HintAssist.Hint="Description" Style="{StaticResource MaterialDesignOutlinedTextBox}"
                  materialDesign:HintAssist.Background="#00000000" Padding="7,0,5,0" VerticalContentAlignment="Center"
                   Margin="60,0,60,0"  BorderBrush="#55000000" BorderThickness="1"  />
 
-                <TextBox Grid.Row="2" Grid.ColumnSpan="5" Background="#ececec" FontSize="16" Name="PriceTxtBox"
+                <TextBox Grid.Row="2" Grid.ColumnSpan="5" Background="#ececec" FontSize="16" Name="PriceTxtBox"  MaxLength="10" materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
                   Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Price"
                  materialDesign:HintAssist.Background="#00000000" materialDesign:HintAssist.FloatingOffset="0,-25"
                  Padding="7,0,5,0" VerticalContentAlignment="Center"
@@ -167,7 +167,7 @@
 
                 <Separator Grid.Row="3" Height="1" Grid.ColumnSpan="5" HorizontalAlignment="Stretch" Margin="30,10" BorderBrush="#55000000" BorderThickness="1" />
 
-                <TextBox Grid.Row="4" Background="#ececec" FontSize="16" Name="PlaceTextBox"
+                <TextBox Grid.Row="4" Background="#ececec" FontSize="16" Name="PlaceTextBox"  MaxLength="50" materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
                     Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Place"
                     materialDesign:HintAssist.Background="#00000000" materialDesign:HintAssist.FloatingOffset="0,-25"
                     Padding="7,0,5,0" VerticalContentAlignment="Center" VerticalAlignment="Bottom"
@@ -233,7 +233,7 @@
                     </materialDesign:TimePicker>
                 </Border>
 
-                <Button Grid.Row="4" Grid.Column="4" Style="{StaticResource AddPlaceButton}" Height="40" Margin="0,0,60,0" VerticalAlignment="Bottom" Click="AddPlace_Click">
+                <Button Grid.Row="4" Grid.Column="4" Style="{StaticResource AddPlaceButton}" ToolTip="Add place" Height="40" Margin="0,0,60,0" VerticalAlignment="Bottom" Click="AddPlace_Click">
                     <materialDesign:PackIcon Kind="Plus" Height="25" Width="25" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" />
                 </Button>
 

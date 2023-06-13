@@ -66,7 +66,7 @@
                         </Grid.ColumnDefinitions>
 
                         <Button x:Name="SearchButton"
-                    Width="24"
+                    Width="24" ToolTip="Search"
                     Height="24"
                     Command="{Binding SearchCommand}"
                     CommandParameter="{Binding ElementName=SearchBox, Path=Text}"
@@ -75,7 +75,7 @@
                         </Button>
 
                         <TextBox x:Name="SearchBox"
-                     Grid.Column="1"
+                     Grid.Column="1" MaxLength="50" materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
                      MinWidth="200"
                      Margin="5,0,0,0"
                      VerticalAlignment="Center"
@@ -88,7 +88,7 @@
 
                 <Button Content="{materialDesign:PackIcon Plus}" Background="#009882" Padding="0"
                     Grid.Column="4" Grid.Row="1" Name="AddBtn"
-                    ToolTip="Create trip" Click="CreatePlace_Click" Grid.ColumnSpan="2" Height="32" Margin="15,5,0,0" VerticalAlignment="Top" />
+                    ToolTip="Create place" Click="CreatePlace_Click" Grid.ColumnSpan="2" Height="32" Margin="15,5,0,0" VerticalAlignment="Top" />
 
                 <Grid Grid.Column="7"  Grid.Row="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                     <dxm:MapControl Name="map" HorizontalAlignment="Stretch"  VerticalAlignment="Center" Width="Auto">
