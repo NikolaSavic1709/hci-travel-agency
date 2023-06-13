@@ -12,6 +12,9 @@
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         WindowStartupLocation="CenterScreen"
         Title="Jastreb" Height="600" Width="800" Icon="{StaticResource AppIcon}">
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Help" Executed="CommandBinding_Executed" />
+    </Window.CommandBindings>
 
     <Window.Resources>
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Input;
 
 namespace travelAgency.view
 {
@@ -21,7 +22,7 @@ namespace travelAgency.view
 
             loginPage = new LoginPage(this);
             loginPage.ToSignUpClicked += To_SignUpNavigation;
-
+            Help.HelpProvider.SetHelpKey((DependencyObject)FormContent, "login");
             FormContent.Navigate(loginPage);
         }
 
@@ -37,6 +38,16 @@ namespace travelAgency.view
             registrationPage = new RegistrationPage();
             registrationPage.ToLoginClicked += To_LoginNavigation;
             FormContent.Navigate(registrationPage);
+        }
+
+        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            IInputElement focusedControl = FocusManager.GetFocusedElement(System.Windows.Application.Current.Windows[0]);
+            if (focusedControl is DependencyObject)
+            {
+                string str = Help.HelpProvider.GetHelpKey((DependencyObject)FormContent);
+                Help.HelpProvider.ShowHelp(str, this);
+            }
         }
     }
 }
