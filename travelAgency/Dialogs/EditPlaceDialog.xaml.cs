@@ -24,16 +24,19 @@ namespace travelAgency.Dialogs
         Place _place;
         public TravelAgencyContext dbContext;
         public PlaceRepository placeRepository;
+        public string Name1 { get; set; }
+        public string Description { get; set; }
+        public string Location { get; set; }
         public EditPlaceDialog(Place place)
         {
             InitializeComponent();
             dbContext = new TravelAgencyContext();
             placeRepository = new PlaceRepository(dbContext);
-
+            DataContext = this;
             _place = place;
-            NameTxtBox.Text = place.Name;
-            LocationTxtBox.Text = place.Location;
-            DescriptionTxtBox.Text = place.Description;
+            Name1 = place.Name;
+            Location = place.Location;
+            Description = place.Description;
         }
 
         public event EventHandler<DialogResultEventArgs> DialogResultEvent;
@@ -53,6 +56,14 @@ namespace travelAgency.Dialogs
 
             DialogResultEvent?.Invoke(this, new DialogResultEventArgs(true));
             Close();
+        }
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            BindingExpression bindingExpr = textBox.GetBindingExpression(TextBox.TextProperty);
+
+            // Manually trigger the validation
+            bindingExpr.UpdateSource();
         }
     }
 }

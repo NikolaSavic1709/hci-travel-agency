@@ -1,8 +1,10 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using travelAgency.model;
 using travelAgency.repository;
@@ -21,7 +23,9 @@ namespace travelAgency.Dialogs
         TripRepository tripRepository;
         private PlaceRepository placeRepository;
         TripSchedule TripSchedule { get; set; }
-
+        public string PlaceName { get; set; }
+        public DateTime? Date { get; set; }
+        public DateTime? Time { get; set; }
         public CreateTripScheduleDialog(Trip trip, TripRepository tripRepository, PlaceRepository placeRepository, TripSchedule? tripScheduleForEdit)
         {
             InitializeComponent();
@@ -29,21 +33,27 @@ namespace travelAgency.Dialogs
             this.tripRepository = tripRepository;
             this.placeRepository = placeRepository;
             places = placeRepository.GetAll();
+
+            DataContext = this;
+
+            
             if(tripScheduleForEdit!=null)
             {
                 TripSchedule = tripScheduleForEdit;
-                PlaceTextBox.Text = TripSchedule.Place.Name;
                 PlaceTextBox.IsEnabled = false;
+                PlaceName = TripSchedule.Place.Name;
                 AutocompleteListBox.Visibility = Visibility.Hidden;
-                DatePicker.SelectedDate=TripSchedule.DateTime;
-                TimePicker.SelectedTime=TripSchedule.DateTime;
+                Date=TripSchedule.DateTime;
+                Time=TripSchedule.DateTime;
             }
+            else
+                PlaceName = "";
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             string text = PlaceTextBox.Text;
-            if (text.Length > 2)
+            if (text.Length > 2 && PlaceTextBox.IsEnabled)
             {
                 AutocompleteListBox.Visibility = Visibility.Visible;
                 AutocompleteListBox.ItemsSource = places.Where(p => p.Name.ToLower().Contains(text.ToLower()));
@@ -62,6 +72,11 @@ namespace travelAgency.Dialogs
         {
             AutocompleteListBox.Visibility = Visibility.Hidden;
             currentIndexListBox = -1;
+            TextBox textBox = (TextBox)sender;
+            BindingExpression bindingExpr = textBox.GetBindingExpression(TextBox.TextProperty);
+
+            // Manually trigger the validation
+            bindingExpr.UpdateSource();
         }
 
         private void AutocompleteListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -154,8 +169,28 @@ namespace travelAgency.Dialogs
             }
             else
             {
-                //handle
+                if (Snackbar.MessageQueue is { } messageQueue)
+                {
+                    var message = "Place doesn't exist";
+                    messageQueue.Enqueue(message);
+                }
             }
+        }
+        private void DatePicker_LostFocus(object sender, RoutedEventArgs e)
+        {
+            DatePicker datePicker = (DatePicker)sender;
+            BindingExpression bindingExpr = datePicker.GetBindingExpression(DatePicker.SelectedDateProperty);
+
+            // Manually trigger the validation
+            bindingExpr.UpdateSource();
+        }
+        private void TimePicker_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TimePicker timePicker = (TimePicker)sender;
+            BindingExpression bindingExpr = timePicker.GetBindingExpression(TimePicker.SelectedTimeProperty);
+
+            // Manually trigger the validation
+            bindingExpr.UpdateSource();
         }
     }
 }
