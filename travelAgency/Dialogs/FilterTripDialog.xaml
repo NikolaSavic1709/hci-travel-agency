@@ -9,6 +9,7 @@
         mc:Ignorable="d"
         xmlns:view="clr-namespace:travelAgency.view"
          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Icon="{StaticResource AppIcon}"
         Title="Trip filter" ResizeMode="NoResize" Height="250" Width="600" WindowStartupLocation="CenterScreen">
 
     <Window.Resources>

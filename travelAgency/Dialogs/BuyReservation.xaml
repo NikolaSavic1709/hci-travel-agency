@@ -6,7 +6,9 @@
         xmlns:view="clr-namespace:travelAgency.view"
         xmlns:local="clr-namespace:travelAgency.view" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="BuyReservation" Height="250" Width="400">
+        Icon="{StaticResource AppIcon}"
+        WindowStartupLocation="CenterScreen"
+        Title="Buy Reservation" Height="250" Width="400">
     <Window.Resources>
         <Style x:Key="BottomButton" TargetType="Button">
             <Setter Property="Cursor" Value="Hand" />
@@ -35,7 +37,7 @@
                     <Setter Property="Background" Value="#00AF82" />
                 </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Background" Value="#AA00AF82"/>
+                    <Setter Property="Background" Value="#AA00AF82" />
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -63,8 +65,8 @@
         <KeyBinding Command="{x:Static view:CustomCommands.Plus}" Key="OemPlus" Modifiers="Ctrl" />
         <KeyBinding Command="{x:Static view:CustomCommands.Minus}" Key="OemMinus" Modifiers="Ctrl" />
     </Window.InputBindings>
-    <Grid>
 
+    <Grid>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*" />
@@ -90,12 +92,12 @@
             <Label Name="CountLabel" Grid.ColumnSpan="1" Content="{Binding Count, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="3" Grid.Row="2" BorderThickness="0" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
             <Button Grid.ColumnSpan="1" Grid.Column="4" Grid.Row="2"
   Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryButton}"
-  ToolTip="MaterialDesignFloatingActionMiniLightButton" Foreground="#FFFFFFFF"  Click="PlusClick" BorderBrush="#002C2C2C">
+  ToolTip="Add person" Foreground="#FFFFFFFF"  Click="PlusClick" BorderBrush="#002C2C2C">
                 <materialDesign:PackIcon Kind="Plus" />
             </Button>
             <Button Grid.ColumnSpan="1" Grid.Column="2" Grid.Row="2"
   Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryButton}"
-  ToolTip="MaterialDesignFloatingActionMiniLightButton" Foreground="#FFFFFFFF" Click="MinusClick" BorderBrush="#002C2C2C">
+  ToolTip="Reduce number of people" Foreground="#FFFFFFFF" Click="MinusClick" BorderBrush="#002C2C2C">
                 <materialDesign:PackIcon Kind="Minus" />
             </Button>
             <Grid Grid.ColumnSpan="6" Grid.Row="3">

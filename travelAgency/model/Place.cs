@@ -11,6 +11,7 @@ namespace travelAgency.model
         public string Name { get; set; }
         public string Description { get; set; }
         public string Location { get; set; }
+        public bool IsDeleted { get; set; }
         public double lat { get; set; }
         public double lng { get; set; }
 

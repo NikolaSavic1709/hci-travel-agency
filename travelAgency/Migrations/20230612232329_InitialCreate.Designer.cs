@@ -11,7 +11,7 @@ using travelAgency;
 namespace travelAgency.Migrations
 {
     [DbContext(typeof(TravelAgencyContext))]
-    [Migration("20230611234900_InitialCreate")]
+    [Migration("20230612232329_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -106,6 +106,9 @@ namespace travelAgency.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -138,6 +141,9 @@ namespace travelAgency.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()

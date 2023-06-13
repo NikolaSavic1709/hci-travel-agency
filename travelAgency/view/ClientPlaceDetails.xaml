@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:travelAgency.view" xmlns:controls="clr-namespace:travelAgency.controls" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
+        Icon="{StaticResource AppIcon}" WindowStartupLocation="CenterScreen"
         Title="ClientPlaceDetails" Height="750" Width="1000">
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.Help" Executed="CommandBinding_Executed" />

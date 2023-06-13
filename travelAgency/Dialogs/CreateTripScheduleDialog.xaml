@@ -8,6 +8,7 @@
         xmlns:local="clr-namespace:travelAgency.Dialogs"
         xmlns:view="clr-namespace:travelAgency.view"
         mc:Ignorable="d"
+        Icon="{StaticResource AppIcon}"
         Title="Add place to trip"  ResizeMode="NoResize" Height="250" Width="600"
         MouseDown="window_MouseDown" WindowStartupLocation="CenterScreen">
     <Window.Resources>
@@ -107,7 +108,7 @@
                 <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
 
-            <TextBox Grid.Row="0" Grid.Column="1" Background="#ececec" FontSize="16" Name="PlaceTextBox"
+            <TextBox Grid.Row="0" Grid.Column="1" Background="#ececec" FontSize="16" Name="PlaceTextBox"  MaxLength="50" materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
                     Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Place"
                     materialDesign:HintAssist.Background="#00000000" materialDesign:HintAssist.FloatingOffset="0,-25"
                     Padding="7,0,5,0" VerticalContentAlignment="Center" VerticalAlignment="Bottom" Height="40" Width="Auto" HorizontalAlignment="Stretch"
