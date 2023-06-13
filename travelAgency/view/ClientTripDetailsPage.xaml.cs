@@ -132,7 +132,12 @@ namespace travelAgency.view
         {
             Grid card = (Grid)sender;
             TripSchedule tripSchedule = (TripSchedule)card.DataContext;
-            (new ClientPlaceDetails(tripSchedule.Place)).Show();
+            ClientPlaceDetails window = new ClientPlaceDetails(tripSchedule.Place);
+            window.Owner = Application.Current.MainWindow;
+            window.Show();
+            //(new ClientPlaceDetails(tripSchedule.Place)).Show();
+            RegistrationWindow w = new RegistrationWindow();
+            //w.Show();
         }
     }
 }
