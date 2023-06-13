@@ -21,12 +21,13 @@ namespace travelAgency.Dialogs
     /// </summary>
     public partial class EditPlaceDialog : Window
     {
-        Place _place;
+        private Place _place;
         public TravelAgencyContext dbContext;
         public PlaceRepository placeRepository;
         public string Name1 { get; set; }
         public string Description { get; set; }
         public string Location { get; set; }
+
         public EditPlaceDialog(Place place)
         {
             InitializeComponent();
@@ -37,10 +38,13 @@ namespace travelAgency.Dialogs
             Name1 = place.Name;
             Location = place.Location;
             Description = place.Description;
+
+            Help.HelpProvider.SetHelpKey((DependencyObject)this, "place");
             //NameTxtBox.Focus();
         }
 
         public event EventHandler<DialogResultEventArgs> DialogResultEvent;
+
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             DialogResultEvent?.Invoke(this, new DialogResultEventArgs(false));
@@ -73,6 +77,7 @@ namespace travelAgency.Dialogs
             DialogResultEvent?.Invoke(this, new DialogResultEventArgs(false));
             Close();
         }
+
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             TextBox textBox = (TextBox)sender;
@@ -80,6 +85,16 @@ namespace travelAgency.Dialogs
 
             // Manually trigger the validation
             bindingExpr.UpdateSource();
+        }
+
+        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            IInputElement focusedControl = FocusManager.GetFocusedElement(System.Windows.Application.Current.Windows[0]);
+            if (focusedControl is DependencyObject)
+            {
+                string str = Help.HelpProvider.GetHelpKey((DependencyObject)this);
+                Help.HelpProvider.ShowHelp(str, this);
+            }
         }
     }
 }

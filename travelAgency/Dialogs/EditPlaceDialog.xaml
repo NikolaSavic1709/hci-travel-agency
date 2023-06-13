@@ -10,26 +10,25 @@
         mc:Ignorable="d"
         Icon="{StaticResource AppIcon}"
         xmlns:view="clr-namespace:travelAgency.view"
-        Title="Edit place"  ResizeMode="NoResize" Height="400" Width="600" WindowStartupLocation="CenterScreen"
-       >
+        Title="Edit place"  ResizeMode="NoResize" Height="400" Width="600" WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
         <localView:MultiTextBoxValidationConverter x:Key="MultiTextBoxValidationConverter" />
         <local:VisibilityToGridHeightConverter x:Key="VisibilityToGridHeightConverter" />
         <Style x:Key="BottomButton" TargetType="Button">
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Height" Value="35"/>
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="FontWeight" Value="DemiBold"/>
-            <Setter Property="Foreground" Value="#E0E0E0"/>
-            <Setter Property="Margin" Value="5,0,5,0"/>
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Height" Value="35" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="DemiBold" />
+            <Setter Property="Foreground" Value="#E0E0E0" />
+            <Setter Property="Margin" Value="5,0,5,0" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Grid>
                             <Border Background="{TemplateBinding Background}" Opacity="1" CornerRadius="4,4,4,4">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </Border>
                         </Grid>
                     </ControlTemplate>
@@ -37,19 +36,19 @@
             </Setter>
         </Style>
         <Style x:Key="SaveButton" TargetType="Button" BasedOn="{StaticResource BottomButton}">
-            <Setter Property="Background" Value="#009882"/>
+            <Setter Property="Background" Value="#009882" />
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#00AF82" />
                 </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Background" Value="#AA00AF82"/>
+                    <Setter Property="Background" Value="#AA00AF82" />
                 </Trigger>
             </Style.Triggers>
         </Style>
         <Style x:Key="QuitButton" TargetType="Button" BasedOn="{StaticResource BottomButton}">
             <Setter Property="Background" Value="#E0E0E0" />
-            <Setter Property="Foreground" Value="#980012"/>
+            <Setter Property="Foreground" Value="#980012" />
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#55000000" />
@@ -59,23 +58,24 @@
     </Window.Resources>
 
     <Window.CommandBindings>
-        <CommandBinding Command="{x:Static view:CustomCommands.Save}" Executed="Save_Executed"/>
-        <CommandBinding Command="{x:Static view:CustomCommands.Quit}" Executed="Quit_Executed"/>
+        <CommandBinding Command="ApplicationCommands.Help" Executed="CommandBinding_Executed" />
+        <CommandBinding Command="{x:Static view:CustomCommands.Save}" Executed="Save_Executed" />
+        <CommandBinding Command="{x:Static view:CustomCommands.Quit}" Executed="Quit_Executed" />
     </Window.CommandBindings>
 
     <Window.InputBindings>
-        <KeyBinding Command="{x:Static view:CustomCommands.Save}" Key="S" Modifiers="Ctrl"/>
-        <KeyBinding Command="{x:Static view:CustomCommands.Save}" Key="Enter"/>
-        <KeyBinding Command="{x:Static view:CustomCommands.Quit}" Key="Q" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static view:CustomCommands.Save}" Key="S" Modifiers="Ctrl" />
+        <KeyBinding Command="{x:Static view:CustomCommands.Save}" Key="Enter" />
+        <KeyBinding Command="{x:Static view:CustomCommands.Quit}" Key="Q" Modifiers="Ctrl" />
     </Window.InputBindings>
-    
+
     <Grid>
         <DockPanel>
 
             <Grid DockPanel.Dock="Bottom" Height="50">
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                    <Button Content="Quit" FontSize="15" Width="80" Style="{StaticResource QuitButton}" Click="Cancel_Click"/>
-                    <Button Content="Save changes" FontSize="15" Width="130" Style="{StaticResource SaveButton}" Click="Update_Click" >
+                    <Button Content="Quit" FontSize="15" Width="80" Style="{StaticResource QuitButton}" Click="Cancel_Click" />
+                    <Button Content="Save changes" FontSize="15" Width="130" Style="{StaticResource SaveButton}" Click="Update_Click">
                         <Button.IsEnabled>
                             <MultiBinding Converter="{StaticResource MultiTextBoxValidationConverter}">
                                 <Binding ElementName="NameTxtBox" Path="(Validation.HasError)" />
@@ -84,45 +84,44 @@
                             </MultiBinding>
                         </Button.IsEnabled>
                     </Button>
-
                 </StackPanel>
             </Grid>
             <Grid>
-                    <Grid.Resources>
-                        <Style TargetType="Label">
-                            <Setter Property="HorizontalAlignment" Value="Left" />
-                            <Setter Property="VerticalAlignment" Value="Center" />
-                            <Setter Property="Height" Value="40" />
-                            <Setter Property="VerticalContentAlignment" Value="Center" />
-                            <Setter Property="Padding" Value="5"/>
-                            <Setter Property="Margin" Value="30,0,0,0"/>
-                            <Setter Property="FontSize" Value="16"/>
-                        </Style>
-                    </Grid.Resources>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*"/>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="1*" MinHeight="100"/>
-                        <RowDefinition Height="1.5*" MinHeight="70"/>
-                    <RowDefinition Height="1.5*" MinHeight="100"/>
+                <Grid.Resources>
+                    <Style TargetType="Label">
+                        <Setter Property="HorizontalAlignment" Value="Left" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                        <Setter Property="Height" Value="40" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="Padding" Value="5" />
+                        <Setter Property="Margin" Value="30,0,0,0" />
+                        <Setter Property="FontSize" Value="16" />
+                    </Style>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" MinHeight="100" />
+                    <RowDefinition Height="1.5*" MinHeight="70" />
+                    <RowDefinition Height="1.5*" MinHeight="100" />
                 </Grid.RowDefinitions>
 
                 <TextBox Grid.Row="0" Grid.ColumnSpan="5" Background="#ececec" FontSize="16" Name="NameTxtBox"  MaxLength="50" materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
                   Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Title"
-                 materialDesign:HintAssist.Background="#00000000" materialDesign:HintAssist.FloatingOffset="0,-25"   
-                 Padding="7,0,5,0" VerticalContentAlignment="Center" 
+                 materialDesign:HintAssist.Background="#00000000" materialDesign:HintAssist.FloatingOffset="0,-25"
+                 Padding="7,0,5,0" VerticalContentAlignment="Center"
                   Margin="60,40,60,0" Height="40" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                     BorderThickness="1" materialDesign:ValidationAssist.OnlyShowOnFocus="True" 
+                     BorderThickness="1" materialDesign:ValidationAssist.OnlyShowOnFocus="True"
                  LostFocus="TextBox_LostFocus">
                     <TextBox.Text>
                         <Binding Path="Name1" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
-                                <validators:NotEmptyValidationRule/>
+                                <validators:NotEmptyValidationRule />
                             </Binding.ValidationRules>
                         </Binding>
                     </TextBox.Text>
@@ -130,13 +129,13 @@
 
                 <TextBox Height="80" Width="Auto" Grid.Row="1" Grid.ColumnSpan="5" AcceptsReturn="True" TextWrapping="Wrap" Name="LocationTxtBox"  MaxLength="1000" materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
                        Background="#ececec" FontSize="16"  materialDesign:HintAssist.Hint="Location" Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                 materialDesign:HintAssist.Background="#00000000" Padding="7,0,5,0" VerticalContentAlignment="Center" 
-                  Margin="60,20,60,0"  materialDesign:ValidationAssist.OnlyShowOnFocus="True" 
+                 materialDesign:HintAssist.Background="#00000000" Padding="7,0,5,0" VerticalContentAlignment="Center"
+                  Margin="60,20,60,0"  materialDesign:ValidationAssist.OnlyShowOnFocus="True"
                  LostFocus="TextBox_LostFocus" BorderThickness="1">
                     <TextBox.Text>
                         <Binding Path="Location" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
-                                <validators:NotEmptyValidationRule/>
+                                <validators:NotEmptyValidationRule />
                             </Binding.ValidationRules>
                         </Binding>
                     </TextBox.Text>
@@ -144,21 +143,18 @@
 
                 <TextBox Height="80" Width="Auto" Grid.Row="2" Grid.ColumnSpan="5" AcceptsReturn="True" TextWrapping="Wrap" Name="DescriptionTxtBox"  MaxLength="1000" materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
                        Background="#ececec" FontSize="16"  materialDesign:HintAssist.Hint="Description" Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                 materialDesign:HintAssist.Background="#00000000" Padding="7,0,5,0" VerticalContentAlignment="Center" 
-                  Margin="60,0,60,0" BorderThickness="1"  materialDesign:ValidationAssist.OnlyShowOnFocus="True" 
+                 materialDesign:HintAssist.Background="#00000000" Padding="7,0,5,0" VerticalContentAlignment="Center"
+                  Margin="60,0,60,0" BorderThickness="1"  materialDesign:ValidationAssist.OnlyShowOnFocus="True"
                  LostFocus="TextBox_LostFocus">
                     <TextBox.Text>
                         <Binding Path="Description" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
-                                <validators:NotEmptyValidationRule/>
+                                <validators:NotEmptyValidationRule />
                             </Binding.ValidationRules>
                         </Binding>
                     </TextBox.Text>
                 </TextBox>
-
-
             </Grid>
-
         </DockPanel>
     </Grid>
 </Window>

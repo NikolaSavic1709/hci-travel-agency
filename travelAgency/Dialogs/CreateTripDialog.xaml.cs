@@ -19,11 +19,11 @@ namespace travelAgency.Dialogs
     /// </summary>
     public partial class CreateTripDialog : Window
     {
-        List<Place> places;
+        private List<Place> places;
         private TripRepository tripRepository;
 
-        CreateTripViewModel ViewModel { get; set; }
-        int currentIndexListBox=-1; 
+        private CreateTripViewModel ViewModel { get; set; }
+        private int currentIndexListBox = -1;
         private static readonly Regex _regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
 
         public CreateTripDialog(TripRepository tripRepository, PlaceRepository placeRepository)
@@ -40,8 +40,8 @@ namespace travelAgency.Dialogs
             }
             places = placeRepository.GetAll();
             this.tripRepository = tripRepository;
+            Help.HelpProvider.SetHelpKey((DependencyObject)this, "index");
             NameTxtBox.Focus();
-
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -104,8 +104,8 @@ namespace travelAgency.Dialogs
             {
                 TripSchedule tripSchedule = new TripSchedule();
                 tripSchedule.Place = selectedPlace;
-                
-                if(DatePicker.SelectedDate != null && TimePicker.SelectedTime != null)
+
+                if (DatePicker.SelectedDate != null && TimePicker.SelectedTime != null)
                 {
                     DateTime? date = DatePicker.SelectedDate.Value;
                     DateTime? time = TimePicker.SelectedTime.Value;
@@ -116,11 +116,9 @@ namespace travelAgency.Dialogs
                     BindingOperations.ClearBinding(DatePicker, DatePicker.SelectedDateProperty);
                     BindingOperations.ClearBinding(TimePicker, TimePicker.SelectedTimeProperty);
 
-
                     ViewModel.PlaceName = string.Empty;
                     ViewModel.Date = null;
                     ViewModel.Time = null;
-
 
                     BindingOperations.SetBinding(PlaceTextBox, TextBox.TextProperty, new Binding
                     {
@@ -142,7 +140,6 @@ namespace travelAgency.Dialogs
                         UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
                         ValidationRules = { new NotEmptyValidationRule() }
                     });
-
 
                     if (Snackbar.MessageQueue is { } messageQueue)
                     {
@@ -239,22 +236,22 @@ namespace travelAgency.Dialogs
                 tripRepository.Add(ViewModel.Trip);
                 NewTrip?.Invoke(this, new ToTripEventArgs(ViewModel.Trip));
                 Close();
-
-            }    
+            }
             else
                 if (Snackbar.MessageQueue is { } messageQueue)
-                {
-                    var message = "Tour must have at least one place";
-                    messageQueue.Enqueue(message);
-                }
-           
+            {
+                var message = "Tour must have at least one place";
+                messageQueue.Enqueue(message);
+            }
         }
 
         public event EventHandler<ToTripEventArgs> NewTrip;
+
         private static bool IsTextAllowed(string text)
         {
             return !_regex.IsMatch(text);
         }
+
         private void TextBoxPasting(object sender, DataObjectPastingEventArgs e)
         {
             if (e.DataObject.GetDataPresent(typeof(String)))
@@ -270,6 +267,7 @@ namespace travelAgency.Dialogs
                 e.CancelCommand();
             }
         }
+
         private void Price_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = !IsTextAllowed(e.Text);
@@ -298,6 +296,7 @@ namespace travelAgency.Dialogs
         {
             AddPlace();
         }
+
         private void DatePicker_LostFocus(object sender, RoutedEventArgs e)
         {
             DatePicker datePicker = (DatePicker)sender;
@@ -306,6 +305,7 @@ namespace travelAgency.Dialogs
             // Manually trigger the validation
             bindingExpr.UpdateSource();
         }
+
         private void TimePicker_LostFocus(object sender, RoutedEventArgs e)
         {
             TimePicker timePicker = (TimePicker)sender;
@@ -313,6 +313,16 @@ namespace travelAgency.Dialogs
 
             // Manually trigger the validation
             bindingExpr.UpdateSource();
+        }
+
+        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            IInputElement focusedControl = FocusManager.GetFocusedElement(System.Windows.Application.Current.Windows[0]);
+            if (focusedControl is DependencyObject)
+            {
+                string str = Help.HelpProvider.GetHelpKey((DependencyObject)this);
+                Help.HelpProvider.ShowHelp(str, this);
+            }
         }
     }
 }

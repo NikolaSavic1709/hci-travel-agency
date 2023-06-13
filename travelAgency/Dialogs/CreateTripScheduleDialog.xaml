@@ -56,6 +56,7 @@
         </Style>
     </Window.Resources>
     <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Help" Executed="CommandBinding_Executed" />
         <CommandBinding Command="{x:Static view:CustomCommands.Save}" Executed="Save_Executed" />
         <CommandBinding Command="{x:Static view:CustomCommands.Quit}" Executed="Quit_Executed" />
     </Window.CommandBindings>
