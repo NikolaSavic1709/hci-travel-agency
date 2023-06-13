@@ -84,7 +84,7 @@ namespace travelAgency.Dialogs
 
         public void Save()
         {
-            String selectedOption = OutlinedComboBox.SelectedItem as string;
+            String selectedOption = OutlinedComboBox.SelectedItem.ToString();
             if (selectedOption.Contains("Attraction"))
             {
                 Attraction place = new Attraction();
