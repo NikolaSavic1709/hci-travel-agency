@@ -24,8 +24,16 @@ namespace travelAgency.repository
         {
             return dbContext.Trips
                 .Include(t => t.Schedules)
-                .ThenInclude(s=>s.Place)
+                .ThenInclude(s => s.Place)
                 .Where(t => !t.IsDeleted)
+                .ToList();
+        }
+
+        public List<Trip> GetAllReports()
+        {
+            return dbContext.Trips
+                .Include(t => t.Schedules)
+                .ThenInclude(s => s.Place)
                 .ToList();
         }
 
@@ -48,10 +56,10 @@ namespace travelAgency.repository
             dbContext.Trips.Update(trip);
             dbContext.SaveChanges();
         }
+
         public void Save()
         {
             dbContext.SaveChanges();
         }
-        
     }
 }

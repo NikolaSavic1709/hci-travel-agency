@@ -33,18 +33,18 @@ namespace travelAgency.Dialogs
         public string Description { get; set; }
         public string Location { get; set; }
         public string? SelectedItemProperty { get; set; }
+
         public CreatePlaceDialog(bool createPlace)
         {
             InitializeComponent();
             SelectedItemProperty = null;
-            
+
             dbContext = new TravelAgencyContext();
             attractionRepository = new AttractionRepository(dbContext);
             stayRepository = new StayRepository(dbContext);
             restaurantRepository = new RestaurantRepository(dbContext);
             if (createPlace)
             {
-                
                 OutlinedComboBox.SelectedIndex = 0;
                 SelectedItemProperty = ((ComboBoxItem)OutlinedComboBox.SelectedItem).Content.ToString();
                 OutlinedComboBox.IsEnabled = false;
@@ -84,8 +84,8 @@ namespace travelAgency.Dialogs
 
         public void Save()
         {
-            String selectedOption = ((ComboBoxItem)OutlinedComboBox.SelectedItem).Content.ToString();
-            if (selectedOption == "Attraction")
+            String selectedOption = OutlinedComboBox.SelectedItem as string;
+            if (selectedOption.Contains("Attraction"))
             {
                 Attraction place = new Attraction();
                 place.Name = NameTxtBox.Text;
@@ -303,8 +303,5 @@ namespace travelAgency.Dialogs
         {
             throw new NotSupportedException();
         }
-        
     }
-    
-
 }

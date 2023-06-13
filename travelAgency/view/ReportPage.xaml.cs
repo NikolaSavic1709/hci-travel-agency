@@ -116,13 +116,14 @@ namespace travelAgency.view
         private void DoFilterPerMonth(int month, int year)
         {
             reportCards.Clear();
-            List<Trip> trips = tripRepository.GetAll();
-            foreach(Trip trip in trips)
+            filteredReportCards.Clear();
+            List<Trip> trips = tripRepository.GetAllReports();
+            foreach (Trip trip in trips)
             {
-                List<Arrangement> arrangements = arrangementRepository.GetAll().Where(a => a.DateTime.Month == month && a.DateTime.Year == year && a.Trip==trip).ToList();
-                int totalCount= arrangements.Sum(arrangement => arrangement.NumberOfPersons);
+                List<Arrangement> arrangements = arrangementRepository.GetAll().Where(a => a.DateTime.Month == month && a.DateTime.Year == year && a.Trip == trip).ToList();
+                int totalCount = arrangements.Sum(arrangement => arrangement.NumberOfPersons);
                 double totalPrice = arrangements.Sum(arrangements => arrangements.Price);
-                if(totalCount>0)
+                if (totalCount > 0)
                     CreateCard(trip, totalCount, totalPrice);
             }
             RefreshCards(false);
