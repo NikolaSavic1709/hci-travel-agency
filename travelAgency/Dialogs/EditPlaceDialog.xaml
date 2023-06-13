@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:travelAgency.Dialogs"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
+        Icon="{StaticResource AppIcon}"
         xmlns:view="clr-namespace:travelAgency.view"
         Title="Edit place"  ResizeMode="NoResize" Height="400" Width="600" WindowStartupLocation="CenterScreen"
        >

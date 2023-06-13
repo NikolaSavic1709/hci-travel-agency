@@ -10,6 +10,7 @@
         xmlns:components="clr-namespace:travelAgency.components"
         xmlns:virtualCollection="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
         mc:Ignorable="d"
+        Icon="{StaticResource AppIcon}"
         Title="STAY&amp;EAT Amenities" ResizeMode="NoResize" Height="400" Width="600" WindowStartupLocation="CenterScreen">
 
     <Window.Resources>

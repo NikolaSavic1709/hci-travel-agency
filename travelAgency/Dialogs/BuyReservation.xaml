@@ -6,7 +6,9 @@
         xmlns:view="clr-namespace:travelAgency.view"
         xmlns:local="clr-namespace:travelAgency.view" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="BuyReservation" Height="250" Width="400">
+        Icon="{StaticResource AppIcon}"
+        WindowStartupLocation="CenterScreen"
+        Title="Buy Reservation" Height="250" Width="400">
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static view:CustomCommands.Save}" Executed="Yes_Executed"/>
         <CommandBinding Command="{x:Static view:CustomCommands.Quit}" Executed="No_Executed"/>

@@ -8,6 +8,7 @@
         xmlns:local="clr-namespace:travelAgency.Dialogs"
         xmlns:view="clr-namespace:travelAgency.view"
         mc:Ignorable="d"
+        Icon="{StaticResource AppIcon}"
         Title="Add place to trip"  ResizeMode="NoResize" Height="250" Width="600"
         MouseDown="window_MouseDown" WindowStartupLocation="CenterScreen">
     <Window.Resources>

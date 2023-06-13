@@ -8,6 +8,7 @@
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
         xmlns:view="clr-namespace:travelAgency.view"
+        Icon="{StaticResource AppIcon}"
          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="Trip filter" ResizeMode="NoResize" Height="250" Width="600" WindowStartupLocation="CenterScreen">
     <Window.Resources>

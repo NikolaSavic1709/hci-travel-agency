@@ -8,6 +8,7 @@
         xmlns:validators="clr-namespace:travelAgency.validators"
         xmlns:local="clr-namespace:travelAgency.Dialogs" xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         mc:Ignorable="d"
+        Icon="{StaticResource AppIcon}"
         Title="Create new trip"  ResizeMode="NoResize" Height="800" Width="600"
         MouseDown="window_MouseDown" WindowStartupLocation="CenterScreen">
     <Window.Resources>
